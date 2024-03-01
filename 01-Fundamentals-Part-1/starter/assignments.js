@@ -43,8 +43,16 @@ console.log(false)
 }
 
 */
-
+/*
 console.log('String with \n multiple \n lines1')
 console.log(`String with 
 multiple 
-lines`)
+lines`)*/
+
+const age = 19
+
+if (age >= 18 /*true*/) {
+  console.log('Sarah can start drivig license 🚗')
+} /* false*/ else {
+  console.log('Sarah cant start drivig license 😢')
+}
