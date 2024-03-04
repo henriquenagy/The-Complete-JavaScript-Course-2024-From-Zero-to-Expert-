@@ -81,7 +81,7 @@ let n = '1' + 1
 n = n - 1
 console.log(n) //10
 */
-
+/*
 //5 Falsy values: 0, ‘  ’, undefined, null, NaN
 console.log(Boolean(0)) //false
 console.log(Boolean(undefined)) //false
@@ -94,4 +94,32 @@ if (money) {
   console.log("Don't spend it all")
 } else {
   console.log('you should get a job')
+}*/
+/*
+const age = 18
+if (age === 18) console.log('You just became an adult :D')
+
+const favourite = Number(prompt('Whats your favourite number?'))
+console.log(favourite)
+console.log(typeof favourite)
+
+if (favourite === 23) {
+  // '23' == 23
+  console.log('Cool! ' + favourite + ' is an amazing number')
 }
+*/
+
+const age = 18
+const drink = age >= 18 ? 'wine 🍷' : 'water 🥛'
+console.log(drink)
+
+let drink2
+if (age => 18) {
+  drink2 = 'wine 🍷'
+} else {
+  drink2 = 'water 🥛'
+}
+
+console.log(drink2)
+
+console.log(`I like to drink ${age >= 18 ? 'wine 🍷' : 'water 🥛'}`)
