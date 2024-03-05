@@ -108,7 +108,7 @@ if (favourite === 23) {
   console.log('Cool! ' + favourite + ' is an amazing number')
 }
 */
-
+/*
 const age = 18
 const drink = age >= 18 ? 'wine 🍷' : 'water 🥛'
 console.log(drink)
@@ -122,4 +122,11 @@ if (age => 18) {
 
 console.log(drink2)
 
-console.log(`I like to drink ${age >= 18 ? 'wine 🍷' : 'water 🥛'}`)
+console.log(`I like to drink ${age >= 18 ? 'wine 🍷' : 'water 🥛'}`)*/
+
+/* Write your code below. Good luck! 🙂 */
+const bill = 40
+let tip = bill >= 50 && bill <= 300 ? 0.15 * bill : 0.2 * bill
+console.log(
+  `The bill was ${bill}, the tip was ${tip}, and the total value ${bill + tip}`
+)
