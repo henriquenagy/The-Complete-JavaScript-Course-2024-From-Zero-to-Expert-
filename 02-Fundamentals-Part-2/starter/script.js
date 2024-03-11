@@ -107,12 +107,107 @@ console.log(scoreDolphins, scoreKoalas)
 checkWinner(scoreDolphins, scoreKoalas)
 */
 
+/*
 const calcTip = function (bill) {
   return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2
 }
 /* //OU FORMA ENXUTA PELO ARROW
-const calcTip = bill => (bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2)*/
+const calcTip = bill => (bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2)
 const bills = [125, 555, 44]
 const tips = [calcTip(bills[0]), calcTip(bills[1]), calcTip(bills[2])]
 const totals = [bills[0] + tips[0], bills[1] + tips[1], bills[2] + tips[2]]
-console.log(bills, tips, totals)
+console.log(bills, tips, totals)*/
+
+//11-03-24 Dot vs. Bracket Notation
+/*
+const nagys = {
+  firstName: 'Henrique',
+  lastName: 'Martins',
+  age: 2024 - 1994,
+  job: 'Webdesigner frontend',
+  friends: ['jackson', 'lowie', 'dani']
+}
+
+console.log(nagys)
+console.log(nagys.lastName) //Forma com pontos
+console.log(nagys['lastName']) //Forma com Colchetes
+
+const nameKey = 'Name'
+console.log(nagys['first' + nameKey]) //pode usar uma variável dentro do colchete
+console.log(nagys['last' + nameKey])
+
+const interstedIn = prompt(
+  'What do you want to know about jonas? Choose between firstName, lastName, age, job and friends'
+)
+// ASSIM NÃO FUNFA console.log(nagys.interestedIn)
+
+if (nagys[interstedIn]) {
+  console.log(nagys[interstedIn])
+} else {
+  console.log(
+    'Wrong request!Choose between firstName, lastName, age, job and friends'
+  )
+}
+//Declarar novos valores para o objeto do nagys, com ponto e colchete
+nagys.location = 'Peruibeach' //via PONTOSage
+nagys['instagram'] = '@hnamar' //via COLCHETES
+console.log(nagys)
+
+console.log(
+  `${nagys.firstName} has ${nagys.friends.length} friends, and his best friend is called ${nagys.friends[0]}`
+)*/
+
+//OBJECT METHODS - INSERINDO FUNÇÃO DENTRO DE OBJETO
+/*const najones = {
+  firsName: 'Najaun',
+  birth: 1994,
+  calcAge: function (birth) {
+    return 2024 - birth
+  }
+}
+console.log(najones.calcAge(1994)) //método ponto
+console.log(najones['calcAge'](1994)) //método colchete
+*/
+
+/*
+const najones = {
+  firsName: 'Najaun',
+  birth: 1994,
+  calcAge: function () {
+    console.log(this) //this chama o valor dentro do próprio objeto, apenas teste
+    return 2024 - this.birth
+  }
+}
+console.log(najones.calcAge())
+*/
+/*
+const najones = {
+  firsName: 'Najaun',
+  birth: 1994,
+  calcAge: function () {
+    this.age = 2024 - this.birth //this.age é como se fosse declarar um novo objeto em najones.age = calculo qualquer, igual em najones.cidadeAtual = peruibe
+    return this.age
+  }
+}
+console.log(najones.calcAge()) //chamando pela função
+console.log(najones.age) // chamando pelo objeto que acabei de inserir via função
+*/
+
+//TODAYS'S CHALLENGE
+const najaun = {
+  firsName: 'Henrique',
+  job: 'Webdesigner',
+  friends: ['jackson', 'lowie', 'dani'],
+  birthYear: 1994,
+  hasDriversLicense: false,
+  calcAge: function () {
+    this.age = 2024 - this.birthYear
+    return this.age
+  },
+  getSummary: function () {
+    return `${this.firsName} is a ${this.calcAge()}-year old ${
+      this.job
+    }, and he has ${this.hasDriversLicense ? 'a' : 'no'} driver's license`
+  }
+}
+console.log(najaun.getSummary())
