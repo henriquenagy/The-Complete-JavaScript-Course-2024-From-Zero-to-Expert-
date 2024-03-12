@@ -192,14 +192,14 @@ const najones = {
 console.log(najones.calcAge()) //chamando pela função
 console.log(najones.age) // chamando pelo objeto que acabei de inserir via função
 */
-
+/*
 //TODAYS'S CHALLENGE
 const najaun = {
   firsName: 'Henrique',
   job: 'Webdesigner',
   friends: ['jackson', 'lowie', 'dani'],
   birthYear: 1994,
-  hasDriversLicense: false,
+  hasDriversLicense: true,
   calcAge: function () {
     this.age = 2024 - this.birthYear
     return this.age
@@ -210,4 +210,116 @@ const najaun = {
     }, and he has ${this.hasDriversLicense ? 'a' : 'no'} driver's license`
   }
 }
-console.log(najaun.getSummary())
+console.log(najaun.getSummary())*/
+
+//12-03-24 CHALLENGE BMI
+//PRIMEIRO É O MEU, O SEGUNDO É DO PROF. JONAS
+/*
+const mark = {
+  fullName: 'Mark Miller',
+  mass: 78,
+  height: 1.69,
+  calcBMI: function () {
+    this.bmi = this.mass / this.height ** 2
+    return this.bmi
+  }
+}
+
+const john = {
+  fullName: 'John Smith',
+  mass: 92,
+  height: 1.95,
+  calcBMI: function () {
+    this.bmi = this.mass / this.height ** 2
+    return this.bmi
+  }
+}
+
+console.log(
+  ` ${john.fullName}'s BMI (${john.calcBMI()})  is ${
+    john.calcBMI() > mark.calcBMI() ? 'higher' : 'lower'
+  } than ${mark.fullName}'s BMI (${mark.calcBMI()})!`
+)*/
+/*
+const mark = {
+  fullName: 'Mark Miller',
+  mass: 78,
+  height: 1.69,
+  calcBMI: function () {
+    this.bmi = this.mass / (this.height * this.height)
+    return this.bmi
+  }
+}
+
+const john = {
+  fullName: 'John Smith',
+  mass: 92,
+  height: 1.95,
+  calcBMI: function () {
+    this.bmi = this.mass / (this.height * this.height)
+    return this.bmi
+  }
+}
+
+mark.calcBMI() //CHAMOU a função, sem isso a função não se chama sozinha, ai dá errado
+john.calcBMI()
+
+if (mark.bmi > john.bmi) {
+  console.log(
+    `${mark.fullName}'s BMI (${mark.bmi}) is higher than ${john.fullName}'s (${john.bmi})!`
+  )
+} else if (john.bmi > mark.bmi) {
+  console.log(
+    `${john.fullName}'s BMI (${john.bmi}) is higher than ${mark.fullName}'s (${mark.bmi})!`
+  )
+}
+*/
+
+/*
+//USO DO FOR PARA INTERAGIR COM OBJETOS e ARRAYS
+const nagys = [
+  'nagys',
+  'martins',
+  2024 - 1994,
+  'Webdesigner',
+  ['Mel', 'Bella', 'Golden'],
+  true
+]
+const testePreencher = []
+//Reading from Nagys array
+for (let i = 0; i < nagys.length; i++) {
+  console.log(nagys[i], typeof nagys[i])
+  //Fiiling Teste Array - metodo 1 e 2 de baixo
+  //testePreencher[i] = typeof nagys[i]
+  testePreencher.push(typeof nagys[i])
+}
+console.log(testePreencher)
+
+const years = [1992, 1994, 1987, 1985]
+const ages = []
+
+for (i = 0; i < years.length; i++) {
+  ages.push(2024 - years[i])
+}
+console.log(ages)
+*/
+
+//USING CONTINUE & BREAK
+const nagys = [
+  'nagys',
+  'martins',
+  2024 - 1994,
+  'Webdesigner',
+  ['Mel', 'Bella', 'Golden'],
+  true
+]
+console.log('-----IF [i] IS NOT A STRING, CONTINUE/DO IT AGAIN-----')
+for (i = 0; i < nagys.length; i++) {
+  if (typeof nagys[i] !== 'string') continue
+  console.log(nagys[i], typeof nagys[i])
+}
+console.log('-----IF [i] IS A NUMBER, BREAK/STOP THIS IF-----')
+for (i = 0; i < nagys.length; i++) {
+  if (typeof nagys[i] === 'number') break
+  console.log(nagys[i], typeof nagys[i])
+}
