@@ -107,11 +107,11 @@ console.log(scoreDolphins, scoreKoalas)
 checkWinner(scoreDolphins, scoreKoalas)
 */
 
-/*
-const calcTip = function (bill) {
+/*const calcTip = function (bill) {
   return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2
-}
-/* //OU FORMA ENXUTA PELO ARROW
+}*/
+/*
+//OU FORMA ENXUTA PELO ARROW
 const calcTip = bill => (bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2)
 const bills = [125, 555, 44]
 const tips = [calcTip(bills[0]), calcTip(bills[1]), calcTip(bills[2])]
@@ -303,7 +303,7 @@ for (i = 0; i < years.length; i++) {
 }
 console.log(ages)
 */
-
+/*
 //USING CONTINUE & BREAK
 const nagys = [
   'nagys',
@@ -322,4 +322,59 @@ console.log('-----IF [i] IS A NUMBER, BREAK/STOP THIS IF-----')
 for (i = 0; i < nagys.length; i++) {
   if (typeof nagys[i] === 'number') break
   console.log(nagys[i], typeof nagys[i])
+}*/
+/*
+//Aula do dia 14-03  [48. Looping Backwards and Loops in Loops]
+const nagys = [
+  'nagys',
+  'martins',
+  2024 - 1994,
+  'Webdesigner',
+  ['Mel', 'Bella', 'Golden'],
+  true
+]
+
+for (let i = nagys.length - 1; i >= 0; i--) {
+  console.log(i, nagys[i])
 }
+
+for (let exercise = 1; exercise < 4; exercise++) {
+  console.log(`------------------Exercise number ${exercise}`)
+  for (let repetition = 1; repetition < 6; repetition++) {
+    console.log(`repetition number ${repetition} 💪`)
+  }
+}
+
+//Using While Loop - sempre lembrar de usar o ++ no final, caso contrário vai travar o navegador
+let rep = 1
+while (rep <= 10) {
+  console.log(`WHILE: ligting weights repetitions ${rep} 🤜`)
+  rep++
+}
+*/
+//Função com cálculo if.else
+const calcTip = function (bill) {
+  return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2
+}
+const bills = [22, 295, 176, 440, 37, 105, 10, 1100, 86, 52]
+const tips = []
+const totals = []
+//Inserindo números dentro de variáveis
+for (let i = 0; i < bills.length; i++) {
+  const tip = calcTip(bills[i]) //Só para encurtar a escrita abaixo
+  tips.push(tip)
+  totals.push(tip + bills[i])
+}
+console.log(bills, tips, totals)
+//Usando o argumento da função dentro da função
+const calcAverage = function (arr) {
+  let sum = 0
+  for (let i = 0; i < arr.length; i++) {
+    sum += arr[i]
+  }
+  console.log(sum)
+  return sum / arr.length
+}
+console.log(calcAverage([2, 3, 7])) //Aleatory
+console.log(calcAverage(totals))
+console.log(calcAverage(tips))
