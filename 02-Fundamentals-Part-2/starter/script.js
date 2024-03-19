@@ -1,26 +1,15 @@
-/*
+/* -------------------------------------------------------------
 'use strict'
 function fruitProcessor(apples, oranges) {
   const juice = `Juice with ${apples} apples and ${oranges} oranges.`
   return juice
 }
-
 const appleJuice = fruitProcessor(5, 0)
 console.log(appleJuice)
-
 const appleOrangeJuice = fruitProcessor(2, 4)
 console.log(appleOrangeJuice)*/
 
-/*Quando você chama fruitProcessor(5, 0);, a função fruitProcessor é executada com os argumentos 5 e 0.
-Dentro da função, a string juice é criada usando os valores dos parâmetros apples e oranges.
-Em seguida, a instrução return juice; é executada. Isso faz com que a função retorne o valor da string juice.
-O valor retornado pela função ("Suco com 5 maçãs e 0 laranjas.") é armazenado na variável appleJuice.
-Por fim, console.log(appleJuice); exibe o valor de appleJuice no console, que é o resultado da função fruitProcessor.
-O mesmo processo acontece quando você chama fruitProcessor(2, 4);. Nesse caso, o valor retornado pela função é "Suco com 2 maçãs e 4 laranjas.", que é armazenado na variável appleOrangeJuice, e então exibido no console usando console.log(appleOrangeJuice);.
-
-Portanto, const appleJuice = fruitProcessor(5, 0); executa a função e armazena o resultado, enquanto console.log(appleJuice); mostra o resultado da função que está armazenado em appleJuice.*/
-/*
-'use strict'
+/* -------------------------------------------------------------
 //Function declaration
 const age1 = calcAge1(1994) //pode colocar o calculo antes ou depois da function
 function calcAge1(birthYear) {
@@ -28,16 +17,17 @@ function calcAge1(birthYear) {
 /*forma completa
 const age = 2024 - birthYear
 return age
-*/ /*
 }
+
+/*
 //Function expression
 const calcAge2 = function (birthYear) {
   return 2024 - birthYear
 }
 const age2 = calcAge2(1990) // o cálculo deve vir após a function
 console.log(age1, age2)
-
 */
+
 /*
 //Arrow function
 const calcAge3 = birthYear => 2024 - birthYear
@@ -352,6 +342,7 @@ while (rep <= 10) {
   rep++
 }
 */
+/*
 //Função com cálculo if.else
 const calcTip = function (bill) {
   return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2
@@ -378,3 +369,38 @@ const calcAverage = function (arr) {
 console.log(calcAverage([2, 3, 7])) //Aleatory
 console.log(calcAverage(totals))
 console.log(calcAverage(tips))
+*/
+
+/*--------------------------------------------------------------------
+//Aula dia 19-03 Debugging
+const measureKelvin = function () {
+  const measurement = {
+    type: 'temp',
+    unit: 'celsius',
+    value: Number(prompt('Degrees Celsius'))
+  }
+  console.table(measurement)
+  const kelvin = measurement.value + 273
+  return kelvin
+}
+
+console.log(measureKelvin())
+*/
+
+//MÉTODO 1 COM FUNÇÃO VAZIA
+const printForecast1 = function () {
+  const arr = [12, 5, -5, 0, 4]
+  for (let i = 0; i < arr.length; i++) {
+    console.log(`${arr[i]} ºC in ${i + 1} days`)
+  }
+}
+console.log(printForecast1())
+
+//MÉTODO 2 COM FUNÇÃO USANDO O ARR APÓS A FUNÇÃO
+const printForecast2 = function (arr) {
+  for (let i = 0; i < arr.length; i++) {
+    console.log(`${arr[i]} ºC in ${i + 1} days`)
+  }
+}
+const arr = [12, 5, -5, 0, 4]
+console.log(printForecast2(arr))
