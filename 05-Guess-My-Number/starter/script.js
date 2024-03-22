@@ -25,7 +25,9 @@ clicked.addEventListener('click', function () {
       body.style.backgroundColor = '#60b347';
       questionNumber.textContent = secretNumber;
       messagene.textContent = '🏆Congrats! You won!!';
-      highScore++;
+      if (score > highScore) {
+        highScore = score;
+      }
       highScoreText.textContent = highScore;
     } else if (guess > secretNumber) {
       messagene.textContent = '📈 Too high';
@@ -48,10 +50,10 @@ clicked.addEventListener('click', function () {
   const limpar = document.querySelector('.guess');
   tryAgain.addEventListener('click', function () {
     score = 20;
-    highScore = 0;
+    //highScore = 0;
+    //highScoreText.textContent = highScore;
     limpar.value = ''; // Limpa o valor do input
     changeScore.textContent = score;
-    highScoreText.textContent = highScore;
     body.style.backgroundColor = '#1f1f1f';
     messagene.textContent = 'Start guessing...';
     questionNumber.textContent = '?';
