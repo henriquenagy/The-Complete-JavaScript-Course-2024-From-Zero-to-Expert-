@@ -157,6 +157,7 @@ main {
   box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.2);
 }
 
+/*Classe inserida somente para esconder usando o js*/
 .hidden {
   display: none;
 }
