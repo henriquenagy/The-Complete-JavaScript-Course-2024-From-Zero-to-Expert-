@@ -81,7 +81,7 @@ const jonas = {
   },
 };
 jonas.calcAge();*/
-
+/*
 // Uso do this em uma arrow function dentro de outra função normal
 const jonas = {
   firstName: 'Jonas',
@@ -96,4 +96,19 @@ const jonas = {
     isMillenial();
   },
 };
-jonas.calcAge();
+jonas.calcAge();*/
+
+//----------------------------Object.assign()   04-04-2024
+const jessica2 = {
+  firstName: 'Jessica',
+  lastName: 'Williams',
+  age: 27,
+  family: ['Alice', 'Bob'],
+};
+const jessicaCopy = Object.assign({}, jessica2);
+jessicaCopy.lastName = 'Davis';
+jessicaCopy.age = 29;
+jessicaCopy.family.push('Mary');
+jessicaCopy.family.push('John');
+console.log('Before marriage:', jessica2);
+console.log('After marriage: ', jessicaCopy);
