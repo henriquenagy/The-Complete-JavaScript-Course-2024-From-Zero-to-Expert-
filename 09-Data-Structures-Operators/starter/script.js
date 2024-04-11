@@ -1,7 +1,7 @@
 'use strict';
 //-------------------------------------------05-04-2024
 const restaurant = {
-  name: 'Classico Italiano',
+  namez: 'Classico Italiano',
   location: 'Via Angelo Tavanti 23, Firenze, Italy',
   categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
@@ -10,7 +10,61 @@ const restaurant = {
   order: function (starterIndex, mainIndex) {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
+  orderDelivery: function ({ starterIndex, mainIndex, time, addres }) {
+    console.log(
+      `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${addres} at ${time}`
+    );
+  },
+  openingHours: {
+    thu: {
+      open: 12,
+      close: 22,
+    },
+    fri: {
+      open: 11,
+      close: 23,
+    },
+    sat: {
+      open: 0, // Open 24 hours
+      close: 24,
+    },
+  },
 };
+restaurant.orderDelivery({
+  time: '22:30',
+  addres: 'Via del Sole,21',
+  mainIndex: 2,
+  starterIndex: 2,
+});
+/*
+// ---------------------------------- 11/04
+//Somente pegando os nomes do objeto para mostrar na tela
+const { namez, openingHours, categories } = restaurant;
+console.log(namez, openingHours, categories);
+//Dar novos nomes aos objetos anteriores
+const {
+  namez: restaurantName,
+  openingHours: hours,
+  categories: tags,
+} = restaurant;
+console.log(restaurantName, hours, tags);
+//Default values
+const { menu = [], starterMenu: starters = [] } = restaurant;
+console.log(menu, starters);
+//Mutating variables
+let a = 123;
+let b = 453;
+const obj = { a: 23, b: 7, c: 14 }; //mesmo nome, porém outras variáveis a e b
+({ a, b } = obj); //let a e b agora serão iguais aos dentro do objeto
+console.log(a, b);
+// Nested objects
+const {
+  fri: { open: o, close: c },
+} = openingHours;
+console.log(o, c);*/
+
+/*
+//MINHAS ANOTAÇÕES
 //Pegar dois dados do array do objeto acima, o 1o e o 3o, deixa o 2o vazio
 let [first, , third] = restaurant.categories;
 console.log(first, third);
@@ -36,6 +90,7 @@ console.log(i, j, k);
 //Default values
 const [p = 1, q = 1, r = 1] = [8, 9];
 console.log(p, q, r);
+*/
 
 /*
 // Data needed for a later exercise
