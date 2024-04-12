@@ -223,6 +223,36 @@ const books = [
     highlighted: true
   }
 ]
-
+//Destructure the first book object from the books array into variables called title, author and ISBN.
 const { title, author, ISBN } = books[0]
 console.log(title, author, ISBN)
+
+//The tags variable should be assigned with the value of the keywords property.
+const { keywords: tags } = books[0]
+console.log(tags)
+
+//Destructure the seventh book object (books[6]) into variables called language and programmingLanguage. Assign the programmingLanguage variable with a default value of 'unknown'.
+const { programmingLanguage = 'unknown', language } = books[6]
+console.log(programmingLanguage, language)
+
+//Below are two variables called bookTitle and bookAuthor. Reassign them with the values of the title and author properties of the first book object from the books array.
+let bookTitle = 'unknown'
+let bookAuthor = 'unknown'
+;({ title: bookTitle, author: bookAuthor } = books[0])
+console.log(bookTitle, bookAuthor)
+
+//Destructure the first book object from the books array into a variable called bookRating
+const {
+  thirdParty: {
+    goodreads: { rating: bookRating }
+  }
+} = books[0]
+console.log(bookRating)
+
+//Write a function called printBookInfo that has three parameters called title, author and year.
+function printBookInfo({ title, author, year = 'year unknown' }) {
+  console.log(`${title} by ${author}, ${year}`)
+}
+//Criei a variável para a function poder pegar os dados do primeiro livro
+const firstBook = books[0]
+printBookInfo(firstBook)

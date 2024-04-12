@@ -15,6 +15,10 @@ const restaurant = {
       `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${addres} at ${time}`
     );
   },
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(`Here is your delicious pasta with ${ing1}, ${ing2}, ${ing3}`);
+  },
+
   openingHours: {
     thu: {
       open: 12,
@@ -37,7 +41,7 @@ restaurant.orderDelivery({
   starterIndex: 2,
 });
 /*
-// ---------------------------------- 11/04
+// ---------------------------------- 11/04 ----------- PARA OBJETOS
 //Somente pegando os nomes do objeto para mostrar na tela
 const { namez, openingHours, categories } = restaurant;
 console.log(namez, openingHours, categories);
@@ -63,8 +67,56 @@ const {
 } = openingHours;
 console.log(o, c);*/
 
+//-----------------------------12/04/24   Spred operator
+const arr = [4, 5, 6];
+const badNewArr = [1, 2, 3, arr[0], arr[1], arr[2]];
+console.log(badNewArr);
+
+const newArr = [1, 2, 3, ...arr];
+console.log(newArr);
+
+console.log(...newArr);
+console.log(1, 2, 3, 4, 5, 6);
+
+const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+console.log(newMenu);
+
+//copyy array
+const mainMenuCopy = [...restaurant.mainMenu];
+
+// Join 2 arrays
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+console.log(menu);
+
+// Iterables: arrays, strings, maps, sets. NOT objects
+const str = 'Henrique';
+const letters = [...str, ' ', 'M.'];
+console.log(letters); //Saída: [ 'H',  'e', 'n', 'r',  'i', 'q', 'u',  'e', ' ', 'M.']
+console.log(...str); // Saída: H e n r i q u e
+//console.log(`${...str} Martins`); //assim não funciona se usar ${}
+
+/*const ingredients = [
+  prompt("let's make pasta! Ingredient 1?"),
+  prompt('Ingredient 2?'),
+  prompt('Ingredient 3?'),
+];
+console.log(ingredients);
+restaurant.orderPasta(...ingredients);*/
+
+//Objects
+const newRestaurant = {
+  foundedIn: 1998,
+  ...restaurant,
+  founder: 'Giuseppe Camole',
+};
+console.log(newRestaurant);
+
+const restaurantCopy = { ...restaurant };
+restaurantCopy.namez = 'Ristorante Roma';
+console.log(restaurantCopy.namez);
+console.log(restaurant.namez);
 /*
-//MINHAS ANOTAÇÕES
+//MINHAS ANOTAÇÕES - PARA ARRAYS 10/04
 //Pegar dois dados do array do objeto acima, o 1o e o 3o, deixa o 2o vazio
 let [first, , third] = restaurant.categories;
 console.log(first, third);
