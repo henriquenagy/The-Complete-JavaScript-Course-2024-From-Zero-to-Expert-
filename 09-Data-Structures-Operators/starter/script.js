@@ -33,7 +33,12 @@ const restaurant = {
       close: 24,
     },
   },
+  orderPizza: function (mainIngredient, ...otherIngredients) {
+    console.log(mainIngredient);
+    console.log(otherIngredients);
+  },
 };
+
 restaurant.orderDelivery({
   time: '22:30',
   addres: 'Via del Sole,21',
@@ -66,6 +71,7 @@ const {
   fri: { open: o, close: c },
 } = openingHours;
 console.log(o, c);*/
+/*
 
 //-----------------------------12/04/24   Spred operator
 const arr = [4, 5, 6];
@@ -101,7 +107,7 @@ console.log(...str); // Saída: H e n r i q u e
   prompt('Ingredient 3?'),
 ];
 console.log(ingredients);
-restaurant.orderPasta(...ingredients);*/
+restaurant.orderPasta(...ingredients);
 
 //Objects
 const newRestaurant = {
@@ -114,7 +120,8 @@ console.log(newRestaurant);
 const restaurantCopy = { ...restaurant };
 restaurantCopy.namez = 'Ristorante Roma';
 console.log(restaurantCopy.namez);
-console.log(restaurant.namez);
+console.log(restaurant.namez);*/
+
 /*
 //MINHAS ANOTAÇÕES - PARA ARRAYS 10/04
 //Pegar dois dados do array do objeto acima, o 1o e o 3o, deixa o 2o vazio
@@ -173,3 +180,60 @@ const restaurant = {
   },
 };
 */
+
+// ---------------------------- 15-04  Rest Pattern and Parameters-------------------------------------------------------------
+//Spread, 'cause on Right side of =
+const arr = [1, 2, ...[3, 4]];
+console.log(arr); // 3 e 4 vão ficar fora do []
+
+//REST, beacause on left side of =
+const [a, b, ...others] = [1, 2, 3, 4, 5]; //os ...others vão ficar tudo dentro de []
+console.log(a, b, others);
+
+const [pizza, , Risotto, ...otherFood] = [
+  ...restaurant.mainMenu,
+  ...restaurant.starterMenu,
+];
+console.log(pizza, Risotto, otherFood);
+
+//objects (não precisa estar na sequência, pois sat é o último dentro do objeto)
+const { sat, ...weekDays } = restaurant.openingHours;
+console.log(weekDays);
+
+// 2) Functions
+const add = function (...numbers) {
+  let sum = 0;
+  for (let i = 0; i < numbers.length; i++) sum += numbers[i];
+  console.log(sum);
+};
+const x = [4, 32, 1];
+add(...x);
+
+//Using the created function orderPizza
+restaurant.orderPizza('mushromm', 'onion', 'garlic', 'aspargus');
+
+// ----------------------- Short Circuiting (&& and ||)
+console.log('--------OR-------');
+//Use any data type, return any data type short-circuiting
+console.log(3 || 'Nagy'); //Saída: 3
+console.log('' || 'Nagy'); //Saída: Nagy
+console.log(true || 0); //Saída:  true
+console.log(undefined || 0 || '' || 'Hello' || 23 || null); //Saída:  Hello
+
+restaurant.numGuests = 23;
+const guests1 = restaurant.numGuests ? restaurant.numGuests : 10;
+console.log(guests1); //Saída: 23
+const guests2 = restaurant.numGuests || 10;
+console.log(guests2); //Saída: 23
+
+console.log(`----------AND----------`);
+console.log(0 && `Nagy`); //Saída: 0
+console.log(7 && `Nagy`); //Saída:  Nagy
+
+console.log(`Hello` && 23 && null && 'Nagy'); //Saída: null
+
+//Practical Example
+if (restaurant.orderPizza) {
+  restaurant.orderPizza('mushrooms', 'spinach'); //Saída: mushrooms [ 'spinach' ] usando IF
+}
+restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach'); //Saída: mushrooms [ 'spinach' ] sem usar o IF
