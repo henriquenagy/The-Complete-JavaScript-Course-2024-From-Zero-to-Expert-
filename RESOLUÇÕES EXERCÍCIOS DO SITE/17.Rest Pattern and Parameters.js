@@ -223,14 +223,53 @@ const books = [
     highlighted: true
   }
 ]
-const bookAuthors = books
-  .slice(0, 2)
-  .map(book => book.author)
-  .flat()
-console.log(bookAuthors)
 
-function spellWord(word) {
-  console.log(...word)
+/*
+const books = [
+  {
+    title: '1. Algorithms',
+    publisher: 'Addison-Wesley Professional',
+    keywords: ['computer', 'programming', 'teste1']
+  },
+  {
+    title: '2. Structure and Interpretation of Computer Programs',
+    publisher: 'The MIT Press',
+    keywords: ['science', 'programming', 'teste2']
+  },
+  {
+    title: "3. Computer Systems: A Programmer's Perspective",
+    publisher: 'Prentice Hall',
+    keywords: ['software', 'C', 'engineering', 'teste3']
+  }
+]*/
+
+//Pegar segundo item do primeiro array que é um objeto
+const [mainKeywords, ...rest] = books[0].keywords
+console.log(mainKeywords) // Saída:computer
+console.log(rest) // Saída: [ 'programming', 'teste1' ]
+
+//Novo nome ao 2º item dentro do objeto que é o 2º array
+const { publisher: bookPublisher, ...restOfTheBook } = books[1]
+console.log(bookPublisher) // Saída: The MIT Press
+
+/*
+const books = [
+  {
+    title: '1. Algorithms',
+    author: ['Robert Sedgewick', 'Kevin Wayne'],
+    publisher: 'Addison-Wesley Professional'
+  },
+  {
+    title: '2. Structure and Interpretation of Computer Programs',
+    author: ['Harold Abelson', 'Gerald Jay Sussman'],
+    publisher: 'The MIT Press'
+  }
+]
+*/
+//Função que mostra o title e o quantidade de autores
+function printBookAuthorsCount(title, ...authors) {
+  console.log(`The book "${title}" has ${authors.length} authors`)
 }
-
-spellWord('henrique')
+//Chama a função pegando os dados do 1º livro
+const { title, author } = books[0]
+printBookAuthorsCount(title, ...author) // Saída: The book "1. Algorithms" has 2 authors

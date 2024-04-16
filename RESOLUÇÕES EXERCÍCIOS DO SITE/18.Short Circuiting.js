@@ -1,4 +1,5 @@
 'use strict'
+/*
 const books = [
   {
     title: '1. Algorithms',
@@ -223,14 +224,43 @@ const books = [
     highlighted: true
   }
 ]
-const bookAuthors = books
-  .slice(0, 2)
-  .map(book => book.author)
-  .flat()
-console.log(bookAuthors)
-
-function spellWord(word) {
-  console.log(...word)
+*/
+/*
+const books = [
+  { title: '1. Algorithms', programmingLanguage: 'Java' },
+  {
+    title: '2. Structure and Interpretation of Computer Programs',
+    programmingLanguage: 'JavaScript'
+  }
+]
+//Usando OR para retornar true
+function hasExamplesInJava(books) {
+  return books.programmingLanguage === 'Java' || 'no data available'
 }
-
-spellWord('henrique')
+console.log(hasExamplesInJava(books[0])) //Saída: True  [para o primeiro livro]
+*/
+const books = [
+  { title: '1. Algorithms', onlineContent: true },
+  {
+    title: '2. Structure and Interpretation of Computer Programs',
+    onlineContent: false
+  },
+  {
+    title: "3. Computer Systems: A Programmer's Perspective",
+    onlineContent: false
+  },
+  { title: '4. Operating System Concepts', onlineContent: false },
+  { title: '5. Engineering Mathematics', onlineContent: true },
+  {
+    title: '6. The Personal MBA: Master the Art of Business',
+    onlineContent: false
+  },
+  { title: '7. Crafting Interpreters', onlineContent: false },
+  {
+    title: '8. Deep Work: Rules for Focused Success in a Distracted World',
+    onlineContent: false
+  }
+]
+for (const book of books) {
+  book.onlineContent && console.log(`"${book.title}" provides online content`)
+} //Saída: "1. Algorithms" provides online content // "5. Engineering Mathematics" provides online content
