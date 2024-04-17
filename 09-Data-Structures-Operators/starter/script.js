@@ -1,5 +1,5 @@
 'use strict';
-//-------------------------------------------05-04-2024
+/*//-------------------------------------------05-04-2024
 const restaurant = {
   namez: 'Classico Italiano',
   location: 'Via Angelo Tavanti 23, Firenze, Italy',
@@ -38,16 +38,14 @@ const restaurant = {
     console.log(otherIngredients);
   },
 };
-
 restaurant.orderDelivery({
   time: '22:30',
   addres: 'Via del Sole,21',
   mainIndex: 2,
   starterIndex: 2,
-});
-/*
-// ---------------------------------- 11/04 ----------- PARA OBJETOS
-//Somente pegando os nomes do objeto para mostrar na tela
+});*/
+/* // ---------------------------------- 11/04 ----------- PARA OBJETOS
+ //Somente pegando os nomes do objeto para mostrar na tela
 const { namez, openingHours, categories } = restaurant;
 console.log(namez, openingHours, categories);
 //Dar novos nomes aos objetos anteriores
@@ -71,9 +69,7 @@ const {
   fri: { open: o, close: c },
 } = openingHours;
 console.log(o, c);*/
-/*
-
-//-----------------------------12/04/24   Spred operator
+/*//-----------------------------12/04/24   Spred operator
 const arr = [4, 5, 6];
 const badNewArr = [1, 2, 3, arr[0], arr[1], arr[2]];
 console.log(badNewArr);
@@ -121,9 +117,7 @@ const restaurantCopy = { ...restaurant };
 restaurantCopy.namez = 'Ristorante Roma';
 console.log(restaurantCopy.namez);
 console.log(restaurant.namez);*/
-
-/*
-//MINHAS ANOTAÇÕES - PARA ARRAYS 10/04
+/*//MINHAS ANOTAÇÕES - PARA ARRAYS 10/04
 //Pegar dois dados do array do objeto acima, o 1o e o 3o, deixa o 2o vazio
 let [first, , third] = restaurant.categories;
 console.log(first, third);
@@ -150,9 +144,7 @@ console.log(i, j, k);
 const [p = 1, q = 1, r = 1] = [8, 9];
 console.log(p, q, r);
 */
-
-/*
-// Data needed for a later exercise
+/*// Data needed for a later exercise
 const flights =
   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
@@ -180,8 +172,7 @@ const restaurant = {
   },
 };
 */
-
-// ---------------------------- 15-04  Rest Pattern and Parameters-------------------------------------------------------------
+/*// ---------------------------- 15-04  Rest Pattern and Parameters-------------------------------------------------------------
 //Spread, 'cause on Right side of =
 const arr = [1, 2, ...[3, 4]];
 console.log(arr); // 3 e 4 vão ficar fora do []
@@ -237,3 +228,49 @@ if (restaurant.orderPizza) {
   restaurant.orderPizza('mushrooms', 'spinach'); //Saída: mushrooms [ 'spinach' ] usando IF
 }
 restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach'); //Saída: mushrooms [ 'spinach' ] sem usar o IF
+*/
+/*//----------------- 17/04    The Nullish Coalescing Operator (??)------
+'use strict';
+const books = [
+  { title: '1. Algorithms', onlineContent: true },
+  {
+    title: '2. Structure and Interpretation of Computer Programs',
+    onlineContent: false,
+  },
+  {
+    title: "3. Computer Systems: A Programmer's Perspective",
+    onlineContent: false,
+  },
+  { title: '4. Operating System Concepts', onlineContent: false },
+  { title: '5. Engineering Mathematics', onlineContent: true },
+  { title: '6. The Personal MBA: Master the Art of Business' },
+  { title: '7. Crafting Interpreters' },
+  { title: '8. Deep Work: Rules for Focused Success in a Distracted World' },
+];
+for (let item of books)
+  item.onlineContent ??
+    console.log(`${item.title} provides no data about its online content`);
+    */
+
+//----------------- 17/04    Logical assignment operators ------
+const rest1 = {
+  name: 'Capri',
+  numGuests: 1,
+};
+const rest2 = {
+  name: 'La Piazza',
+  owner: 'Najones',
+};
+//Nullish
+rest1.numGuests ??= 4; //Retorna 1, 1ª expressão é verdadeira
+rest2.numGuests ??= 69; // Retorna 69, 1ª expressão é undefined
+console.log(rest1);
+console.log(rest2);
+
+//OR shortform
+rest1.numGuests ||= 10; //Retorna 1
+rest2.numGuests ||= 8; // Retorna 8
+
+//AND shortform
+rest1.owner &&= '1ª opção false'; //Retorna Nada , pois owner é vazio
+rest2.owner &&= '1ª opção true'; // Retorna Segunda opção, pois a 1ª é true
