@@ -1,5 +1,5 @@
 'use strict';
-/*//-------------------------------------------05-04-2024
+//-------------------------------------------05-04-2024
 const restaurant = {
   namez: 'Classico Italiano',
   location: 'Via Angelo Tavanti 23, Firenze, Italy',
@@ -18,7 +18,6 @@ const restaurant = {
   orderPasta: function (ing1, ing2, ing3) {
     console.log(`Here is your delicious pasta with ${ing1}, ${ing2}, ${ing3}`);
   },
-
   openingHours: {
     thu: {
       open: 12,
@@ -38,6 +37,7 @@ const restaurant = {
     console.log(otherIngredients);
   },
 };
+/*
 restaurant.orderDelivery({
   time: '22:30',
   addres: 'Via del Sole,21',
@@ -252,7 +252,7 @@ for (let item of books)
     console.log(`${item.title} provides no data about its online content`);
     */
 
-//----------------- 17/04    Logical assignment operators ------
+/*//----------------- 17/04    Logical assignment operators ------
 const rest1 = {
   name: 'Capri',
   numGuests: 1,
@@ -274,3 +274,14 @@ rest2.numGuests ||= 8; // Retorna 8
 //AND shortform
 rest1.owner &&= '1ª opção false'; //Retorna Nada , pois owner é vazio
 rest2.owner &&= '1ª opção true'; // Retorna Segunda opção, pois a 1ª é true
+*/
+
+//---------------------------------22/04/2024 Segunda | For of loop´----------------------
+const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
+//for (const item of menu) console.log(item);
+
+for (const item of menu.entries()) {
+  //console.log(item);
+}
+
+console.log([...menu.entries()]);
