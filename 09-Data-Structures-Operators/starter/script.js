@@ -251,7 +251,6 @@ for (let item of books)
   item.onlineContent ??
     console.log(`${item.title} provides no data about its online content`);
     */
-
 /*//----------------- 17/04    Logical assignment operators ------
 const rest1 = {
   name: 'Capri',
@@ -275,13 +274,33 @@ rest2.numGuests ||= 8; // Retorna 8
 rest1.owner &&= '1ª opção false'; //Retorna Nada , pois owner é vazio
 rest2.owner &&= '1ª opção true'; // Retorna Segunda opção, pois a 1ª é true
 */
-
-//---------------------------------22/04/2024 Segunda | For of loop´----------------------
+/*//---------------------------------22/04/2024 Segunda | For of loop´----------------------
 const menu = [...restaurant.starterMenu, ...restaurant.mainMenu];
 //for (const item of menu) console.log(item);
 
 for (const item of menu.entries()) {
   //console.log(item);
 }
-
 console.log([...menu.entries()]);
+*/
+//--------------------------------- 23/04/204 Tuesday |  Optional Chaining (?.) ----------------------
+console.log(restaurant.openingHours?.thu?.open); //Saída: 12
+console.log(restaurant.openingHours?.thu?.close); //Saída: 22
+const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+for (let day of days) {
+  const open = restaurant.openingHours[day]?.open ?? 'closed';
+  //console.log(`On ${day}, we open at ${open}`);
+}
+
+//Nullish ?? com Optional Chaining ?. - usando function dentro do objeto
+console.log(restaurant.order?.(0, 1) ?? 'Method does not exist'); //Saída: [ 'Focaccia', 'Pasta' ]
+///Nullish ?? com Optional Chaining ?. - Usando uma function inexistente para testar após ??
+console.log(restaurant.orderRisotto?.(0, 1) ?? 'Method does not exist'); //Saída: Method does not exist
+
+//Agora Optional Chaining ?. com array
+const users = [{ name: 'Jonas', email: 'hello@jonas.io' }];
+console.log(users[0]?.name ?? 'user array empty'); //Saída: Jonas
+
+////Agora Optional Chaining ?. com array VAZIA
+const users2 = [];
+console.log(users2[0]?.name ?? 'user array empty'); //Saída: user array empty
