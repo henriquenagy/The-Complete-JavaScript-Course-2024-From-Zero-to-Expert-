@@ -37,6 +37,7 @@ const restaurant = {
     console.log(otherIngredients);
   },
 };
+
 /*
 restaurant.orderDelivery({
   time: '22:30',
@@ -283,7 +284,7 @@ for (const item of menu.entries()) {
 }
 console.log([...menu.entries()]);
 */
-//--------------------------------- 23/04/204 Tuesday |  Optional Chaining (?.) ----------------------
+/*//--------------------------------- 23/04/204 Tuesday |  Optional Chaining (?.) ----------------------
 console.log(restaurant.openingHours?.thu?.open); //Saída: 12
 console.log(restaurant.openingHours?.thu?.close); //Saída: 22
 const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
@@ -303,4 +304,16 @@ console.log(users[0]?.name ?? 'user array empty'); //Saída: Jonas
 
 ////Agora Optional Chaining ?. com array VAZIA
 const users2 = [];
-console.log(users2[0]?.name ?? 'user array empty'); //Saída: user array empty
+console.log(users2[0]?.name ?? 'user array empty'); //Saída: user array empty*/
+//--------------------------------- 24/04 Wednesday |  Looping Objects: Object Keys, Values and Entries ----------------------
+//Object keys para criar novo array
+const properties = Object.keys(restaurant.openingHours);
+console.log(properties); //Saída: [ 'thu', 'fri', 'sat' ]
+//For of para chamar os valores do objeto restaurant opening hours
+for (const diaz of Object.keys(restaurant.openingHours)) {
+  console.log(diaz); // Saída: thu  fri  sat
+}
+//Mesclando tudo
+let openStr = `We are open on ${properties.length} days: `;
+for (const dayz of properties) openStr += `${dayz}, `;
+console.log(openStr); //Saída: We are open on 3 days: thu, fri, sat,
