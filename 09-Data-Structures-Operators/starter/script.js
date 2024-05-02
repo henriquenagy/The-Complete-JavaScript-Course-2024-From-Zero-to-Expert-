@@ -305,7 +305,7 @@ console.log(users[0]?.name ?? 'user array empty'); //Saída: Jonas
 ////Agora Optional Chaining ?. com array VAZIA
 const users2 = [];
 console.log(users2[0]?.name ?? 'user array empty'); //Saída: user array empty*/
-//--------------------------------- 24/04 Wednesday |  Looping Objects: Object Keys, Values and Entries ----------------------
+/*//--------------------------------- 24/04 Wednesday |  Looping Objects: Object Keys, Values and Entries ----------------------
 //Object keys para criar novo array
 const properties = Object.keys(restaurant.openingHours);
 console.log(properties); //Saída: [ 'thu', 'fri', 'sat' ]
@@ -316,4 +316,42 @@ for (const diaz of Object.keys(restaurant.openingHours)) {
 //Mesclando tudo
 let openStr = `We are open on ${properties.length} days: `;
 for (const dayz of properties) openStr += `${dayz}, `;
-console.log(openStr); //Saída: We are open on 3 days: thu, fri, sat,
+console.log(openStr); //Saída: We are open on 3 days: thu, fri, sat,*/
+//--------------------------------- 02/05 Thursday | Sets  ------------------------------------------
+const ordersSet = new Set([
+  'pasta',
+  'pizza',
+  'risotto',
+  'pizza',
+  'risotto',
+  'pasta',
+]);
+console.log(ordersSet); //Output: Set(3) { 'pasta', 'pizza', 'risotto' }
+
+console.log(new Set('Nagys')); //Output: Set(5) { 'N', 'a', 'g', 'y', 's' }
+console.log(new Set('henriquenagymartins').size); //Output: 13
+
+console.log(ordersSet.size); //Output: 3
+console.log(ordersSet.has('pizza')); //Output: true
+console.log(ordersSet.has('sexylady')); //Output: false
+
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread'); //Só vai add uma vez, pois está repetido e não pode isso em Set
+console.log(ordersSet); //Output: Set(4) { 'pasta', 'pizza', 'risotto', 'Garlic Bread' }
+
+ordersSet.delete('risotto');
+console.log(ordersSet); //Output: Set(3) { 'pasta', 'pizza', 'Garlic Bread' }
+
+for (const order of ordersSet) console.log(order); //Output: pasta pizza Garlic Bread
+
+ordersSet.clear();
+console.log(ordersSet); //Output: Set(0) {}
+
+//Deixando set em array e objeto
+const staff = ['waiter', 'chef', 'waiter', 'manager', 'chef', 'waiter'];
+
+const staffInObject = new Set(staff);
+console.log(staffInObject); // Output: Set(3) { 'waiter', 'chef', 'manager' }
+
+const staffInArray = [...new Set(staff)]; //Spread operator
+console.log(staffInArray); // Output: [ 'waiter', 'chef', 'manager' ]
