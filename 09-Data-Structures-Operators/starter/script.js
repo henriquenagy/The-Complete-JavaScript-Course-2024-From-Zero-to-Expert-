@@ -6,7 +6,6 @@ const restaurant = {
   categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
-
   order: function (starterIndex, mainIndex) {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
@@ -317,7 +316,7 @@ for (const diaz of Object.keys(restaurant.openingHours)) {
 let openStr = `We are open on ${properties.length} days: `;
 for (const dayz of properties) openStr += `${dayz}, `;
 console.log(openStr); //Saída: We are open on 3 days: thu, fri, sat,*/
-//--------------------------------- 02/05 Thursday | Sets  ------------------------------------------
+/* //--------------------------------- 02/05 Thursday | Sets  ------------------------------------------
 const ordersSet = new Set([
   'pasta',
   'pizza',
@@ -355,3 +354,63 @@ console.log(staffInObject); // Output: Set(3) { 'waiter', 'chef', 'manager' }
 
 const staffInArray = [...new Set(staff)]; //Spread operator
 console.log(staffInArray); // Output: [ 'waiter', 'chef', 'manager' ]
+*/
+//--------------------------------- 06/05 MOndayz | Maps ------------------------------------------
+/*const rest = new Map();
+rest.set('name', 'Classico Italiano');
+rest.set(1, 'Firenze, Italy');
+console.log(rest.set(2, 'Lisbon, Portugal')); //Output: Map(3) {'name' => 'Classico Italiano', 1 => 'Firenze, Italy', 2 => 'Lisbon, Portugal'}
+
+rest
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, 'We are Open :D')
+  .set(false, 'We are closed :(');
+
+console.log(rest.get('name')); //Output: Classico Italiano
+console.log(rest.get(true)); //Output: We are Open :D
+console.log(rest.get(1)); //Output: Firenze, Italy
+
+const time = 8;
+console.log(rest.get(time > rest.get('open') && time < rest.get('close'))); //Output: We are closed :(
+
+console.log(rest.has('categories')); //Output: true
+console.log(rest.size); //Output:8
+rest.delete(2);
+console.log(rest.size); //Output:7
+
+const arrz = [1, 2];
+rest.set(arrz, 'Test'); //Como adicionar um array, basta criar ele fora do map
+console.log(rest.get(arrz)); //Output: Test*/
+
+//Convert object to map
+const hoursMap = new Map(Object.entries(restaurant.openingHours));
+//console.log(hoursMap); // Output: Map(3) { 'thu' => { open: 12, close: 22 },'fri' => { open: 11, close: 23 }, 'sat' => { open: 0, close: 24 }}
+
+const question = new Map([
+  ['question', 'What is the best programming language in the world?'],
+  [1, 'c'],
+  [2, 'Java'],
+  [3, 'Javascript'],
+  ['correct', 3],
+  [true, 'Correct🎉'],
+  [false, 'Try again!'],
+]);
+
+console.log(...question); //[ 'question', 'What is the best programming language in the world?' ] [ 1, 'c' ] [ 2, 'Java' ] [ 3, 'Javascript' ] [ 'correct', 3 ] [ true, 'Correct🎉' ] [ false, 'Try again!' ]
+console.log(...question.keys()); //question 1 2 3 correct true false
+console.log(...question.values()); //What is the best programming language in the world? c Java Javascript 3 Correct🎉 Try again!
+
+//Quiz app
+console.log(question.get('question')); //Mostra a 1a pergunta
+for (const [key, value] of question) {
+  if (typeof key === 'number') console.log(`Answer ${key}: ${value}`);
+} //Mostra os 3 priemiros números que são perguntas
+const answer = Number(prompt('Your answer')); //Pede para o user digitar
+console.log(answer);
+console.log(question.get(question.get('correct') === answer)); //São dois get, um compara o correct q é 3 com o digitado pelo usuário. Sua saída será true ou false, ai o outro get externo pega esse resultado e compara com o q tem no question
+
+console.log(...question);
+console.log(...question.keys());
+console.log(...question.values());
