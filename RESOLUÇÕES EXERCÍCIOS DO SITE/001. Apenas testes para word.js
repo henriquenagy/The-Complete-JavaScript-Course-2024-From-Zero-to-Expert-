@@ -1,22 +1,22 @@
-const question = new Map([
-  ['question', 'What is the best programming language in the world?'],
-  [1, 'c'],
-  [2, 'Java'],
-  [3, 'Javascript'],
-  ['correct', 3],
-  [true, 'Correct🎉'],
-  [false, 'Try again!']
+const books = [
+  { title: '1. Algorithms', edition: 4, pages: 976 },
+  { title: '2. Second booke', edition: 2, pages: 640 }
+]
+//Criar um map pegando dados do array com objetos books primeira posição
+const firstBookMap = new Map(Object.entries(books[0]))
+console.log(firstBookMap) //Map(3) { 'title' => '1. Algorithms', 'edition' => 4, 'pages' => 976 }
+
+//Iterar e pegar somente os values que são números e retornar o key
+for (const [key, value] of firstBookMap)
+  if (typeof value === 'number') console.log(key) //edition  pages
+
+//Novo map para teste
+const bookMap = new Map([
+  ['title', 'Clean Code'],
+  ['author', 'Robert C. Martin']
 ])
-
-console.log(...question) //[ 'question', 'What is the best programming language in the world?' ] [ 1, 'c' ] [ 2, 'Java' ] [ 3, 'Javascript' ] [ 'correct', 3 ] [ true, 'Correct🎉' ] [ false, 'Try again!' ]
-console.log(...question.keys()) //question 1 2 3 correct true false
-console.log(...question.values()) //What is the best programming language in the world? c Java Javascript 3 Correct🎉 Try again!
-
-//Quiz app
-console.log(question.get('question')) //Mostra a 1a pergunta, ai abaixo no for mostra somente as 3 opções da pergunta
-for (const [key, value] of question) {
-  if (typeof key === 'number') console.log(`Answer ${key}: ${value}`)
-} //What is the best programming language in the world? Answer 1: c Answer 2: Java  Answer 3: Javascript
-const answer = Number(prompt('Your answer')) //Pede para o user digitar
-console.log(answer) //mostra o valor digitado no prompt
-console.log(question.get(question.get('correct') === answer)) //São dois get, um compara o correct q é 3 com o digitado pelo usuário. Sua saída será true ou false, ai o outro get externo pega esse resultado e compara com o q tem no question
+//Checar se tem author usando && e IF
+bookMap.has('author') === true &&
+  console.log('The author of the book is known - método AND &&')
+if (bookMap.has('author'))
+  console.log('The author of the book is known - método IF')
