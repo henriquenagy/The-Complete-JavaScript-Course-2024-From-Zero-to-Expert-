@@ -1,22 +1,17 @@
-const books = [
-  { title: '1. Algorithms', edition: 4, pages: 976 },
-  { title: '2. Second booke', edition: 2, pages: 640 }
-]
-//Criar um map pegando dados do array com objetos books primeira posição
-const firstBookMap = new Map(Object.entries(books[0]))
-console.log(firstBookMap) //Map(3) { 'title' => '1. Algorithms', 'edition' => 4, 'pages' => 976 }
-
-//Iterar e pegar somente os values que são números e retornar o key
-for (const [key, value] of firstBookMap)
-  if (typeof value === 'number') console.log(key) //edition  pages
-
-//Novo map para teste
-const bookMap = new Map([
-  ['title', 'Clean Code'],
-  ['author', 'Robert C. Martin']
+const gameEvents = new Map([
+  [17, '⚽️ GOAL'],
+  [47, '⚽️ GOAL'],
+  [61, '🔁 Substitution'],
+  [69, '🔴 Red card']
 ])
-//Checar se tem author usando && e IF
-bookMap.has('author') === true &&
-  console.log('The author of the book is known - método AND &&')
-if (bookMap.has('author'))
-  console.log('The author of the book is known - método IF')
+gameEvents.forEach((value, key) => {
+  if (key < 45) console.log(`[FIRST HALF] ${key}: ${value}`)
+  else if (key > 45) console.log(`[SECOND HALF] ${key}: ${value}`)
+})
+//output: [FIRST HALF] 17: ⚽️ GOAL / [SECOND HALF] 47: ⚽️ GOAL / [SECOND HALF] 61: 🔁 Substitution / [SECOND HALF] 69: 🔴 Red card
+
+for (const [min, event] of gameEvents) {
+  const half = min <= 45 ? 'FIRST' : 'SECOND'
+  console.log(`[${half} HALF] ${min}: ${event}`)
+}
+//output: [FIRST HALF] 17: ⚽️ GOAL / [SECOND HALF] 47: ⚽️ GOAL / [SECOND HALF] 61: 🔁 Substitution / [SECOND HALF] 69: 🔴 Red card
