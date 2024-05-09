@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 //-------------------------------------------05-04-2024
 const restaurant = {
   namez: 'Classico Italiano',
@@ -7,35 +7,35 @@ const restaurant = {
   starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
   mainMenu: ['Pizza', 'Pasta', 'Risotto'],
   order: function (starterIndex, mainIndex) {
-    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
+    return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]]
   },
   orderDelivery: function ({ starterIndex, mainIndex, time, addres }) {
     console.log(
       `Order received! ${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${addres} at ${time}`
-    );
+    )
   },
   orderPasta: function (ing1, ing2, ing3) {
-    console.log(`Here is your delicious pasta with ${ing1}, ${ing2}, ${ing3}`);
+    console.log(`Here is your delicious pasta with ${ing1}, ${ing2}, ${ing3}`)
   },
   openingHours: {
     thu: {
       open: 12,
-      close: 22,
+      close: 22
     },
     fri: {
       open: 11,
-      close: 23,
+      close: 23
     },
     sat: {
       open: 0, // Open 24 hours
-      close: 24,
-    },
+      close: 24
+    }
   },
   orderPizza: function (mainIngredient, ...otherIngredients) {
-    console.log(mainIngredient);
-    console.log(otherIngredients);
-  },
-};
+    console.log(mainIngredient)
+    console.log(otherIngredients)
+  }
+}
 
 /*
 restaurant.orderDelivery({
@@ -355,7 +355,7 @@ console.log(staffInObject); // Output: Set(3) { 'waiter', 'chef', 'manager' }
 const staffInArray = [...new Set(staff)]; //Spread operator
 console.log(staffInArray); // Output: [ 'waiter', 'chef', 'manager' ]
 */
-//--------------------------------- 06/05 MOndayz | Maps ------------------------------------------
+/*//--------------------------------- 06/05 MOndayz | Maps ------------------------------------------
 /*const rest = new Map();
 rest.set('name', 'Classico Italiano');
 rest.set(1, 'Firenze, Italy');
@@ -382,7 +382,7 @@ console.log(rest.size); //Output:7
 
 const arrz = [1, 2];
 rest.set(arrz, 'Test'); //Como adicionar um array, basta criar ele fora do map
-console.log(rest.get(arrz)); //Output: Test*/
+console.log(rest.get(arrz)); //Output: Test
 
 //Convert object to map
 const hoursMap = new Map(Object.entries(restaurant.openingHours));
@@ -414,3 +414,101 @@ console.log(question.get(question.get('correct') === answer)); //São dois get, 
 console.log(...question);
 console.log(...question.keys());
 console.log(...question.values());
+*/
+//--------------------------------- 09/05 Thursdays | working with strings ------------------------------------------
+const airline = 'TAP Air Portugal'
+const plane = 'A320'
+console.log(plane[0]) //A
+console.log(plane[1]) //3
+console.log(plane[2]) //2
+
+console.log(airline.length) //16
+console.log(airline.indexOf('r')) //6
+console.log(airline.lastIndexOf('r')) //10
+console.log(airline.indexOf('Portugal')) //8
+console.log(airline.indexOf('portugal')) //-1 Quando não tem ai retorna -1, é case sensitive
+
+console.log(airline.slice(4)) //Air Portugal
+console.log(airline.slice(4, 7)) //Air
+console.log(airline.slice(-2)) //al
+console.log(airline.slice(1, -1)) //AP Air Portuga
+console.log(airline.slice(0, airline.indexOf(' '))) //Air, aqui considera até o primeiro espaço vazio (' ')
+console.log(airline.slice(airline.lastIndexOf(' ') + 1)) //Portugal, posição do item após o último espaço vazio
+
+console.log('B737'[0]) //B
+console.log('B737'.length) //4
+
+const checkMiddleSeat = function (assento) {
+  //B & E are the middle seat of the airplane
+  const s = assento.slice(-1) //Pega o último item, que é a letra do assento
+  if (s === 'B' || s === 'E') console.log(`${assento}: You got the middle seat`)
+  else console.log(`${assento}: You got the lucky seat`)
+}
+checkMiddleSeat('11B') //11B: You got the middle seat
+checkMiddleSeat('23C') //23C: You got the lucky seat
+checkMiddleSeat('32E') //3E: You got the middle seat
+
+console.log(new String('henrique')) //[String: 'henrique']
+console.log(typeof new String('henrique')) //object
+console.log(new String('henrique').slice(1)) //enrique
+console.log(typeof new String('henrique').slice(1)) //string
+
+const airlines = 'TAP Air Peruibe'
+console.log(airlines.toLowerCase()) //tap air peruibe
+console.log(airlines.toUpperCase()) //TAP AIR PERUIBE
+
+//Fix capitalization in name
+const passenger = 'NagYs'
+const passengerLower = passenger.toLowerCase()
+console.log(passengerLower) //nagys
+const passengerCorrect =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1)
+console.log(passengerCorrect) //Nagys > deixca somente o N em maiúsculo
+
+//Comparing emails
+const email = 'contact@wedezgn.com'
+const loginEmail = '   COntact@WEDezgN.CoM \n'
+const lowerEmail = loginEmail.toLowerCase() //   contact@wedezgn.com > COM ESPAÇO, MEIO CERTO
+const trimmedEmail = loginEmail.trim() // COntact@WEDezgN.CoM  > Cortou só um espaço, e fonte desconfigurada
+console.log(lowerEmail, trimmedEmail)
+
+const normalizedEmail = loginEmail.toLowerCase().trim() //Desse modo remove os espaços e deixa tamanho pequeno
+console.log(normalizedEmail) //contact@wedezgn.com
+
+console.log(email === normalizedEmail) //true
+
+//replacing
+const priceBRL = 'R$288,97'
+const priceUS = priceBRL.replace('R$', 'U$').replace(',', '.')
+console.log(priceUS) //U$288.97
+
+const announcement =
+  'All passengers como to boarding door 23. Boarding door 23!'
+console.log(announcement.replace('door', 'gate')) //All passengers como to boarding gate 23. Boarding door 23! > só troca o 1º
+console.log(announcement.replaceAll('door', 'gate')) //All passengers como to boarding gate 23. Boarding gate 23! > as vezes não funfa
+console.log(announcement.replace(/door/g, 'gate')) //All passengers como to boarding gate 23. Boarding gate 23! > Correto usar
+
+//Booleans
+const planes = 'Airbus A320neo'
+console.log(planes.includes('A320')) //true
+console.log(planes.includes('Boeing')) //false
+console.log(planes.includes('Airb')) //true
+
+if (planes.startsWith('Airbus') && planes.endsWith('neo'))
+  console.log('Part of the NEW Airbus family') //Part of the NEW Airbus family
+
+//Practice exercise
+const checkBaggage = function (items) {
+  const baggage = items.toLowerCase()
+  if (
+    baggage.includes('knife') ||
+    baggage.includes('Pinga') ||
+    baggage.includes('facão')
+  )
+    console.log('⛔ You are not Allowed on board ')
+  else console.log('Welcome aboard')
+}
+
+checkBaggage('Hello Sir! i have a laptop, some Food and a big brazilian Facão') //⛔ You are not Allowed on board
+checkBaggage('Socks and Camera only') //Welcome aboard
+checkBaggage('Got some pinga, a knife and a fishing stuffs to camping') //⛔ You are not Allowed on board
