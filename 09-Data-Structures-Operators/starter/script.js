@@ -415,7 +415,7 @@ console.log(...question);
 console.log(...question.keys());
 console.log(...question.values());
 */
-//--------------------------------- 09/05 Thursdays | working with strings ------------------------------------------
+/*//--------------------------------- 09/05 Thursdays | working with strings ------------------------------------------
 const airline = 'TAP Air Portugal'
 const plane = 'A320'
 console.log(plane[0]) //A
@@ -512,3 +512,48 @@ const checkBaggage = function (items) {
 checkBaggage('Hello Sir! i have a laptop, some Food and a big brazilian Facão') //⛔ You are not Allowed on board
 checkBaggage('Socks and Camera only') //Welcome aboard
 checkBaggage('Got some pinga, a knife and a fishing stuffs to camping') //⛔ You are not Allowed on board
+*/
+//--------------------------------- 09/05 Thursdays | working with strings ------------------------------------------
+//Split and Join
+console.log('a+very+nice+string'.split('+')) // [ 'a', 'very', 'nice', 'string' ]
+console.log('Henrique Nagy Martins'.split(' ')) // [ 'Henrique', 'Nagy', 'Martins' ]
+
+const [firstName, lastName] = 'Henrique Martins'.split(' ')
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ')
+console.log(newName) // Mr. Henrique MARTINS
+
+const capitalizeName = function (name) {
+  const names = name.split(' ')
+  const namesUpper = []
+  for (const n of names) {
+    //namesUpper.push(n[0].toUpperCase() + n.slice(1))
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase()))
+  }
+  console.log(namesUpper.join(' '))
+}
+capitalizeName('henrique nagy martins') //Henrique Nagy Martins
+capitalizeName('dani da sirva sauros') //Dani Da Sirva Sauros
+
+//Padding
+const message = 'Go to gate 23!'
+console.log(message.padStart(20, '+').padEnd(30, '+')) //++++++Go to gate 23!++++++++++
+console.log('jonas'.padStart(20, '+').padEnd(30, '+')) //+++++++++++++++jonas++++++++++
+
+const maskCreditCard = function (number) {
+  const str = number + ''
+  const last = str.slice(-4)
+  return last.padStart(str.length, '*')
+}
+console.log(maskCreditCard(5450584020190051)) //************0051
+console.log(maskCreditCard('4485087945755927')) //************5927
+
+//Repeat
+const message2 = 'Para repetir'
+console.log(message2.repeat(3)) //Para repetirPara repetirPara repetir
+
+const planesInLine = function (n) {
+  console.log(`There are ${n} planes in line ${'✈'.repeat(n)}`)
+}
+planesInLine(3) //There are 3 planes in line ✈✈✈
+planesInLine(1) //There are 1 planes in line ✈
+planesInLine(8) //There are 8 planes in line ✈✈✈✈✈✈✈✈
