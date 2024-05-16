@@ -585,6 +585,17 @@ document.body.append(document.createElement('textarea'))
 document.body.append(document.createElement('button'))
 
 document.querySelector('button').addEventListener('click', function () {
-  const text = document.querySelector('textarea').value
+  const text = document.querySelector('textarea').value //só pega o texto inserido no textarea (input)
   console.log(text)
+  const rows = text.split('\n') //Separa o conteúdo do textarea em array
+  console.log(rows) //(5) ['underscore_case', ' first_name', 'Some_Variable ', '  calculate_AGE', 'delayed_departure']
+  //Iterar sobre o novo array criado via split em rows
+  for (const [i, row] of rows.entries()) {
+    const [first, second] = row.toLowerCase().trim().split('_') //Remove espaço, caixa baixa, tira o underline
+    const output = `${first}${second.replace(
+      second[0],
+      second[0].toUpperCase()
+    )}` //Junta os textos, e no segundo usa a posição[0] para trocar com replace a 1a letra e deixar em uppercase
+    console.log(`${output.padEnd(20)}${'📌'.repeat(i + 1)}`)
+  }
 })
