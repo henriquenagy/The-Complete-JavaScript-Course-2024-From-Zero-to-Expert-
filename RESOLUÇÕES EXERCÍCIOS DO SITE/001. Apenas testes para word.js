@@ -1,35 +1,251 @@
-const str = 'maçã,banana,uva'
-const fruits = str.split(',') // ["maçã", "banana", "uva"]
+'use strict'
+const books = [
+  {
+    title: '1. Algorithms',
+    author: ['Robert Sedgewick', 'Kevin Wayne'],
+    publisher: 'Addison-Wesley Professional',
+    publicationDate: '2011-03-24',
+    edition: 4,
+    keywords: [
+      'computer science',
+      'programming',
+      'algorithms',
+      'data structures',
+      'java',
+      'math',
+      'software',
+      'engineering'
+    ],
+    pages: 976,
+    format: 'hardcover',
+    ISBN: '9780321573513',
+    language: 'English',
+    programmingLanguage: 'Java',
+    onlineContent: true,
+    thirdParty: {
+      goodreads: {
+        rating: 4.41,
+        ratingsCount: 1733,
+        reviewsCount: 63,
+        fiveStarRatingCount: 976,
+        oneStarRatingCount: 13
+      }
+    },
+    highlighted: true
+  },
+  {
+    title: '2. Structure and Interpretation of Computer Programs',
+    author: [
+      'Harold Abelson',
+      'Gerald Jay Sussman',
+      'Julie Sussman (Contributor)'
+    ],
+    publisher: 'The MIT Press',
+    publicationDate: '2022-04-12',
+    edition: 2,
+    keywords: [
+      'computer science',
+      'programming',
+      'javascript',
+      'software',
+      'engineering'
+    ],
+    pages: 640,
+    format: 'paperback',
+    ISBN: '9780262543231',
+    language: 'English',
+    programmingLanguage: 'JavaScript',
+    onlineContent: false,
+    thirdParty: {
+      goodreads: {
+        rating: 4.36,
+        ratingsCount: 14,
+        reviewsCount: 3,
+        fiveStarRatingCount: 8,
+        oneStarRatingCount: 0
+      }
+    },
+    highlighted: true
+  },
+  {
+    title: "3. Computer Systems: A Programmer's Perspective",
+    author: ['Randal E. Bryant', "David Richard O'Hallaron"],
+    publisher: 'Prentice Hall',
+    publicationDate: '2002-01-01',
+    edition: 1,
+    keywords: [
+      'computer science',
+      'computer systems',
+      'programming',
+      'software',
+      'C',
+      'engineering'
+    ],
+    pages: 978,
+    format: 'hardcover',
+    ISBN: '9780130340740',
+    language: 'English',
+    programmingLanguage: 'C',
+    onlineContent: false,
+    thirdParty: {
+      goodreads: {
+        rating: 4.44,
+        ratingsCount: 1010,
+        reviewsCount: 57,
+        fiveStarRatingCount: 638,
+        oneStarRatingCount: 16
+      }
+    },
+    highlighted: true
+  },
+  {
+    title: '4. Operating System Concepts',
+    author: ['Abraham Silberschatz', 'Peter B. Galvin', 'Greg Gagne'],
+    publisher: 'John Wiley & Sons',
+    publicationDate: '2004-12-14',
+    edition: 10,
+    keywords: [
+      'computer science',
+      'operating systems',
+      'programming',
+      'software',
+      'C',
+      'Java',
+      'engineering'
+    ],
+    pages: 921,
+    format: 'hardcover',
+    ISBN: '9780471694663',
+    language: 'English',
+    programmingLanguage: 'C, Java',
+    onlineContent: false,
+    thirdParty: {
+      goodreads: {
+        rating: 3.9,
+        ratingsCount: 2131,
+        reviewsCount: 114,
+        fiveStarRatingCount: 728,
+        oneStarRatingCount: 65
+      }
+    }
+  },
+  {
+    title: '5. Engineering Mathematics',
+    author: ['K.A. Stroud', 'Dexter J. Booth'],
+    publisher: 'Palgrave',
+    publicationDate: '2007-01-01',
+    edition: 14,
+    keywords: ['mathematics', 'engineering'],
+    pages: 1288,
+    format: 'paperback',
+    ISBN: '9781403942463',
+    language: 'English',
+    programmingLanguage: null,
+    onlineContent: true,
+    thirdParty: {
+      goodreads: {
+        rating: 4.35,
+        ratingsCount: 370,
+        reviewsCount: 18,
+        fiveStarRatingCount: 211,
+        oneStarRatingCount: 6
+      }
+    },
+    highlighted: true
+  },
+  {
+    title: '6. The Personal MBA: Master the Art of Business',
+    author: 'Josh Kaufman',
+    publisher: 'Portfolio',
+    publicationDate: '2010-12-30',
+    keywords: ['business'],
+    pages: 416,
+    format: 'hardcover',
+    ISBN: '9781591843528',
+    language: 'English',
+    thirdParty: {
+      goodreads: {
+        rating: 4.11,
+        ratingsCount: 40119,
+        reviewsCount: 1351,
+        fiveStarRatingCount: 18033,
+        oneStarRatingCount: 1090
+      }
+    }
+  },
+  {
+    title: '7. Crafting Interpreters',
+    author: 'Robert Nystrom',
+    publisher: 'Genever Benning',
+    publicationDate: '2021-07-28',
+    keywords: [
+      'computer science',
+      'compilers',
+      'engineering',
+      'interpreters',
+      'software',
+      'engineering'
+    ],
+    pages: 865,
+    format: 'paperback',
+    ISBN: '9780990582939',
+    language: 'English',
+    thirdParty: {
+      goodreads: {
+        rating: 4.7,
+        ratingsCount: 253,
+        reviewsCount: 23,
+        fiveStarRatingCount: 193,
+        oneStarRatingCount: 0
+      }
+    }
+  },
+  {
+    title: '8. Deep Work: Rules for Focused Success in a Distracted World',
+    author: 'Cal Newport',
+    publisher: 'Grand Central Publishing',
+    publicationDate: '2016-01-05',
+    edition: 1,
+    keywords: ['work', 'focus', 'personal development', 'business'],
+    pages: 296,
+    format: 'hardcover',
+    ISBN: '9781455586691',
+    language: 'English',
+    thirdParty: {
+      goodreads: {
+        rating: 4.19,
+        ratingsCount: 144584,
+        reviewsCount: 11598,
+        fiveStarRatingCount: 63405,
+        oneStarRatingCount: 1808
+      }
+    },
+    highlighted: true
+  }
+]
 
-// Como acessar itens específicos no array resultante:
-// Para acessar o terceiro item (índice 2):
-const terceiroItem = fruits[2] // "uva"
-
-// Para acessar o décimo item (índice 9), primeiro verifique se ele existe:
-if (fruits.length > 9) {
-  const decimoItem = fruits[9]
-  console.log(decimoItem)
-} else {
-  console.log('Índice 9 não existe no array.')
+//16.3 Checando se contém algum texto no título
+function logBookTheme(title) {
+  const lowercaseTitle = title.toLowerCase()
+  if (lowercaseTitle.startsWith('computer')) {
+    console.log(`[${title}]: This book is about computers`)
+  } else if (
+    lowercaseTitle.includes('algorithms') &&
+    lowercaseTitle.includes('structures')
+  ) {
+    console.log(`[${title}]: This book is about algorithms and data structures`)
+  } else if (
+    (lowercaseTitle.endsWith('system') || lowercaseTitle.endsWith('systems')) &&
+    !lowercaseTitle.includes('operating')
+  ) {
+    console.log(
+      `[${title}]: This book is about some systems, but definitely not about operating systems`
+    )
+  } else {
+    console.log(`[${title}]: This book does not match any specific theme`)
+  }
 }
 
-// Para deixar uma letra em caixa alta em uma posição específica de um item:
-const palavra = 'banana'
-const posicao = 2 // A segunda letra (índice 1) será convertida para caixa alta
-const letraEmCaixaAlta =
-  palavra.substring(0, posicao) +
-  palavra[posicao].toUpperCase() +
-  palavra.substring(posicao + 1)
-console.log(letraEmCaixaAlta) // "baNana"
-
-// Outras funcionalidades adicionais do método split():
-
-// Limitando o número de divisões:
-const str2 = 'maçã,banana,uva,morango,abacaxi'
-const fruits2 = str2.split(',', 3) // ["maçã", "banana", "uva"]
-console.log(fruits2)
-
-// Dividindo com expressões regulares:
-const str3 = 'maçã-|-banana-|-uva'
-const fruits3 = str3.split(/-\\|-/) // ["maçã", "banana", "uva"]
-console.log(fruits3)
+for (const book of books) {
+  logBookTheme(book.title)
+}

@@ -259,9 +259,73 @@ function isContributor(name) {
 }
 console.log(isContributor('Julie Sussman (Contributor)'))
 console.log(isContributor('(Robert Sedgewick)'))
-
-//Nome em caixa alta
+//16.1 Nome em caixa alta
 function normalizeAuthorName(autores) {
-  const acertar = autores.trim().split(' ')
+  const remover = autores.replace('(Contributor)', '').trim().toLowerCase()
+  const nomezao = remover.split(' ')
+  const namesMaior = []
+  for (const n of nomezao) {
+    namesMaior.push(n.replace(n[0], n[0].toUpperCase()))
+  }
+  console.log(namesMaior.join(' '))
 }
-console.log(normalizeAuthorName('ronaldo fedido coco'))
+normalizeAuthorName('  JuliE sussMan (Contributor)')
+//16.2 Usando o books title para trocar de nome
+const newBookTitle = books[1].title.replace('Programs', 'Software')
+console.log(newBookTitle)
+
+//16.3 Checando se contain algum texto no title Ñ DEU MUITO CERTO
+function logBookTheme(titulao) {
+  titulao = titulao.toLowerCase()
+  if (titulao.startsWith('computer')) {
+    console.log(`[${titulao}]: This book is about computers`)
+  } else if (titulao.includes('algorithms') && titulao.includes('structures')) {
+    console.log(
+      `[${titulao}]: This book is about algorithms and data structures`
+    )
+  } else if (
+    (titulao.endsWith('system') || titulao.endsWith('systems')) &&
+    !titulao.includes('operating')
+  ) {
+    console.log(
+      `[${titulao}]: This book is about some systems, but definitely not about operating systems`
+    )
+  }
+}
+for (const getTItle of books) logBookTheme(getTItle.title)
+
+/*
+//17.1
+const bookCategories =
+  'science;computing;computer science;algorithms;business;operating systems;networking;electronics'
+//const arrumardo = bookCategories.replace(/;/g, '\n')
+function logBookCategories(strin) {
+  const arrums = strin.split(';')
+  for (const eachitens of arrums) console.log(eachitens)
+}
+logBookCategories(bookCategories)*/
+
+//17.2 criar novo array sem repetidos e tudo separado por ; numa coisa só
+function getKeywordsAsString(ArrBooks) {
+  const paraArrumar = []
+  console.log(paraArrumar)
+  for (const keyOfBooks of ArrBooks) paraArrumar.push(...keyOfBooks.keywords)
+  console.log(paraArrumar)
+  const uniques = [...new Set(paraArrumar)]
+  console.log(uniques)
+  return console.log(uniques.join(';'))
+}
+getKeywordsAsString(books)
+
+//17.3
+const bookChapters = [
+  ['The Basics', 14],
+  ['Sorting', 254],
+  ['Searching', 372],
+  ['Graphs', 526],
+  ['Strings', 706]
+]
+
+function logBookChapters(arrsChpats) {}
+
+logBookChapters(bookChapters)
