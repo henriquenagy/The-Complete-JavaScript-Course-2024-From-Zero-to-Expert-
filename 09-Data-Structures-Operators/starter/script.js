@@ -558,7 +558,7 @@ planesInLine(3) //There are 3 planes in line ✈✈✈
 planesInLine(1) //There are 1 planes in line ✈
 planesInLine(8) //There are 8 planes in line ✈✈✈✈✈✈✈✈
 */
-//--------------------------------- 15/05 Wednesday - Coding challenge 4 ------------------------------------------
+/*//--------------------------------- 15/05 Wednesday - Coding challenge 4 ------------------------------------------
 /* 
 Write a program that receives a list of variable names written in underscore_case and convert them to camelCase.
 The input will come from a textarea inserted into the DOM (see code below), and conversion will happen when the button is pressed.
@@ -579,8 +579,7 @@ HINT 2: The solution only needs to work for a variable made out of 2 words, like
 HINT 3: Start without worrying about the ✅. Tackle that only after you have the variable name conversion working 😉
 HINT 4: This challenge is difficult on purpose, so start watching the solution in case you're stuck. Then pause and continue!
 Afterwards, test with your own test data!
-GOOD LUCK 😀*/
-
+GOOD LUCK 😀
 document.body.append(document.createElement('textarea'))
 document.body.append(document.createElement('button'))
 
@@ -598,4 +597,24 @@ document.querySelector('button').addEventListener('click', function () {
     )}` //Junta os textos, e no segundo usa a posição[0] para trocar com replace a 1a letra e deixar em uppercase
     console.log(`${output.padEnd(20)}${'📌'.repeat(i + 1)}`)
   }
-})
+})*/
+//-------------------------------- 21/05 Tuesday - string methods practice ------------------------------------------
+const flights =
+  '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30'
+//Arrow function para usar dentro do const output
+const getcode = str => str.slice(0, 3).toUpperCase() //Só para encurtar o code dentro do output
+
+for (let itens of flights.split('+')) {
+  const [type, from, to, time] = itens.split(';')
+  const output = `${type.startsWith('_Delayed') ? '🔴' : ''}${type
+    .replace(/_/g, ' ')
+    .trim()} from ${getcode(from)} to ${getcode(to)} (${time.replace(
+    ':',
+    'h'
+  )})`.padStart(45, ' ')
+  console.log(output)
+}
+//🔴Delayed Departure from FAO to TXL (11h25)
+//            Arrival from BRU to FAO (11h45)
+//  🔴Delayed Arrival from HEL to FAO (12h05)
+//          Departure from FAO to LIS (12h30)

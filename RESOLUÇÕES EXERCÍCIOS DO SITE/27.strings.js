@@ -326,6 +326,7 @@ const bookChapters = [
   ['Strings', 706]
 ]
 
-function logBookChapters(arrsChpats) {}
-
+function logBookChapters(arrsChpats) {
+  for (let [chapter, page] of arrsChpats) console.log(chapter, page)
+}
 logBookChapters(bookChapters)
