@@ -1,6 +1,8 @@
-const calcAge2 = function (birthYear) {
-  // uma variável guarda o resultado da function
-  return 2024 - birthYear
+const contador = {
+  valor: 0,
+  incrementar() {
+    this.valor++, console.log(this.valor)
+  }
 }
-const age2 = calcAge2(1990) // A variável chamadora vem após a function, caso contrário ñ funciona
-console.log(age2) // 34
+const botao = document.querySelector('button')
+botao.addEventListener('click', contador.incrementar.bind(contador))
