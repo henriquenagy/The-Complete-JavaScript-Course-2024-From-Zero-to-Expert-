@@ -40,7 +40,7 @@ greet('Hello')('Najão') //Chamando a função que tem outra dentro, mas sem men
 
 const greet2 = greeting => name => console.log(`${greeting} ${name}`)
 greet2('Hello')('Mr. nagys')*/
-//134. Call and aply methods
+/*//134. Call and aply methods
 
 const lufthansa = {
   airline: 'lufthansa',
@@ -87,4 +87,54 @@ book.apply(swiss, flightData)
 console.log(swiss)
 
 //Melhor usar o spread com o call ao invés de apply method
-book.call(swiss, ...flightData)
+book.call(swiss, ...flightData)*/
+//135. Bind methods 24/05/24
+const lufthansa = {
+  airline: 'lufthansa',
+  iataCode: 'LH',
+  bookings: [],
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`
+    )
+    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name }) //Criou um array com objeto dentro
+  }
+}
+const euroWings = {
+  airline: 'Eurowings',
+  iataCode: 'EW',
+  bookings: []
+}
+const swiss = {
+  airline: 'Swiss Air lines',
+  iataCode: 'LX',
+  bookings: []
+}
+const bookLT = lufthansa.book.bind(lufthansa) //Bind somente salva a função na variável, e não chama
+const bookEW = lufthansa.book.bind(euroWings)
+const bookSW = lufthansa.book.bind(swiss)
+bookEW(23, 'Sir. Najaun') //Agora sim está chamando a função criada pelo bind
+
+const bookEW23 = lufthansa.book.bind(euroWings, 23) //Valor pré definido
+bookEW23('Najones the man') //Com o 23 pré-definido, ai só faltou o nome
+
+//With event listeners
+lufthansa.planes = 300 //ainda não tem no objeto, mas aqui criamos um
+lufthansa.buyplane = function () {
+  //Também criou essa function
+  console.log(this)
+  this.planes++
+  console.log(this.planes)
+}
+//lufthansa.buyplane() > Precisa inserir isso para funcionar o click se chamar a função pelo clique evento. Mas pode trocar pelo bind(), ai não usa isso
+
+document
+  .querySelector('.buy')
+  .addEventListener('click', lufthansa.buyplane.bind(lufthansa))
+
+//partial application
+const addTax = (rate, value) => value + value * rate
+console.log(addTax(0.1, 200)) // 220
+
+const addVAT = addTax.bind(null, 0.23)
+console.log(addVAT(100)) //123
