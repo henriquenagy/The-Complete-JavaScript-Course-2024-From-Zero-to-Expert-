@@ -88,7 +88,7 @@ console.log(swiss)
 
 //Melhor usar o spread com o call ao invés de apply method
 book.call(swiss, ...flightData)*/
-//135. Bind methods 24/05/24
+/*//135. Bind methods 24/05/24
 const lufthansa = {
   airline: 'lufthansa',
   iataCode: 'LH',
@@ -137,4 +137,41 @@ const addTax = (rate, value) => value + value * rate
 console.log(addTax(0.1, 200)) // 220
 
 const addVAT = addTax.bind(null, 0.23)
-console.log(addVAT(100)) //123
+console.log(addVAT(100)) //123*/
+//136. Coding Challenge #1 04/06/24
+const poll = {
+  question: 'What is your favourite programming language?',
+  options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
+  answers: new Array(4).fill(0),
+  registerNewAnswer() {
+    const resposta = Number(
+      prompt(
+        `${this.question}\n${this.options.join(
+          '\n'
+        )}\n(Write your option number)`
+      )
+    )
+    //Incrementar o valor da resposta inserido pelo prompt (antes eu usei o if aqui, mas esse do AND do jonas é melhor)
+    typeof resposta === 'number' &&
+      resposta < this.answers.length &&
+      this.answers[resposta]++
+    //if somente para casos em que o valor for maior que 3
+    if (resposta > 3) console.log('somente nºs entre 0 e 3')
+    this.displayResults()
+    this.displayResults('string')
+  },
+  displayResults(type = 'array') {
+    if (type === 'array') {
+      console.log(this.answers)
+    } else if (type === 'string') {
+      console.log(`Poll results are ${this.answers.join(', ')}`)
+    }
+  }
+}
+//Chamando a função dentro da poll pelo clique no botão
+document
+  .querySelector('.poll')
+  .addEventListener('click', poll.registerNewAnswer.bind(poll))
+//Usando o call para trocar o valor de answers, somente para caso de teste digitanto o valor direto, hard code
+poll.displayResults.call({ answers: [5, 2, 3] }, 'string')
+poll.displayResults.call({ answers: [1, 5, 3, 9, 6, 1] }, 'string')
