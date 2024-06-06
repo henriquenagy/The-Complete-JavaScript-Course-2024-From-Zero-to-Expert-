@@ -1,6 +1,15 @@
-//partial application
-const addTax = (rate, value) => value + value * rate
-console.log(addTax(0.1, 200)) // 220
+const secureBooking = function () {
+  let passengerCount = 0
+  return function () {
+    passengerCount++
+    console.log(`${passengerCount} passengers`)
+  }
+}
 
-const addVAT = addTax.bind(null, 0.23)
-console.log(addVAT(100)) //123
+const booker = secureBooking()
+
+booker() //1 passengers
+booker() //2 passengers
+booker() //3 passengers
+
+console.dir(booker)

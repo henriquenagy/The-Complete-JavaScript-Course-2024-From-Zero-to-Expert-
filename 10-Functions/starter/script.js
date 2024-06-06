@@ -138,7 +138,7 @@ console.log(addTax(0.1, 200)) // 220
 
 const addVAT = addTax.bind(null, 0.23)
 console.log(addVAT(100)) //123*/
-//136. Coding Challenge #1 04/06/24
+/*//136. Coding Challenge #1 04/06/24
 const poll = {
   question: 'What is your favourite programming language?',
   options: ['0: JavaScript', '1: Python', '2: Rust', '3: C++'],
@@ -175,3 +175,53 @@ document
 //Usando o call para trocar o valor de answers, somente para caso de teste digitanto o valor direto, hard code
 poll.displayResults.call({ answers: [5, 2, 3] }, 'string')
 poll.displayResults.call({ answers: [1, 5, 3, 9, 6, 1] }, 'string')
+*/
+/*//CLosure aula 1
+const secureBooking = function () {
+  let passengerCount = 0
+  return function () {
+    passengerCount++
+    console.log(`${passengerCount} passengers`)
+  }
+}
+const booker = secureBooking()
+booker() //1 passengers
+booker() //2 passengers
+booker() //3 passengers
+console.dir(booker) //Checa tudo sobre a function, incluindo o closure*/
+//Closure aula 2
+/*//EXAMPLE 1
+let f //Global scope, ai todas podem acessar
+const g = function () {
+  const a = 3
+  f = function () {
+    console.log(a * 2) //6
+  }
+}
+
+const h = function () {
+  const b = 4
+  f = function () {
+    console.log(b * 2) //8
+  }
+}
+
+g()
+f()
+console.dir(f) //Closure(g) a = 3
+
+//Re-assigning f function
+h()
+f()
+console.dir(f) //Closure(h) b = 4*/
+//EXAMPLE 2
+const boardPassengers = function (n, wait) {
+  //const perGroup = n / 3
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passengers`)
+    console.log(`There are 3 groups, each with ${perGroup} passengers`)
+  }, wait * 1000)
+  console.log(`Will start boarding in ${wait} seconds`)
+}
+const perGroup = 1000
+boardPassengers(180, 3)
