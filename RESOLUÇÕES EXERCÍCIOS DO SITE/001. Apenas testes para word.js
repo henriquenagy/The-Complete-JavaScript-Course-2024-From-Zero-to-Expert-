@@ -1,15 +1,5 @@
-const secureBooking = function () {
-  let passengerCount = 0
-  return function () {
-    passengerCount++
-    console.log(`${passengerCount} passengers`)
-  }
-}
-
-const booker = secureBooking()
-
-booker() //1 passengers
-booker() //2 passengers
-booker() //3 passengers
-
-console.dir(booker)
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300]
+movements.forEach(function (insideNumbers) {
+  if (insideNumbers > 0) console.log(`You've deposited ${insideNumbers}`)
+  else console.log(`You withdrew ${Math.abs(insideNumbers)}`)
+})
