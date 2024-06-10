@@ -61,10 +61,24 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount')
 const inputCloseUsername = document.querySelector('.form__input--user')
 const inputClosePin = document.querySelector('.form__input--pin')
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = '' //Remove the old data showing in the page
+  movements.forEach(function (mov, i) {
+    const moneyINorOut = mov > 0 ? 'deposit' : 'withdrawal'
+    const html = `
+    <div class="movements__row">
+    <div class="movements__type movements__type--${moneyINorOut}">${
+      i + 1
+    } ${moneyINorOut}</div>
+    <div class="movements__value">${mov}</div>
+  </div>'`
+    containerMovements.insertAdjacentHTML('afterbegin', html)
+  })
+}
 
+displayMovements(account1.movements)
+
+// LECTURES
 //08/06/2024
 /*//As duas maneiras abaixo, uma é usando for of e outra usando foreach
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300]
@@ -87,8 +101,7 @@ movements.forEach(function (currentElement, currentIndex, entireArray) {
   if (currentElement > 0) console.log(`You deposited ${currentElement}`)
   else console.log(`You withdrew ${Math.abs(currentElement)}`)
 })*/
-
-const currencies = new Map([
+/*const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
   ['GBP', 'Pound sterling']
@@ -103,4 +116,4 @@ const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR', 'USD'])
 console.log(currenciesUnique)
 currenciesUnique.forEach(function (value, _, map) {
   console.log(`${value}: ${value}`)
-})
+})*/
