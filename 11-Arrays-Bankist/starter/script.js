@@ -48,6 +48,13 @@ const inputTransferAmount = document.querySelector('.form__input--amount')
 const inputLoanAmount = document.querySelector('.form__input--loan-amount')
 const inputCloseUsername = document.querySelector('.form__input--user')
 const inputClosePin = document.querySelector('.form__input--pin')
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300]
+//Insert the current balance on the page
+const currentBalancePage = function (somars) {
+  const results = somars.reduce((acc, mov) => acc + mov, 0)
+  document.querySelector('.balance__value').textContent = `${results} EUR`
+}
+currentBalancePage(account1.movements)
 
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '' //Remove the old initial data showing in the page
@@ -63,9 +70,28 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html)
   })
 }
-
 displayMovements(account1.movements)
+/*//13/06 Getting the 1st name letter
+displayMovements(account1.movements)
+const user = 'Henrique Nagy Martins'
+const username = user
+  .toLowerCase()
+  .split(' ')
+  .map(Upper => Upper[0])
+  .join('')
+console.log(username)
 
+const gettingNamez = function (allnamez) {
+  allnamez.forEach(function (uniqueName) {
+    uniqueName.username = uniqueName.owner
+      .toLowerCase()
+      .split(' ')
+      .map(Upper => Upper[0])
+      .join('')
+  })
+}
+gettingNamez(accounts)
+console.log(accounts)*/
 /*//08/06/2024 As duas maneiras abaixo, uma é usando for of e outra usando foreach
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300]
 for (const movement of movements) {
@@ -122,8 +148,7 @@ const checkDogs = function (dogsJulia, dogsKate) {
 }
 checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3])
 checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4])*/
-
-//12/06/2024 map method with arrow and for of
+/*//12/06/2024 map method with arrow and for of
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300]
 const eurToUsd = 1.1
 
@@ -148,4 +173,28 @@ const movementsDescriptions = movements.map(
       mov
     )}`
 )
-console.log(movementsDescriptions)
+console.log(movementsDescriptions)*/
+/*//13/06 Agora trabalhando com o filter()
+const deposits = movements.filter(function (mov) {
+  return mov > 0
+})
+console.log(deposits) //[200, 450, 3000, 70, 1300]
+
+const withdrawalz = movements.filter(saque => saque < 0)
+console.log(withdrawalz) //[-400, -650, -130]*/
+/*//13/06 agora a aula do reduce()
+//accumulator = SNOWBALL
+const balaance = movements.reduce(function (acc, cur, i, arr) {
+  console.log(`Iteration ${i}: ${acc}`) //Aqui é pra quando vc quiser ver linha a linha o funcionamento da bagaça
+  return acc + cur //Acumulador que começa pelo zero, definido após o }, + o nº atual
+}, 0)
+console.log(balaance) //3840
+
+//Arrow function
+const balance2 = movements.reduce((acc, cur) => acc + cur, 0)
+console.log(balance2) //3840
+
+//usando com o for
+let balance3 = 0
+for (const mov of movements) balance3 += mov
+console.log(balance3) //3840*/
