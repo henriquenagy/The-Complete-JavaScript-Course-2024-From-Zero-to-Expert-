@@ -55,7 +55,7 @@ const currentBalancePage = function (somars) {
   labelBalance.textContent = `${results} €`
 }
 currentBalancePage(account1.movements)
-
+//Insert all account movements (deposit & withdraw)
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '' //Remove the old initial data showing in the page
   movements.forEach(function (mov, i) {
@@ -71,12 +71,27 @@ const displayMovements = function (movements) {
   })
 }
 displayMovements(account1.movements)
-
-const calcDisplaySummary = function (acc) {
-  const incomes = acc.movements
+//Money in
+const calcDisplaySummary = function (moneyBalance) {
+  const incomes = moneyBalance
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0)
   labelSumIn.textContent = `${incomes}€`
+  //money out
+  const outcome = moneyBalance
+    .filter(mov => mov < 0)
+    .reduce((acc, mov) => acc + mov, 0)
+  labelSumOut.textContent = `${Math.abs(outcome)}€`
+  //Ganhos de dinheiro guardado, o 2º filter é para tirar valores menor que um da lista
+  const interest = moneyBalance
+    .filter(mov => mov > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter((int, i, arr) => {
+      console.log(arr)
+      return int >= 1
+    })
+    .reduce((acc, int) => acc + int, 0)
+  labelSumInterest.textContent = `${interest}€`
 }
 calcDisplaySummary(account1.movements)
 
@@ -101,6 +116,7 @@ const gettingNamez = function (allnamez) {
 }
 gettingNamez(accounts)
 console.log(accounts)*/
+
 /*//08/06/2024 As duas maneiras abaixo, uma é usando for of e outra usando foreach
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300]
 for (const movement of movements) {
@@ -122,6 +138,7 @@ movements.forEach(function (currentElement, currentIndex, entireArray) {
   if (currentElement > 0) console.log(`You deposited ${currentElement}`)
   else console.log(`You withdrew ${Math.abs(currentElement)}`)
 })*/
+
 /*const currencies = new Map([
   ['USD', 'United States dollar'],
   ['EUR', 'Euro'],
@@ -138,6 +155,7 @@ console.log(currenciesUnique)
 currenciesUnique.forEach(function (value, _, map) {
   console.log(`${value}: ${value}`)
 })*/
+
 /*// Coding challenge dogs
 Julia and Kate are doing a study on dogs. So each of them asked 5 dog owners about their dog's age, and stored the data into an array (one array for each). For now, they are just interested in knowing whether a dog is an adult or a puppy. A dog is an adult if it is at least 3 years old, and it's a puppy if it's less than 3 years old.
 Create a function 'checkDogs', which accepts 2 arrays of dog's ages ('dogsJulia' and 'dogsKate'), and does the following things:
@@ -157,6 +175,7 @@ const checkDogs = function (dogsJulia, dogsKate) {
 }
 checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3])
 checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4])*/
+
 /*//12/06/2024 map method with arrow and for of
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300]
 const eurToUsd = 1.1
@@ -183,6 +202,7 @@ const movementsDescriptions = movements.map(
     )}`
 )
 console.log(movementsDescriptions)*/
+
 /*//13/06 Agora trabalhando com o filter()
 const deposits = movements.filter(function (mov) {
   return mov > 0
@@ -191,6 +211,7 @@ console.log(deposits) //[200, 450, 3000, 70, 1300]
 
 const withdrawalz = movements.filter(saque => saque < 0)
 console.log(withdrawalz) //[-400, -650, -130]*/
+
 /*//13/06 agora a aula do reduce()
 //accumulator = SNOWBALL
 const balaance = movements.reduce(function (acc, cur, i, arr) {
@@ -262,15 +283,15 @@ const avg2 = calcAverageHumanAge2([16, 6, 10, 5, 6, 1, 4])
 console.log(avg1, avg2)
 */
 
+/*//14/06 Somar valores positivos do array movements 
 const eurToUsd = 1.1
-
 const totalDepositsUSD = movements
   .filter(mov => mov > 0)
   .map(mov => mov * eurToUsd)
   .reduce((acc, mov) => acc + mov, 0)
 console.log(totalDepositsUSD)
 
-/*//Caso tenha um erro e não saiba em qual é, dá para ir no segundo item(aqui é o map), pegar a info do arr (mov,i,arr) e mostrar o array atual que o item anterior criou (o filter). Nesse caso o erro foi o sinal < em filter, ai no array vc vai ver q tão todos negativos, mas o resultado pretendido é positivo. ai achou o erro.
+//Caso tenha um erro e não saiba em qual é, dá para ir no segundo item(aqui é o map), pegar a info do arr (mov,i,arr) e mostrar o array atual que o item anterior criou (o filter). Nesse caso o erro foi o sinal < em filter, ai no array vc vai ver q tão todos negativos, mas o resultado pretendido é positivo. ai achou o erro.
 const totalDepositsUSD = movements
   .filter(mov => mov < 0)
   .map((mov, i, arr) => {
