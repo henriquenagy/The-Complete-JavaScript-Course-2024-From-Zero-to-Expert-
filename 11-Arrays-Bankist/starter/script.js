@@ -48,9 +48,9 @@ const account4 = {
 const accounts = [account1, account2, account3, account4]
 
 //Insert the current balance on the page
-const currentBalancePage = function (somars) {
- const results = somars.reduce((acc, mov) => acc + mov, 0)
- labelBalance.textContent = `${results} €`
+const currentBalancePage = function (acc) {
+ acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0) //Precisa criar novo item de movimentação para não alterar o original, pois nesse novo terá novos itens dentro do array
+ labelBalance.textContent = `${acc.balance} €`
 }
 //Insert all account movements (deposit & withdraw)
 const displayMovements = function (movements) {
@@ -67,7 +67,6 @@ const displayMovements = function (movements) {
   containerMovements.insertAdjacentHTML('afterbegin', html)
  })
 }
-
 //Money in, out and gains
 const calcDisplaySummary = function (acc) {
  const incomes = acc.movements
@@ -87,7 +86,6 @@ const calcDisplaySummary = function (acc) {
   .reduce((acc, int) => acc + int, 0)
  labelSumInterest.textContent = `${Math.abs(interest)}€`
 }
-
 //Criando usuários de acesso
 const createUsernames = function (accs) {
  accs.forEach(function (acc) {
@@ -100,15 +98,23 @@ const createUsernames = function (accs) {
 }
 createUsernames(accounts)
 
-//Para acesso a tela do banco
-let currentAccount
+const updateUI = function (displays) {
+ //Display Balance
+ currentBalancePage(displays)
+ //Display Movements
+ displayMovements(displays.movements)
+ //Display Summary
+ calcDisplaySummary(displays)
+}
+
+//Para acesso a tela do banco LOGIN e chamar funções anteriores
+let currentAccount //Chamei fora pois vou usar em outra função
 btnLogin.addEventListener('click', function (e) {
  e.preventDefault() //para de dar reload quando clicar no botão
 
  currentAccount = accounts.find(
   acc => acc.username === inputLoginUsername.value
  ) //Checar usuário atual para acesso
- console.log(currentAccount)
 
  //if (currentAccount && currentAccount.pin === Number(inputLoginPin.value)) OU o método abaixo
  if (currentAccount?.pin === Number(inputLoginPin.value)) {
@@ -117,15 +123,33 @@ btnLogin.addEventListener('click', function (e) {
   //Display UI and message
   labelWelcome.textContent = `Welcome ${currentAccount.owner.split(' ')[0]}`
   containerApp.style.opacity = 100
-  //Display Balance
-  currentBalancePage(currentAccount.movements)
-  //Display Movements
-  displayMovements(currentAccount.movements)
-  //Display Summary
-  calcDisplaySummary(currentAccount)
+  updateUI(currentAccount) //Chamar funções anteriores
  }
 })
 
+//Transfer money
+let transfMoneys
+btnTransfer.addEventListener('click', function (a) {
+ a.preventDefault() //para de dar reload quando clicar no botão
+ transfMoneys = accounts.find(acc => acc.username === inputTransferTo.value)
+ const amount = Number(inputTransferAmount.value)
+ console.log(amount, transfMoneys)
+ if (
+  amount > 0 &&
+  transfMoneys &&
+  amount <= currentAccount.balance &&
+  transfMoneys?.username !== currentAccount.username
+ ) {
+  //Doing the money transfer between accounts
+  console.log('deu certo')
+  currentAccount.movements.push(-amount)
+  transfMoneys.movements.push(amount)
+  updateUI(currentAccount)
+  inputTransferAmount.value = inputTransferTo.value = ''
+ } else {
+  inputTransferAmount.value = inputTransferTo.value = ''
+ }
+})
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300]
 /*//13/06 Getting the 1st name letter
 displayMovements(account1.movements)
