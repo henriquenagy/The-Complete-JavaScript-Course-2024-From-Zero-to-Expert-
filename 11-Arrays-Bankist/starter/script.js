@@ -111,11 +111,9 @@ const updateUI = function (displays) {
 let currentAccount //Chamei fora pois vou usar em outra função
 btnLogin.addEventListener('click', function (e) {
  e.preventDefault() //para de dar reload quando clicar no botão
-
  currentAccount = accounts.find(
   acc => acc.username === inputLoginUsername.value
  ) //Checar usuário atual para acesso
-
  //if (currentAccount && currentAccount.pin === Number(inputLoginPin.value)) OU o método abaixo
  if (currentAccount?.pin === Number(inputLoginPin.value)) {
   inputLoginPin.value = inputLoginUsername.value = ''
@@ -148,6 +146,26 @@ btnTransfer.addEventListener('click', function (a) {
   inputTransferAmount.value = inputTransferTo.value = ''
  } else {
   inputTransferAmount.value = inputTransferTo.value = ''
+ }
+})
+
+//close account
+btnClose.addEventListener('click', function (close) {
+ close.preventDefault()
+ let confirmUser = currentAccount.username === inputCloseUsername.value
+ let confirmPin = currentAccount.pin === Number(inputClosePin.value)
+ if (confirmPin && confirmUser) {
+  //Delete account
+  accounts.splice(
+   accounts.findIndex(element => element === currentAccount),
+   1
+  )
+  alert('Usuário deletado')
+  containerApp.style.opacity = 0
+  inputCloseUsername.value = inputClosePin.value = ''
+ } else {
+  alert('Wrong Credentials!')
+  inputCloseUsername.value = inputClosePin.value = ''
  }
 })
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300]
