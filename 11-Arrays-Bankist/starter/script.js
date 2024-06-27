@@ -149,6 +149,20 @@ btnTransfer.addEventListener('click', function (a) {
  }
 })
 
+//Empréstimo Loan
+btnLoan.addEventListener('click', function (j) {
+ j.preventDefault()
+ const Quantityss = Number(inputLoanAmount.value)
+ if (
+  Quantityss > 0 &&
+  currentAccount.movements.some(mov => mov >= Quantityss * 0.1)
+ ) {
+  currentAccount.movements.push(Quantityss)
+  updateUI(currentAccount)
+ }
+ inputLoanAmount.value = ''
+})
+
 //close account
 btnClose.addEventListener('click', function (close) {
  close.preventDefault()
