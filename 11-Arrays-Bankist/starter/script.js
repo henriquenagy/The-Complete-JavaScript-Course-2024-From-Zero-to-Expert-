@@ -388,3 +388,15 @@ const totalDepositsUSD = movements
   })
   .reduce((acc, mov) => acc + mov, 0)
 console.log(totalDepositsUSD)*/
+
+//28/06 flatmap()
+//flat
+const overalBalance = accounts
+ .map(acc => acc.movements)
+ .flat()
+ .reduce((acc, mov) => acc + mov, 0)
+
+//flatMap()
+const overalBalance2 = accounts
+ .flatMap(acc => acc.movements)
+ .reduce((acc, mov) => ac + mov, 0)
