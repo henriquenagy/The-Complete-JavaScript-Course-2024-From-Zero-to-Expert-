@@ -52,10 +52,13 @@ const currentBalancePage = function (acc) {
  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0) //Precisa criar novo item de movimentação para não alterar o original, pois nesse novo terá novos itens dentro do array
  labelBalance.textContent = `${acc.balance} €`
 }
-//Insert all account movements (deposit & withdraw)
-const displayMovements = function (movements) {
+//Insert all account movements (deposit, withdraw & sort)
+const displayMovements = function (movements, sort = false) {
  containerMovements.innerHTML = '' //Remove the old initial data showing in the page
- movements.forEach(function (mov, i) {
+
+ const movs = sort ? movements.slice().sort((a, b) => a - b) : movements
+
+ movs.forEach(function (mov, i) {
   const moneyINorOut = mov > 0 ? 'deposit' : 'withdrawal'
   const html = `
     <div class="movements__row">
@@ -106,7 +109,6 @@ const updateUI = function (displays) {
  //Display Summary
  calcDisplaySummary(displays)
 }
-
 //Para acesso a tela do banco LOGIN e chamar funções anteriores
 let currentAccount //Chamei fora pois vou usar em outra função
 btnLogin.addEventListener('click', function (e) {
@@ -124,7 +126,6 @@ btnLogin.addEventListener('click', function (e) {
   updateUI(currentAccount) //Chamar funções anteriores
  }
 })
-
 //Transfer money
 let transfMoneys
 btnTransfer.addEventListener('click', function (a) {
@@ -148,7 +149,6 @@ btnTransfer.addEventListener('click', function (a) {
   inputTransferAmount.value = inputTransferTo.value = ''
  }
 })
-
 //Empréstimo Loan
 btnLoan.addEventListener('click', function (j) {
  j.preventDefault()
@@ -162,7 +162,6 @@ btnLoan.addEventListener('click', function (j) {
  }
  inputLoanAmount.value = ''
 })
-
 //close account
 btnClose.addEventListener('click', function (close) {
  close.preventDefault()
@@ -182,6 +181,14 @@ btnClose.addEventListener('click', function (close) {
   inputCloseUsername.value = inputClosePin.value = ''
  }
 })
+
+let sorted = false
+btnSort.addEventListener('click', function (z) {
+ z.preventDefault()
+ displayMovements(currentAccount.movements, !sorted)
+ sorted = !sorted
+})
+
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300]
 /*//13/06 Getting the 1st name letter
 displayMovements(account1.movements)
@@ -389,7 +396,7 @@ const totalDepositsUSD = movements
   .reduce((acc, mov) => acc + mov, 0)
 console.log(totalDepositsUSD)*/
 
-//28/06 flatmap()
+/*//28/06 flatmap()
 //flat
 const overalBalance = accounts
  .map(acc => acc.movements)
@@ -399,4 +406,4 @@ const overalBalance = accounts
 //flatMap()
 const overalBalance2 = accounts
  .flatMap(acc => acc.movements)
- .reduce((acc, mov) => ac + mov, 0)
+ .reduce((acc, mov) => ac + mov, 0)*/
