@@ -1,25 +1,19 @@
-//return < 0, A,B (keep order)
-//return > 0, B,A (Switch order)
-//strings
-const owners = ['Nagys', 'Nagynho', 'Danis', 'Maris']
-console.log(owners.sort()) //[ 'Danis', 'Maris', 'Nagynho', 'Nagys' ]
-//Numbers
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300]
-console.log(movements.sort()) //[-130, -400, -650, 1300, 200, 3000, 450, 70] Só com sort assim direto zoa tudo não separa direito os números
-//ascending
-movements.sort((a, b) => {
- if (a > b) return 1
- if (a < b) return -1
-})
-console.log(movements) //[-650, -400, -130, 70, 200, 450, 1300, 3000]
-//A maneira correta enxuta para ascending seria:
-movements.sort((a, b) => a - b)
+console.log(new Array(1, 2, 3, 4, 5)) // Cria novo array
+//Empty arrays + fill method
+const x = new Array(7)
+console.log(x) //[ <7 empty items> ]
+x.fill(1, 3, 5)
+console.log(x) // [ <3 empty items>, 1, 1, <2 empty items> ]
+x.fill(1)
+console.log(x) //[ 1, 1, 1, 1, 1, 1, 1]
 
-//descending
-movements.sort((a, b) => {
- if (a > b) return -1
- if (a < b) return 1
-})
-console.log(movements) //[3000, 1300,  450, 200, 70, -130, -400, -650]
-//A maneira correta enxuta para descending seria:
-movements.sort((a, b) => b - a)
+const arr = [1, 2, 3, 4, 5]
+arr.fill(23, 2, 4)
+console.log(arr) //[ 1, 2, 23, 23, 5 ]
+
+//array.from
+const y = Array.from({ length: 7 }, () => 1)
+console.log(y) //[ 1, 1, 1, 1, 1, 1, 1]
+
+const z = Array.from({ length: 7 }, (_, i) => i + 1)
+console.log(z) // [1, 2, 3, 4, 5, 6, 7]

@@ -407,3 +407,18 @@ const overalBalance = accounts
 const overalBalance2 = accounts
  .flatMap(acc => acc.movements)
  .reduce((acc, mov) => ac + mov, 0)*/
+
+//01/07 Criando array novo com os dados de UI
+//Esse não dá certo pois pega os dados antes do login
+const movementsUI = Array.from(document.querySelectorAll('.movements__value')) //Pega os números dessa classe
+console.log(movementsUI) //Erro pois só pega dois itens dos vários q tem, pois executa antes de eu acessar o login
+//Agora sim pega todo após o clique, visto que já foi dado o login na tela do user
+labelBalance.addEventListener('click', function () {
+ const movementsUIok = Array.from(
+  document.querySelectorAll('.movements__value'),
+  el => Number(el.textContent.replace('€', ''))
+ )
+ console.log(movementsUIok) //(8) [1300, 70, -130, -650, 3000, -400, 450, 200]
+ const movementsUiOk2 = [...document.querySelectorAll('.movements__value')]
+ console.log(movementsUiOk2) //Só pega os movimentos, não os valores
+})
