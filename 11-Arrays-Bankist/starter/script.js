@@ -408,7 +408,7 @@ const overalBalance2 = accounts
  .flatMap(acc => acc.movements)
  .reduce((acc, mov) => ac + mov, 0)*/
 
-//01/07 Criando array novo com os dados de UI
+/*//01/07 Criando array novo com os dados de UI
 //Esse não dá certo pois pega os dados antes do login
 const movementsUI = Array.from(document.querySelectorAll('.movements__value')) //Pega os números dessa classe
 console.log(movementsUI) //Erro pois só pega dois itens dos vários q tem, pois executa antes de eu acessar o login
@@ -421,4 +421,46 @@ labelBalance.addEventListener('click', function () {
  console.log(movementsUIok) //(8) [1300, 70, -130, -650, 3000, -400, 450, 200]
  const movementsUiOk2 = [...document.querySelectorAll('.movements__value')]
  console.log(movementsUiOk2) //Só pega os movimentos, não os valores
-})
+})*/
+
+//03/07
+//1. Somando todos os valores maiores que 0 do array das contas
+const bankDepositSum = accounts
+ .flatMap(acc => acc.movements)
+ .filter(mov => mov > 0)
+ .reduce((sum, cur) => sum + cur, 0)
+console.log(bankDepositSum) // 1052614
+
+//2. Quant. de nºs maiores que 1K (dois métodos, mesmo resultado) com reduce e filter
+const numDeposits1K = accounts
+ .flatMap(acc => acc.movements)
+ .filter(mov => mov >= 1000).length
+//método 2
+const numDeposits1K2 = accounts
+ .flatMap(acc => acc.movements)
+ .reduce((count, cur) => (cur >= 1000 ? ++count : count), 0)
+console.log(numDeposits1K, numDeposits1K2) //12, 12
+
+//3. 2 maneiras diferentes de Retornar depósitos e saques com flatmap e reduce
+const sums = accounts
+ .flatMap(acc => acc.movements)
+ .reduce(
+  (sums, cur) => {
+   cur > 0 ? (sums.deposits += cur) : (sums.withdrawals += cur)
+   return sums
+  },
+  { deposits: 0, withdrawals: 0 }
+ )
+console.log(sums) //{deposits: 1052614, withdrawals: -7340}
+
+//Método 2
+const { deposits2, withdrawals2 } = accounts
+ .flatMap(acc => acc.movements)
+ .reduce(
+  (sums, cur) => {
+   sums[cur > 0 ? 'deposits2' : 'withdrawals2'] += cur
+   return sums
+  },
+  { deposits2: 0, withdrawals2: 0 }
+ )
+console.log(deposits2, withdrawals2) //1052614 -7340
