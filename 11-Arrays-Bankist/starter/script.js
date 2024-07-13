@@ -423,7 +423,7 @@ labelBalance.addEventListener('click', function () {
  console.log(movementsUiOk2) //Só pega os movimentos, não os valores
 })*/
 
-//03/07
+/* //03/07
 //1. Somando todos os valores maiores que 0 do array das contas
 const bankDepositSum = accounts
  .flatMap(acc => acc.movements)
@@ -463,4 +463,34 @@ const { deposits2, withdrawals2 } = accounts
   },
   { deposits2: 0, withdrawals2: 0 }
  )
-console.log(deposits2, withdrawals2) //1052614 -7340
+console.log(deposits2, withdrawals2) //1052614 -7340 */
+
+//13/07
+const convertTitleCase = function (title) {
+ const capitalizer = str => str[0].toUpperCase() + str.slice(1)
+
+ const exceptionsWords = [
+  'a',
+  'an',
+  'and',
+  'the',
+  'but',
+  'or',
+  'on',
+  'in',
+  'with'
+ ]
+ const titleCase = title
+  .toLowerCase()
+  .split(' ')
+  .map(word => (exceptionsWords.includes(word) ? word : capitalizer(word)))
+  .join(' ')
+
+ return capitalizer(titleCase)
+}
+
+console.log(convertTitleCase('sir. najaun is one of the richest'))
+console.log(
+ convertTitleCase('fuck you i will not do what they tell me suckers ze rodelas')
+)
+console.log(convertTitleCase('shorter one text curtao memo'))
