@@ -62,9 +62,7 @@ const displayMovements = function (movements, sort = false) {
   const moneyINorOut = mov > 0 ? 'deposit' : 'withdrawal'
   const html = `
     <div class="movements__row">
-    <div class="movements__type movements__type--${moneyINorOut}">${
-   i + 1
-  } ${moneyINorOut}</div>
+    <div class="movements__type movements__type--${moneyINorOut}">${i + 1} ${moneyINorOut}</div>
     <div class="movements__value">${mov} €</div>
   </div>'`
   containerMovements.insertAdjacentHTML('afterbegin', html)
@@ -72,14 +70,10 @@ const displayMovements = function (movements, sort = false) {
 }
 //Money in, out and gains
 const calcDisplaySummary = function (acc) {
- const incomes = acc.movements
-  .filter(mov => mov > 0)
-  .reduce((acc, mov) => acc + mov, 0)
+ const incomes = acc.movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0)
  labelSumIn.textContent = `${incomes}€`
  //money out
- const outcome = acc.movements
-  .filter(mov => mov < 0)
-  .reduce((acc, mov) => acc + mov, 0)
+ const outcome = acc.movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0)
  labelSumOut.textContent = `${Math.abs(outcome)}€`
  //Ganhos de dinheiro guardado, o 2º filter é para tirar valores menor que um da lista
  const interest = acc.movements
@@ -113,9 +107,7 @@ const updateUI = function (displays) {
 let currentAccount //Chamei fora pois vou usar em outra função
 btnLogin.addEventListener('click', function (e) {
  e.preventDefault() //para de dar reload quando clicar no botão
- currentAccount = accounts.find(
-  acc => acc.username === inputLoginUsername.value
- ) //Checar usuário atual para acesso
+ currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value) //Checar usuário atual para acesso
  //if (currentAccount && currentAccount.pin === Number(inputLoginPin.value)) OU o método abaixo
  if (currentAccount?.pin === Number(inputLoginPin.value)) {
   inputLoginPin.value = inputLoginUsername.value = ''
@@ -153,10 +145,7 @@ btnTransfer.addEventListener('click', function (a) {
 btnLoan.addEventListener('click', function (j) {
  j.preventDefault()
  const Quantityss = Number(inputLoanAmount.value)
- if (
-  Quantityss > 0 &&
-  currentAccount.movements.some(mov => mov >= Quantityss * 0.1)
- ) {
+ if (Quantityss > 0 && currentAccount.movements.some(mov => mov >= Quantityss * 0.1)) {
   currentAccount.movements.push(Quantityss)
   updateUI(currentAccount)
  }
@@ -465,7 +454,7 @@ const { deposits2, withdrawals2 } = accounts
  )
 console.log(deposits2, withdrawals2) //1052614 -7340 */
 
-//13/07
+/* //13/07
 const convertTitleCase = function (title) {
  const capitalizer = str => str[0].toUpperCase() + str.slice(1)
 
@@ -493,4 +482,54 @@ console.log(convertTitleCase('sir. najaun is one of the richest'))
 console.log(
  convertTitleCase('fuck you i will not do what they tell me suckers ze rodelas')
 )
-console.log(convertTitleCase('shorter one text curtao memo'))
+console.log(convertTitleCase('shorter one text curtao memo'))*/
+
+/*//18/07 e dia anterior, exercicios dos dogs da sarah e compania
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] }
+ ]
+ //1. Loop em dogs e inserir novo item dentro de porção recomendada
+ dogs.forEach(curDog => (curDog.recFood = Math.trunc(curDog.weight ** 0.75 * 28)))
+ 
+ //2.localizar sara's dog
+ const sarahDog = dogs.find(dogOfSarah => dogOfSarah.owners.includes('Sarah'))
+ const sarahEat = `Sarah's dog is eating too ${
+  sarahDog.curFood > sarahDog.recFood ? 'much' : 'little'
+ }`
+ //console.log(sarahEat) //Sarah's dog is eating too much
+ 
+ //3. Criar novo array para dogs que comem muito, usando a nova variável que criamos antes com dogs.forEach(curDog => etc...
+ const ownersEatTooMuch = dogs
+  .filter(higher => higher.curFood > higher.recFood)
+  .flatMap(onlyName => onlyName.owners)
+ //console.log(ownersEatTooMuch) //[ 'Matilda', 'Sarah', 'John' ]
+ 
+ const ownersEatTooLittle = dogs
+  .filter(lower => lower.curFood < lower.recFood)
+  .flatMap(onlyName => onlyName.owners)
+ //console.log(ownersEatTooLittle) //[ 'Alice', 'Bob', 'Michael' ]
+ 
+ //4. Logar na tela usando join e trocar , por and
+ //console.log(`${ownersEatTooMuch.join(' and ')}'s dogs eat too much!`) // Matilda and Sarah and John's dogs eat too much!
+ //console.log(`${ownersEatTooLittle.join(' and ')}'s dogs eat too little!`) //Alice and Bob and Michael's dogs eat too little!
+ 
+ //5. Logar se algum dog está comendo exatamente o recomendado (just true or false)
+ //console.log(dogs.some(exactlyEat => exactlyEat.curFood === exactlyEat.recFood)) //false
+ 
+ //6. eating an OKAY amount of food (just true or false)
+ //console.log(dogs.some(comeuOK => comeuOK.curFood > comeuOK.recFood * 0.9 && comeuOK.curFood < comeuOK.recFood * 1.1)) //true
+ 
+ //7. Create an array containing the dogs that are eating an OKAY amount of food
+ 
+ const newArrayOkDog = dogs.filter(
+  comeuOK => comeuOK.curFood > comeuOK.recFood * 0.9 && comeuOK.curFood < comeuOK.recFood * 1.1
+ )
+ console.log(newArrayOkDog) //[ { weight: 32, curFood: 340, owners: [ 'Michael' ], recFood: 376 } ]
+ 
+ //8. Create a shallow copy (slice) of the dogs array and sort it by recommended food portion in an ascending order
+ const sortedDogs = dogs.slice().sort((a, b) => a.recFood - b.recFood)
+ console.log(sortedDogs)
+*/
