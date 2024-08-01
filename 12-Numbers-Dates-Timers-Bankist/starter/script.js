@@ -92,7 +92,7 @@ const displayMovements = function (movements, sort = false) {
   const html = `
       <div class="movements__row">
         <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>
-        <div class="movements__value">${mov}€</div>
+        <div class="movements__value">${mov.toFixed(2)}€</div>
       </div>
     `
 
@@ -102,15 +102,15 @@ const displayMovements = function (movements, sort = false) {
 
 const calcDisplayBalance = function (acc) {
  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0)
- labelBalance.textContent = `${acc.balance}€`
+ labelBalance.textContent = `${acc.balance.toFixed(2)}€`
 }
 
 const calcDisplaySummary = function (acc) {
  const incomes = acc.movements.filter(mov => mov > 0).reduce((acc, mov) => acc + mov, 0)
- labelSumIn.textContent = `${incomes}€`
+ labelSumIn.textContent = `${incomes.toFixed(2)}€`
 
  const out = acc.movements.filter(mov => mov < 0).reduce((acc, mov) => acc + mov, 0)
- labelSumOut.textContent = `${Math.abs(out)}€`
+ labelSumOut.textContent = `${Math.abs(out).toFixed(2)}€`
 
  const interest = acc.movements
   .filter(mov => mov > 0)
@@ -120,7 +120,7 @@ const calcDisplaySummary = function (acc) {
    return int >= 1
   })
   .reduce((acc, int) => acc + int, 0)
- labelSumInterest.textContent = `${interest}€`
+ labelSumInterest.textContent = `${interest.toFixed(2)}€`
 }
 
 const createUsernames = function (accs) {
@@ -194,7 +194,7 @@ btnTransfer.addEventListener('click', function (e) {
 btnLoan.addEventListener('click', function (e) {
  e.preventDefault()
 
- const amount = Number(inputLoanAmount.value)
+ const amount = Math.floor(inputLoanAmount.value)
 
  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
   // Add movement
@@ -234,7 +234,7 @@ btnSort.addEventListener('click', function (e) {
  sorted = !sorted
 })
 
-// 31/11/2024  Aula 171. Converting And checking numbers
+/*// 31/11/2024  Aula 171. Converting And checking numbers
 //JS não consegue calcular números decimais
 console.log(23 === 23.0) //true
 console.log(0.1 + 0.2) // 0.30000000000000004
@@ -252,4 +252,65 @@ console.log(Number.isFinite(23 / 0)) //false
 
 console.log(Number.isInteger(23)) //true
 console.log(Number.isInteger(23.0)) //true
-console.log(Number.isInteger(23 / 0)) //false
+console.log(Number.isInteger(23 / 0)) //false */
+
+/*//01/08 Aula 172
+//Raiz quadrada squareroot e elevado
+console.log(Math.sqrt(25)) // Raiz quadrada de 25
+console.log(25 ** (1 / 2)) //25 elevado a 0,5
+console.log(8 ** (1 / 3)) //8 elevado ,33
+
+//Máx e Min number in a sequence
+console.log(Math.max(5, 7, '23', 12, 21)) //23 - Funciona Type coercion
+console.log(Math.max(5, 7, '23px', 12, 21)) //NaN - Does not work parsing
+
+console.log(Math.min('2', 4, 5, '14')) //2
+
+//Calcular área de círculo com raio e usando PI
+console.log(Math.PI * Number.parseFloat('10px') ** 2) // 314.1592653589793
+
+//Número aleatórios, porém vai só até 5 ai adiciona mais 1 e vai até 6
+console.log(Math.trunc(Math.random() * 6) + 1)
+
+//Aleatory numbers, but between a specified interval, use floor instead of trunc
+const randomInt = (min, max) => Math.floor(Math.random() * (max - min) + 1) + min
+console.log(randomInt(3, 18))
+
+//Arrendondamentos - Rounding integers
+console.log(Math.round(21.3)) // 21
+console.log(Math.round(21.9)) // 22
+
+console.log(Math.ceil(16.3)) // 17
+console.log(Math.ceil(16.9)) // 17
+
+console.log(Math.floor(11.2)) // 11
+console.log(Math.floor('11.8')) // 11
+
+console.log(Math.trunc(5.3)) // 5
+
+console.log(Math.trunc(-3.3)) //-3 trunc vai pra baixo quando é negativo
+console.log(Math.floor(-3.3)) //-4 floor pra cima quando é negativo, melhor usar esse do que trunc
+
+//Rounding decimals with toFixed. Qnt. de nºs após virgula. Transforma em strings, tem que usar + ou NUMBER !!
+console.log((2.7).toFixed(0)) //3
+console.log((2.7).toFixed(3)) //2.700
+console.log((2.647).toFixed(2)) //2.65
+console.log(+(2.843).toFixed(2)) // 2.84 - correto, aqui é numero pois usei + antes */
+
+// 01/08/24 Aula 173 Reminder Operator - Resto da divisão
+console.log(5 % 2) // 1
+console.log(8 % 3) // 2
+console.log(6 % 2) // 0
+
+//Nº se dividido por 2 o resto é zero
+const isEven = n => n % 2 === 0
+console.log(isEven(3)) //false
+console.log(isEven(24)) //true
+console.log(isEven(514)) //true
+
+// Trocar cor de fundo se o nº da lista é divisivel por 2
+labelBalance.addEventListener('click', function () {
+ ;[...document.querySelectorAll('.movements__row')].forEach(function (row, i) {
+  if (i % 2 === 0) row.style.backgroundColor = 'orangered'
+ })
+})
