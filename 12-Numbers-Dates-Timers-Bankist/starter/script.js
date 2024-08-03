@@ -297,7 +297,7 @@ console.log((2.7).toFixed(3)) //2.700
 console.log((2.647).toFixed(2)) //2.65
 console.log(+(2.843).toFixed(2)) // 2.84 - correto, aqui é numero pois usei + antes */
 
-// 01/08/24 Aula 173 Reminder Operator - Resto da divisão
+/*// 01/08/24 Aula 173 Reminder Operator - Resto da divisão
 console.log(5 % 2) // 1
 console.log(8 % 3) // 2
 console.log(6 % 2) // 0
@@ -313,4 +313,70 @@ labelBalance.addEventListener('click', function () {
  ;[...document.querySelectorAll('.movements__row')].forEach(function (row, i) {
   if (i % 2 === 0) row.style.backgroundColor = 'orangered'
  })
-})
+})*/
+
+/*//03/08 174. Numeric Separators
+const diameter = 287_460_000_000
+console.log(diameter) // 287460000000
+const price = 345_99
+console.log(price) //34599
+
+console.log(Number('230_000')) //NaN
+console.log(parseInt('230_000')) // 230
+
+//BigInt (pode usar o n ou escrever antes) no log os dois ficam com n no final
+console.log(5485979853465489n)
+console.log(BigInt(9548597985)) // 9548597985n
+
+//Operations
+console.log(100n * 100n) //10000n
+
+const huge = 498351231n
+const num = 23
+console.log(huge * BigInt(num)) //11462078313n
+
+//Exceptions
+console.log(20n > 15) // true
+console.log(20n === 20) // false
+console.log(typeof 20n) // bigint
+console.log(20n == '20') // true
+console.log(huge + ' is REALLY big!!!') // 498351231 is REALLY big!!!
+
+//Divisions
+console.log(11n / 3n) // 3n transforma em número inteiro
+console.log(10 / 3) //3.33333*/
+
+// 03/08/24 176. Creating Dates
+const now = new Date()
+console.log(now) //Sat Aug 03 2024 14:32:14 GMT-0300 (Horário Padrão de Brasília)
+
+console.log(new Date('Aug 03 2024 14:32:14')) // Sat Aug 03 2024 14:32:14 GMT-0300
+console.log(new Date('December 24, 2015')) // Thu Dec 24 2015 00:00:00 GMT-0200
+console.log(new Date(account1.movementsDates[0])) // Mon Nov 18 2019 18:31:17
+
+console.log(new Date(2037, 10, 19, 15, 23, 5)) // Thu Nov 19 2037 15:23:05 - Criando data manual
+console.log(new Date(2037, 10, 33)) // 10 é Novembro, mas tem 33 dias, ai ele joga pra dezembro... Thu Dec 03 2037
+
+console.log(new Date(0)) // Wed Dec 31 1969 21:00:00 - primeira hora do js
+console.log(new Date(3 * 24 * 60 * 60 * 1000)) // TIMESTAMP, multiplica dias, 24h, horas, min, seg... O resultado é a data, mas a multiplicação é essa, que daria no mesmo s epor direto igual abaixo 259200000
+console.log(new Date(259200000)) // igual acima - Sat Jan 03 1970 21:00:00
+console.log('----------------------')
+
+//Working with dates
+const future = new Date(2037, 10, 19, 15, 23)
+console.log(future) // Thu Nov 19 2037 15:23:00 GMT-0300
+console.log(future.getFullYear()) // 2037
+console.log(future.getMonth()) // 10 (Novembro é 10)
+console.log(future.getDate()) // Dia atual -19
+console.log(future.getDay()) // Dia da semana Numeral - 4
+console.log(future.getHours()) // 15
+console.log(future.getMinutes()) // 23
+console.log(future.getSeconds()) // 0
+console.log(future.toISOString()) // Formato Inter. ISO - 2037-11-19T18:23:00.000Z
+console.log(future.getTime()) // Timestamp - 2142267780000
+console.log(new Date(2142267780000)) // Ao contrário de cima timestamp - Thu Nov 19 2037 15:23:00 GMT-0300
+
+console.log(Date.now()) // 1722710938505
+
+future.setFullYear(2040) // trocando o ano
+console.log(future) // Mon Nov 19 2040 15:23:00
