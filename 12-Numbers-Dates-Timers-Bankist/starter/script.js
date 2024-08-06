@@ -8,7 +8,6 @@
 // Data
 
 // DIFFERENT DATA! Contains movement dates, currency and locale
-
 const account1 = {
  owner: 'Jonas Schmedtmann',
  movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
@@ -21,9 +20,9 @@ const account1 = {
   '2020-01-28T09:15:04.904Z',
   '2020-04-01T10:17:24.185Z',
   '2020-05-08T14:11:59.604Z',
-  '2020-05-27T17:01:17.194Z',
-  '2020-07-11T23:36:17.929Z',
-  '2020-07-12T10:51:36.790Z'
+  '2024-07-30T17:22:43.666Z',
+  '2024-08-01T17:22:43.666Z',
+  '2024-08-06T17:22:43.666Z'
  ],
  currency: 'EUR',
  locale: 'pt-PT' // de-DE
@@ -81,6 +80,23 @@ const inputClosePin = document.querySelector('.form__input--pin')
 /////////////////////////////////////////////////
 // Functions
 
+const formatMovementDate = function (date) {
+ const calcDaysPassed = (date1, date2) =>
+  Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24))
+
+ const daysPassed = calcDaysPassed(new Date(), date)
+
+ if (daysPassed === 0) return `Today`
+ if (daysPassed === 1) return `Yesterday`
+ if (daysPassed <= 7) return `${daysPassed} days ago`
+ else {
+  const day = `${date.getDate()}`.padStart(2, 0)
+  const month = `${date.getMonth() + 1}`.padStart(2, 0)
+  const year = date.getFullYear()
+  return `${day}/${month}/${year}`
+ }
+}
+
 const displayMovements = function (acc, sort = false) {
  containerMovements.innerHTML = ''
 
@@ -90,10 +106,7 @@ const displayMovements = function (acc, sort = false) {
   const type = mov > 0 ? 'deposit' : 'withdrawal'
 
   const date = new Date(acc.movementsDates[i])
-  const day = `${date.getDate()}`.padStart(2, 0)
-  const month = `${date.getMonth() + 1}`.padStart(2, 0)
-  const year = date.getFullYear()
-  const displayDate = `${day}/${month}/${year}`
+  const displayDate = formatMovementDate(date)
 
   const html = `
       <div class="movements__row">
@@ -153,13 +166,12 @@ const updateUI = function (acc) {
 }
 
 ///////////////////////////////////////
-// Event handlers
-let currentAccount
+let currentAccount, timer
 
-//Fake always logged in
-currentAccount = account1
-updateUI(currentAccount)
-containerApp.style.opacity = 100
+// FAKE ALWAYS LOGGED IN
+// currentAccount = account1;
+// updateUI(currentAccount);
+// containerApp.style.opacity = 100;
 
 btnLogin.addEventListener('click', function (e) {
  // Prevent form from submitting
@@ -410,4 +422,14 @@ console.log(Date.now()) // 1722710938505
 future.setFullYear(2040) // trocando o ano
 console.log(future) // Mon Nov 19 2040 15:23:00*/
 
-//fd
+/* // 06/08/24  178. Operations with dates
+const future = new Date(2025, 10, 19, 15, 23)
+console.log(future) // Wed Nov 19 2025 15:23:00 GMT-0300 (Horário Padrão de Brasília)
+console.log(+future) // 1763576580000 - Usando + vira timestamp
+console.log(Number(future)) // 1763576580000 - Usando Number também vira timestamp
+
+const calcDaysPassed = (date1, date2) => Math.abs(date2 - date1) / (1000 * 60 * 60 * 24)
+const days1 = calcDaysPassed(new Date(2025, 3, 14), new Date(2025, 3, 4))
+console.log(days1) // 10 - Math abs deixa data positivo, mesmo sendo 10 dias menos/antes*/
+
+//ss
