@@ -172,13 +172,32 @@ const updateUI = function (acc) {
  calcDisplaySummary(acc)
 }
 
+const startLogOutTimer = function () {
+ //set Time in seconds
+ let time = 10
+ //Call the timer every second
+ const timer = setInterval(function () {
+  const min = String(Math.trunc(time / 60)).padStart(2, 0)
+  const sec = String(time % 60).padStart(2, 0)
+  //In each call, print the remanining time to UI
+  labelTimer.textContent = `${min}:${sec}`
+  //Decrease -1s
+  time--
+  //When 0s, stop timer and log out user
+  if (time === 0) {
+   labelWelcome.textContent = `Log in to get Started, ${currentAccount.owner.split(' ')[0]}`
+   containerApp.style.opacity = 0
+   clearInterval(timer)
+  }
+ }, 1000)
+}
+
 ///////////////////////////////////////
 let currentAccount, timer
-
 // FAKE ALWAYS LOGGED IN
-currentAccount = account1
-updateUI(currentAccount)
-containerApp.style.opacity = 100
+//currentAccount = account1
+//updateUI(currentAccount)
+//containerApp.style.opacity = 100
 
 btnLogin.addEventListener('click', function (e) {
  // Prevent form from submitting
@@ -215,9 +234,9 @@ btnLogin.addEventListener('click', function (e) {
 
   // Clear input fields
   inputLoginUsername.value = inputLoginPin.value = ''
-  inputLoginPin
-   .blur()
+  inputLoginPin.blur()
 
+  startLogOutTimer()
    // Update UI
    .updateUI(currentAccount)
  }
@@ -473,10 +492,10 @@ const pizzaTimer = setTimeout(
  ...ingredients
 )
 //Limpar timer se tiver spinach
-if (ingredients.includes('spinach')) clearTimeout(pizzaTimer)*/
+if (ingredients.includes('spinach')) clearTimeout(pizzaTimer)
 setInterval(function () {
  const now = new Date()
  console.log(now)
-}, 12000)
+}, 12000)*/
 
 //sdS
