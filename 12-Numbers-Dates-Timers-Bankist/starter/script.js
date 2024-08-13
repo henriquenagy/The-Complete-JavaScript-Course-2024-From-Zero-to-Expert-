@@ -173,25 +173,37 @@ const updateUI = function (acc) {
 }
 
 const startLogOutTimer = function () {
- //set Time in seconds
- let time = 10
- //Call the timer every second
- const timer = setInterval(function () {
+ const tick = function () {
   const min = String(Math.trunc(time / 60)).padStart(2, 0)
   const sec = String(time % 60).padStart(2, 0)
-  //In each call, print the remanining time to UI
+
+  // In each call, print the remaining time to UI
   labelTimer.textContent = `${min}:${sec}`
-  //Decrease -1s
-  time--
-  //When 0s, stop timer and log out user
+
+  // When 0 seconds, stop timer and log out user
   if (time === 0) {
-   labelWelcome.textContent = `Log in to get Started, ${currentAccount.owner.split(' ')[0]}`
-   containerApp.style.opacity = 0
    clearInterval(timer)
+   labelWelcome.textContent = 'Log in to get started'
+   containerApp.style.opacity = 0
   }
- }, 1000)
+  // Decrease 1s
+  time--
+ }
+ // Set time to 5 minutes
+ let time = 10
+ // Call the timer every second
+ tick()
+ const timer = setInterval(tick, 1000)
+ return timer
 }
 
+//Esse peguei de outro aluno, assim limpa o usuario do sistema caso alguem coloque containerApp.style.opacity = 100 direto no console
+const logOut = function () {
+ clearInterval(timer)
+ currentAccount = null
+ labelWelcome.textContent = `Log in to get started`
+ containerApp.style.opacity = 0
+}
 ///////////////////////////////////////
 let currentAccount, timer
 // FAKE ALWAYS LOGGED IN
