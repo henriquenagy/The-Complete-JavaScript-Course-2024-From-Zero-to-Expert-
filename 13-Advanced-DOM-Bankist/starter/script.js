@@ -26,7 +26,34 @@ document.addEventListener('keydown', function (e) {
  }
 })
 
-////////////////////////// aula 187 dia 14/08/24 //////////////////////////////////
+//Aprendizados da aula 189 scroll dia 16/08
+const btnScrollto = document.querySelector('.btn--scroll-to')
+const section1 = document.querySelector('#section--1')
+
+btnScrollto.addEventListener('click', function (e) {
+ console.log('Clique no botão do evento pra funfar') // Precisa clicar no botão para os dados aparecer, coloquei isso pra vc lembrar
+ const s1coords = section1.getBoundingClientRect()
+ console.log(s1coords) // DOMRect {x: 0, y: 572, width: 904, height: 1652.6875, top: 572, …} - Esse é relacionado a section 1 - a tela inteira visivel
+ console.log(e.target.getBoundingClientRect()) // DOMRect {x: 30, y: 488.46875, width: 110, height: 29, top: 488.46875, …} - Esse é onde o botão está posicionado no momento atual da tela, e se movimentar a tela, a sua posição altera. O target é o item dessa função btnscrollto
+ //deprecated > console.log(`Current scroll X${window.pageXoffset} and Y ${window.pageYOffset}`) ISSO NÃO FUNCIONA MAIS
+ console.log(`Current scroll X: ${window.scrollX} and Y: ${window.scrollY}`) //Current scroll X: 0 and Y: 394 > A medida que move a tela altera os valores. De inicio fica tudo zero
+ console.log(
+  `Height viewport: ${document.documentElement.clientHeight} and width viewport: ${document.documentElement.clientWidth}`
+ ) //Height viewport: 572 and width viewport: 904
+
+ /* //Agora sim bora scrolling the page
+ window.scrollTo(s1coords.left + window.scrollX, s1coords.top + window.scrollY) // Método base
+ window.scrollTo({
+  left: s1coords.left + window.scrollX,
+  top: s1coords.top + window.scrollY,
+  behavior: 'smooth'
+ }) //Pra usar o behavior precisa especificar o left e top
+*/
+ //Maneira mais moderna do jonas
+ section1.scrollIntoView({ behavior: 'smooth' }) // Só pega em browser mais recentes
+})
+
+/*////////////////////////// aula 187 dia 14/08/24 //////////////////////////////////
 //console.log(document.documentElement) //Pega toda a estrutura html
 //console.log(document.head) // Só a parte do head
 //console.log(document.body) //E esse todo o body
@@ -102,4 +129,6 @@ logo.classList.toggle('c')
 logo.classList.contains('c')
 
 //Don't use
-logo.className = 'nometop'
+logo.className = 'nometop'*/
+
+//ss
