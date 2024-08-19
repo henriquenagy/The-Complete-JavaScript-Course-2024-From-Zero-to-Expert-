@@ -131,4 +131,71 @@ logo.classList.contains('c')
 //Don't use
 logo.className = 'nometop'*/
 
-//ss
+/* ////////////////////////// aula 190 dia 19/08/24 //////////////////////////////////
+
+const h1 = document.querySelector('h1')
+//Evento de mouse passando por algo, tem duas formas (Peguei do MDN):
+addEventListener('mouseenter', event => {})
+onmouseenter = event => {}
+
+//Tipo 1 com addEventListener: Permite adicionar multiplos eventos dentro dele
+h1.addEventListener('mouseenter', function () {
+ alert('addEventListener')
+})
+//Tipo 2 com onmouseenter: Só permite esse evento em específico.
+h1.onmouseenter = function () {
+ alert('onmouseenter')
+}
+
+//Esse abaixo aparece somente uma vez, pois remove o evento.
+const alertH1 = function () {
+ alert('addEventListener: aparece só uma vez')
+ h1.removeEventListener('mouseenter', alertH1)
+}
+h1.addEventListener('mouseenter', alertH1)
+
+//if you need to run an EventListener only once you can use this too:
+h1.addEventListener(
+ 'mouseenter',
+ function () {
+  alert('Only once')
+ },
+ { once: true }
+)
+
+//Agora um tempo para remover o evento
+const alertH1 = function () {
+ alert('addEventListener: tempo para remover evento')
+}
+h1.addEventListener('mouseenter', alertH1)
+setTimeout(() => h1.removeEventListener('mouseenter', alertH1), 10000)*/
+
+//////////////////////////// aula 192 dia 19/08/24 //////////////////////////////////
+// Event Propagation in Practice
+const GeradorAleatory = () => Math.trunc(Math.random() * 255) + 1
+const randColor = () => {
+ return `rgb(${GeradorAleatory()},${GeradorAleatory()},${GeradorAleatory()})`
+}
+//target é onde o clique/evento aconteceu, esse vai ser igual para todos. Já current tag é a tag que foi selecionada, embora não tenha sido a clicada (dependendo do clique.)
+document.querySelector('.nav__link').addEventListener('click', function (e) {
+ this.style.backgroundColor = randColor()
+ console.log('LINK', e.target, e.currentTarget)
+ console.log(e.currentTarget === this) //Só pra checar se a clicada é a mesma da função
+
+ // Stop propagation, ou seja, com isso vai pegar somente a função da qual o evento foi criado para ter o clique, e não nas outras tags pai.
+ //e.stopPropagation()
+})
+
+document.querySelector('.nav__links').addEventListener('click', function (e) {
+ this.style.backgroundColor = randColor()
+ console.log('CONTAINER', e.target, e.currentTarget)
+})
+
+document.querySelector('.nav').addEventListener(
+ 'click',
+ function (e) {
+  this.style.backgroundColor = randColor()
+  console.log('NAV', e.target, e.currentTarget)
+ } //,true
+ //> se por true aqui, o primeiro item a aparecem como clicado é o NAV antes dos outros 2
+)
