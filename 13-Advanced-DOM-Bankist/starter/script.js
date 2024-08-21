@@ -7,6 +7,10 @@ const btnScrollto = document.querySelector('.btn--scroll-to')
 const section1 = document.querySelector('#section--1')
 const navItens = document.querySelectorAll('.nav__link')
 const outsideUlItens = document.querySelector('.nav__links')
+//tab itens
+const tabs = document.querySelectorAll('.operations__tab')
+const tabsContainer = document.querySelector('.operations__tab-container')
+const tabsContent = document.querySelectorAll('.operations__content')
 
 const openModal = function (e) {
  e.preventDefault()
@@ -43,6 +47,12 @@ outsideUlItens.addEventListener('click', function (e) {
   const id = e.target.getAttribute('href')
   document.querySelector(id).scrollIntoView({ behavior: 'smooth' })
  }
+})
+
+//tabbed Component - Aula 195 dia 21 e 22 > DEPOIS INFORMA SOBRE O USO DO CLOSEST. A função se refere a div que contem os 3 botões, e o evento de clique está na div. Porém, depois usa-se o closest para pegar o item que tem o closest como sendo a classe operation__tab, que só vai pegar se for ele mesmo ou acima dele. No caso de clique na div não pega, pois o botão está abaixo dela, ai na div retorna null
+tabsContainer.addEventListener('click', function (e) {
+ const clicked = e.target.closest('.operations__tab') //Para saber de onde vem o clique, se do container ou botão.
+ console.log(clicked)
 })
 
 /* ///////////////  Aprendizados da aula 189 scroll dia 16/08  /////////////////////
@@ -229,3 +239,39 @@ navItens.forEach(function (el) {
   document.querySelector(id).scrollIntoView({ behavior: 'smooth' })
  })
 })*/
+
+/* //////////////////////// Aula 21/08 194. DOM traversing ///////////////////////////////
+const h1 = document.querySelector('h1')
+//>>>>>>>>>>>>>>>>> Going downwards: child. Vendo no DOM os elementos filhos do H1 referente a uma classe específica, ai pega os itens que vc quer que aparece no DOM pra alterar algo. Aqui vamos alterar a cor do texto:
+console.log(h1.querySelectorAll('.highlight')) //NodeList(2) [span.highlight, span.highlight]
+console.log(h1.childNodes) // NodeList(9)
+console.log(h1.children) // HTMLCollection(3) [span.highlight, br, span.highlight]
+//Vamos pegar o h1.children, usando o 1º e o último elementor dentro dele
+h1.firstElementChild.style.color = 'white'
+h1.lastElementChild.style.color = 'darkblue'
+
+//>>>>>>>>>>>>>>>>> Going upwards: parents
+console.log(h1.parentNode) //<div class='header__title'>...</div>
+console.log(h1.parentElement) //Nesse caso, é o mesmo de cima do parentNode
+
+//Nesse html, antes do h1, tem o .header__title, depois nav e depois o header. Aqui quero pintar o fundo todo, nesse caso o header
+h1.closest('.header').style.background = 'var(--gradient-secondary)' //o var usamos só pra vc saber que dá pra pegar do css e usar aqui
+
+h1.closest('h1').style.background = 'var(--gradient-primary)' // Cor no próprio h1
+
+//>>>>>>>>>>>>>>>>> going sideways: siblings
+console.log(h1.previousElementSibling) //mull - é pq nesse caso não tem nada antes do h1
+console.log(h1.nextElementSibling) //<h1>A simpler...<h4>  - Agora pegou o texto que tem depois do h1, pq tem né hehehehh
+
+console.log(h1.previousSibling) //#text (os dois resultam iguais, mas vamos usar só os 2 de cima, e não esse aqui e o debaixo)
+console.log(h1.nextSibling) //#text produced by the nextSibling property apparently is the formatting whitespace surrounding the elements.
+
+console.log(h1.parentElement.children) //HTMLCollection(4) [h1, h4, button.btn--text.btn--scroll-to, img.header__img] > Aqui pega ele próprio e os próx. elementos após ele
+
+//Pegar todos os elementos e mudar algo neles, sem pegar o próprio h1, Jonas usou o spread porém no meu não deu certo, ai o GPT usou o array.from
+//[...h1.parentElement.children].forEach(function (el) { - Dessa forma usando o spread ... não deu certo, ai o correto é usar conforma abaixo
+Array.from(h1.parentElement.children).forEach(function (el) {
+ if (el !== h1) el.style.transform = 'scale(0.5)'
+})*/
+
+//d
