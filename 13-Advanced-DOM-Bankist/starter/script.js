@@ -49,10 +49,18 @@ outsideUlItens.addEventListener('click', function (e) {
  }
 })
 
-//tabbed Component - Aula 195 dia 21 e 22 > DEPOIS INFORMA SOBRE O USO DO CLOSEST. A função se refere a div que contem os 3 botões, e o evento de clique está na div. Porém, depois usa-se o closest para pegar o item que tem o closest como sendo a classe operation__tab, que só vai pegar se for ele mesmo ou acima dele. No caso de clique na div não pega, pois o botão está abaixo dela, ai na div retorna null
+//Abre e fecha abas com botões
 tabsContainer.addEventListener('click', function (e) {
- const clicked = e.target.closest('.operations__tab') //Para saber de onde vem o clique, se do container ou botão.
- console.log(clicked)
+ const clicked = e.target.closest('.operations__tab')
+ if (!clicked) return
+ tabs.forEach(t => t.classList.remove('operations__tab--active'))
+ clicked.classList.add('operations__tab--active')
+
+ //activate content area based on the clicked button
+ tabsContent.forEach(tabs => tabs.classList.remove('operations__content--active'))
+ document
+  .querySelector(`.operations__content--${clicked.dataset.tab}`)
+  .classList.add('operations__content--active')
 })
 
 /* ///////////////  Aprendizados da aula 189 scroll dia 16/08  /////////////////////
@@ -274,4 +282,20 @@ Array.from(h1.parentElement.children).forEach(function (el) {
  if (el !== h1) el.style.transform = 'scale(0.5)'
 })*/
 
-//d
+/*///////////////////tabbed Component - Aula 195 dia 21 e 22 ///////////////////////////
+//DEPOIS INFORMA SOBRE O USO DO CLOSEST. A função se refere a div que contem os 3 botões, e o evento de clique está na div. Porém, depois usa-se o closest para pegar o item que tem o closest como sendo a classe operation__tab, que só vai pegar se for ele mesmo ou acima dele. No caso de clique na div não pega, pois o botão está abaixo dela, ai na div retorna null
+tabsContainer.addEventListener('click', function (e) {
+ const clicked = e.target.closest('.operations__tab') //Para pegar somente a classe do botão, e não da div externa
+ if (!clicked) return // Essa verificação (if (!clicked) return;) faz com que o código retorne imediatamente se clicked for null, evitando o erro no console, ou seja, se clicked realmente existe, ai sim executa o código abaixo. Dá no mesmo se fizer o inverso, if (clicked) {//código abaixo aqui dentro}. JOnas chama de > guard clause
+ //remove a classe que faz o botão subir assim que clicado
+ tabs.forEach(t => t.classList.remove('operations__tab--active'))
+ clicked.classList.add('operations__tab--active') // Se colocar aqui direto sem o if anterior, fica aparecendo esse erro no console: [Uncaught TypeError: Cannot read properties of null (reading 'classList') at HTMLDivElement.<anonymous>]]
+
+ //activate content area based on the clicked button
+ console.log(clicked.dataset.tab)
+
+ tabsContent.forEach(tabs => tabs.classList.remove('operations__content--active'))
+ document
+  .querySelector(`.operations__content--${clicked.dataset.tab}`)
+  .classList.add('operations__content--active')
+})*/
