@@ -11,6 +11,8 @@ const outsideUlItens = document.querySelector('.nav__links')
 const tabs = document.querySelectorAll('.operations__tab')
 const tabsContainer = document.querySelector('.operations__tab-container')
 const tabsContent = document.querySelectorAll('.operations__content')
+//fade
+const nav = document.querySelector('.nav')
 
 const openModal = function (e) {
  e.preventDefault()
@@ -62,6 +64,22 @@ tabsContainer.addEventListener('click', function (e) {
   .querySelector(`.operations__content--${clicked.dataset.tab}`)
   .classList.add('operations__content--active')
 })
+
+//Menu fade animation - cursor hover.
+const handleHover = function (e) {
+ if (e.target.classList.contains('nav__link')) {
+  const link = e.target
+  const siblings = link.closest('.nav').querySelectorAll('.nav__link')
+  const logo = link.closest('.nav').querySelector('img')
+
+  siblings.forEach(el => {
+   if (el !== link) el.style.opacity = this
+  })
+  logo.style.opacity = this
+ }
+}
+nav.addEventListener('mouseover', handleHover.bind(0.5))
+nav.addEventListener('mouseout', handleHover.bind(1))
 
 /* ///////////////  Aprendizados da aula 189 scroll dia 16/08  /////////////////////
 const btnScrollto = document.querySelector('.btn--scroll-to')
@@ -282,7 +300,7 @@ Array.from(h1.parentElement.children).forEach(function (el) {
  if (el !== h1) el.style.transform = 'scale(0.5)'
 })*/
 
-/*///////////////////tabbed Component - Aula 195 dia 21 e 22 ///////////////////////////
+/*/////////////////// tabbed Component - Aula 195 dia 21 e 22 ///////////////////////////
 //DEPOIS INFORMA SOBRE O USO DO CLOSEST. A função se refere a div que contem os 3 botões, e o evento de clique está na div. Porém, depois usa-se o closest para pegar o item que tem o closest como sendo a classe operation__tab, que só vai pegar se for ele mesmo ou acima dele. No caso de clique na div não pega, pois o botão está abaixo dela, ai na div retorna null
 tabsContainer.addEventListener('click', function (e) {
  const clicked = e.target.closest('.operations__tab') //Para pegar somente a classe do botão, e não da div externa
@@ -299,3 +317,26 @@ tabsContainer.addEventListener('click', function (e) {
   .querySelector(`.operations__content--${clicked.dataset.tab}`)
   .classList.add('operations__content--active')
 })*/
+
+/* /////////////////// aula 196 dia 23/08 ///////////////////
+//Menu fade animation - cursor hover.
+//Colocamos essa parte para fora das 2 funções, para organizar melhor e enxutar tudo.
+const handleHover = function (e) {
+ //console.log(this, e.currentTarget) // 0.5 <nav class='nav'>...</nav>  > Só para ver se tá pegando ok mesmo
+ if (e.target.classList.contains('nav__link')) {
+  const link = e.target
+  const siblings = link.closest('.nav').querySelectorAll('.nav__link')
+  const logo = link.closest('.nav').querySelector('img')
+
+  siblings.forEach(el => {
+   if (el !== link) el.style.opacity = this
+  })
+  logo.style.opacity = this
+ }
+}
+
+//nav.addEventListener('mouseover', function (e) {handleHover(e, 0.5)}) Os dois estavam assim, mas Jonas nos lembrou do Bind method para encurtar
+nav.addEventListener('mouseover', handleHover.bind(0.5))
+nav.addEventListener('mouseout', handleHover.bind(1))*/
+
+//DS
