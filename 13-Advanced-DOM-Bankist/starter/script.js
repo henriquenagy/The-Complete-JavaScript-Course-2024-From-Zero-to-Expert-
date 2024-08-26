@@ -81,6 +81,25 @@ const handleHover = function (e) {
 nav.addEventListener('mouseover', handleHover.bind(0.5))
 nav.addEventListener('mouseout', handleHover.bind(1))
 
+//Sticky Navigation: Intersection Observer API
+const getNavHeightDireto = nav.getBoundingClientRect().height
+
+const headr = document.querySelector('.header')
+
+const stickyNav = function (entries) {
+ const [entry] = entries
+ if (!entry.isIntersecting) nav.classList.add('sticky')
+ else nav.classList.remove('sticky')
+}
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+ root: null,
+ threshold: 0,
+ rootMargin: `-${getNavHeightDireto}px`
+})
+
+headerObserver.observe(headr)
+
 /* ///////////////  Aprendizados da aula 189 scroll dia 16/08  /////////////////////
 const btnScrollto = document.querySelector('.btn--scroll-to')
 const section1 = document.querySelector('#section--1')
@@ -339,4 +358,28 @@ const handleHover = function (e) {
 nav.addEventListener('mouseover', handleHover.bind(0.5))
 nav.addEventListener('mouseout', handleHover.bind(1))*/
 
-//DS
+/*/////////////////// Aula 198 Dia 26/08  ///////////////////
+//Sticky Navigation: Intersection Observer API
+const headr = document.querySelector('.header')
+
+//Pegar a altura certa do height NAV para por lá em rootMargin
+const getNavHeight = nav.getBoundingClientRect()
+console.log(getNavHeight) //DOMRect {x: 30, y: -8, width: 842, height: 90, top: -8, …}
+const getNavHeightDireto = nav.getBoundingClientRect().height
+console.log(getNavHeightDireto) //90 -- assim pega só o height direto
+
+const stickyNav = function (entries) {
+ const [entry] = entries //pega só o 1º item do array
+ console.log(entry) // Dados de IntersectionObserverEntry  > {time: 271.19999999925494, rootBounds: DOMRectReadOnly, boundingClientRect: DOMRectReadOnly, intersectionRect: DOMRectReadOnly, isIntersecting: true, …}
+
+ if (!entry.isIntersecting) nav.classList.add('sticky')
+ else nav.classList.remove('sticky')
+}
+//90px é a altura do nav, e só funciona px, rem ou % não pega. Dá para por o height direto rootMargin: '-90px' ou via `-${nomedavariável}px` igual tá ali
+const headerObserver = new IntersectionObserver(stickyNav, {
+ root: null, // default case or viewport
+ threshold: 0,
+ rootMargin: `-${getNavHeightDireto}px`
+})
+
+headerObserver.observe(headr)*/
