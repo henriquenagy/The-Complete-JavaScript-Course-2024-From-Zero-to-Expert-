@@ -83,22 +83,41 @@ nav.addEventListener('mouseout', handleHover.bind(1))
 
 //Sticky Navigation: Intersection Observer API
 const getNavHeightDireto = nav.getBoundingClientRect().height
-
 const headr = document.querySelector('.header')
 
+//Menu fixo
 const stickyNav = function (entries) {
  const [entry] = entries
  if (!entry.isIntersecting) nav.classList.add('sticky')
  else nav.classList.remove('sticky')
 }
-
 const headerObserver = new IntersectionObserver(stickyNav, {
  root: null,
  threshold: 0,
  rootMargin: `-${getNavHeightDireto}px`
 })
-
 headerObserver.observe(headr)
+
+//Reveal Sections
+const getAllSections = document.querySelectorAll('.section')
+const avoidMiddleError = function () {
+ const revealSection = function (entries, observer) {
+  const [entry] = entries
+
+  if (entry.isIntersecting) {
+   entry.target.classList.remove('section--hidden')
+   observer.unobserve(entry.target)
+  }
+ }
+ return new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15
+ })
+}
+getAllSections.forEach(section => {
+ section.classList.add('section--hidden')
+ avoidMiddleError().observe(section)
+})
 
 /* ///////////////  Aprendizados da aula 189 scroll dia 16/08  /////////////////////
 const btnScrollto = document.querySelector('.btn--scroll-to')
@@ -383,3 +402,31 @@ const headerObserver = new IntersectionObserver(stickyNav, {
 })
 
 headerObserver.observe(headr)*/
+
+/* /////////////////// Aula 199 Dia 27/08/24 ///////////////////
+//Reveal Sections
+const getAllSections = document.querySelectorAll('.section')
+//If you open page in middle position (between section 1 and 2), refreshing page (f5), section 1 and 2 will not appears, observer will not work correctly. To avoid this, insert a new const befor the const revealsection that we only created at class:
+const avoidMiddleError = function () {
+ const revealSection = function (entries, observer) {
+  const [entry] = entries
+  console.log(entry) //Pode remover, ta ai só pra vc aprender
+  //Antes tava sem o if, ai a 1ª seção já tinha a intersecção ativa e ñ funcionava. Ai ele colocou o if pra se tiver com intersecção, ai sim add a classe. Também dá pra por ! pra inverter e só pegar se ainda não tiver com a intersecção.
+  if (entry.isIntersecting) {
+   entry.target.classList.remove('section--hidden')
+   //Agora para evitar ter q observar todo o movimento, mesmo após já ter sido usado, tem q parar  isso, melhora na performance. AI só pega a movimentação uma vez
+   observer.unobserve(entry.target)
+  }
+ }
+ //root é null para pegar toda a viewport, e o threshold acima de 0, pois se for zero vai revelar mesmo antes de aparecer na tela. Então coloca uma % para aparecer após ter a intersecção
+ return new IntersectionObserver(revealSection, {
+  root: null,
+  threshold: 0.15
+ })
+}
+getAllSections.forEach(section => {
+ section.classList.add('section--hidden')
+ avoidMiddleError().observe(section)
+})*/
+
+///ds
