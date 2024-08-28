@@ -119,6 +119,25 @@ getAllSections.forEach(section => {
  avoidMiddleError().observe(section)
 })
 
+//Lazy load images - Maneira atualizada
+const loadImg = function (entries, observer) {
+ entries.forEach(entry => {
+  if (!entry.isIntersecting) return
+  entry.target.src = entry.target.dataset.src
+  entry.target.addEventListener('load', function () {
+   entry.target.classList.remove('lazy-img')
+  })
+  observer.unobserve(entry.target)
+ })
+}
+const imgObserver = new IntersectionObserver(loadImg, {
+ root: null,
+ threshold: 0,
+ rootMargin: '-200px'
+})
+const imgTargets = document.querySelectorAll('img[data-src]')
+imgTargets.forEach(img => imgObserver.observe(img))
+
 /* ///////////////  Aprendizados da aula 189 scroll dia 16/08  /////////////////////
 const btnScrollto = document.querySelector('.btn--scroll-to')
 const section1 = document.querySelector('#section--1')
@@ -429,4 +448,32 @@ getAllSections.forEach(section => {
  avoidMiddleError().observe(section)
 })*/
 
-///ds
+/* /////////////////// Aula 200 Dia 28/08/24 ///////////////////
+//Lazy load images
+//loadImg vai receber os dados de interserctionObserver e salvar em um array entry
+const loadImg = function (entries, observer) {
+  const [entry] = entries
+  console.log(entry)
+  if (!entry.isIntersecting) return
+  //replace src with data-src
+  entry.target.src = entry.target.dataset.src
+  //Para remover o blur, pega o evento de load da img para evitar de tirar o blur antes da imagem carregar
+  entry.target.addEventListener('load', function () {
+   entry.target.classList.remove('lazy-img')
+  })
+  observer.unobserve(entry.target)
+ }
+ //imgObserver está dizendo ao navegador para monitorar as interseções dos elementos observados e chamar a função loadImg sempre que uma dessas interseções ocorrer.
+ const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '-200px' //Se deixar positivo, ai o efeito blur não aparece. Vc escolhe qual quer usar
+ })
+ 
+ const imgTargets = document.querySelectorAll('img[data-src]') // se deixar só img acaba pegando a logo e outros itens que não quero por o lazy, tem que ter o data-src
+ console.log(imgTargets) //NodeList(3) [img.features__img.lazy-img, img.features__img.lazy-img, img.features__img.lazy-img]
+ 
+ //imgTargets.forEach instrui o imgObserver a começar a observar cada uma das imagens que têm o atributo data-src. Sem essa linha, o IntersectionObserver não teria elementos para observar, e portanto, loadImg nunca seria chamada.
+ imgTargets.forEach(img => imgObserver.observe(img)) //Mostra quando o elemento em específico (imgTargets) faz a interseccção na tela com base no valor definido em threshold de imgObserver. Nos dados dele mostra se está na intersecção [isIntersecting:true ou false] e também p target que está sendo analisado [target:img.features__img.lazy-img]*/
+
+//Div slider
