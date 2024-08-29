@@ -476,4 +476,82 @@ const loadImg = function (entries, observer) {
  //imgTargets.forEach instrui o imgObserver a começar a observar cada uma das imagens que têm o atributo data-src. Sem essa linha, o IntersectionObserver não teria elementos para observar, e portanto, loadImg nunca seria chamada.
  imgTargets.forEach(img => imgObserver.observe(img)) //Mostra quando o elemento em específico (imgTargets) faz a interseccção na tela com base no valor definido em threshold de imgObserver. Nos dados dele mostra se está na intersecção [isIntersecting:true ou false] e também p target que está sendo analisado [target:img.features__img.lazy-img]*/
 
-//Div slider
+//Div and image slider
+const slidesIMAGES = document.querySelectorAll('.slide')
+const btnLeft = document.querySelector('.slider__btn--left')
+const btnRight = document.querySelector('.slider__btn--right')
+
+//Esses 3 itens abaixo é só pra deixar os slides menores e entender melhor a movimentação deles
+//const sliderDIV = document.querySelector('.slider')
+//sliderDIV.style.transform = 'scale(0.4) translateX(-600px)'
+//sliderDIV.style.overflow = 'visible'
+
+const movimentSlideToSides = function (slide) {
+ //forEach abaixo percorre cada imagem no array slidesIMAGES e posiciona cada uma delas horizontalmente, lado a lado, dentro do slider.s é a imagem atual no loop. i é o índice da imagem.
+ slidesIMAGES.forEach((s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`))
+ //O código aplica uma transformação translateX para mover cada imagem para a direita em uma quantidade proporcional ao seu índice (100% por índice). Isso coloca a primeira imagem no lugar (0%), a segunda imagem deslocada 100% para a direita, a terceira 200%, e assim por diante, criando o efeito de um carrossel onde as imagens estão alinhadas horizontalmente.
+ //s é slide e i é index
+}
+//Já deixa as imagens nas laterais por padrão. Se remover, ficam uma acima do outra inicialmente
+movimentSlideToSides(0)
+
+//Next slide
+let curSlide = 0
+const maxSlidesLength = slidesIMAGES.length - 1 //-1 pois começa com 0
+
+//Função pra quando tiver clique nos botões
+const nextSlideRIGHT = function () {
+ if (curSlide === maxSlidesLength) curSlide = 0
+ else curSlide++
+ movimentSlideToSides(curSlide)
+ activateDots(curSlide) //ativar o botão
+}
+//Agora para o esquerdo precisa ter um complemento
+const prevSlideLeft = function () {
+ //A condição if abaixo verifica se o slide atual é o primeiro (curSlide === 0). Se for, ele ajusta curSlide para o penúltimo índice (maxSlidesLength). Isso impede que o slide vá além do limite esquerdo ao clicar no botão de voltar, criando um loop contínuo.
+ if (curSlide === 0) curSlide = maxSlidesLength
+ else curSlide--
+ movimentSlideToSides(curSlide)
+ activateDots(curSlide) //ativar o botão
+}
+
+btnRight.addEventListener('click', nextSlideRIGHT)
+btnLeft.addEventListener('click', prevSlideLeft)
+
+document.addEventListener('keydown', function (e) {
+ if (e.key === 'ArrowLeft') prevSlideLeft()
+ e.key === 'ArrowRight' && nextSlideRIGHT()
+ //Dá para usar as duas formas, vc escolhe. Com o uso do IF é verificado se a tecla pressionada é a seta para a esquerda (ArrowLeft). Se for, chama a função prevSlideLeft().
+ //A outra usa a lógica && como uma forma abreviada de condicional. Se a tecla pressionada for a seta para a direita (ArrowRight), a expressão à esquerda é verdadeira, então a função nextSlideRIGHT() é executada. Caso contrário, nada acontece.
+ //Ambas as formas fazem a mesma coisa, mas a segunda é mais concisa.
+})
+
+//CRIANDO OS DOTS ABAIXO DA IMAGEM
+const dotContainer = document.querySelector('.dots')
+
+//A função createDots percorre o array slidesIMAGES e, para cada imagem no array, insere um botão dentro da única div .dots.
+const createDots = function () {
+ slidesIMAGES.forEach(function (_, i) {
+  dotContainer.insertAdjacentHTML(
+   'beforeend',
+   `<button class="dots__dot" data-slide="${i}"></button>`
+  )
+ })
+}
+createDots()
+
+dotContainer.addEventListener('click', function (e) {
+ if (e.target.classList.contains('dots__dot')) {
+  //console.log('DOT')  só pra ver se pega o clique mesmo
+  const { slide } = e.target.dataset
+  movimentSlideToSides(slide)
+  activateDots(curSlide) //ativar o botão
+ }
+})
+
+//Lembrando que precisa chamar a função nas outras funções que fazem o movimento de troca de slide, colocando activateDots()
+const activateDots = function (slide) {
+ document.querySelectorAll('.dots__dot').forEach(dot => dot.classList.remove('dots__dot--active'))
+
+ document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add('dots__dot--active')
+}
