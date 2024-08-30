@@ -40,7 +40,7 @@ btnScrollto.addEventListener('click', function (e) {
  section1.scrollIntoView({ behavior: 'smooth' })
 })
 
-//Método avançado para o page navigation (o simples ver o dia 20/08)
+/////////////Método avançado para o page navigation (o simples ver o dia 20/08)
 outsideUlItens.addEventListener('click', function (e) {
  e.preventDefault()
  console.log(e.target) //Mostra onde foi o clique, só pra vc saber
@@ -51,7 +51,7 @@ outsideUlItens.addEventListener('click', function (e) {
  }
 })
 
-//Abre e fecha abas com botões
+//////////////Abre e fecha abas com botões
 tabsContainer.addEventListener('click', function (e) {
  const clicked = e.target.closest('.operations__tab')
  if (!clicked) return
@@ -65,78 +65,157 @@ tabsContainer.addEventListener('click', function (e) {
   .classList.add('operations__content--active')
 })
 
-//Menu fade animation - cursor hover.
-const handleHover = function (e) {
- if (e.target.classList.contains('nav__link')) {
-  const link = e.target
-  const siblings = link.closest('.nav').querySelectorAll('.nav__link')
-  const logo = link.closest('.nav').querySelector('img')
+/////////////////////Menu fade animation - cursor hover.
+const soFadeAways = function () {
+ const handleHover = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+   const link = e.target
+   const siblings = link.closest('.nav').querySelectorAll('.nav__link')
+   const logo = link.closest('.nav').querySelector('img')
 
-  siblings.forEach(el => {
-   if (el !== link) el.style.opacity = this
-  })
-  logo.style.opacity = this
+   siblings.forEach(el => {
+    if (el !== link) el.style.opacity = this
+   })
+   logo.style.opacity = this
+  }
  }
+ nav.addEventListener('mouseover', handleHover.bind(0.5))
+ nav.addEventListener('mouseout', handleHover.bind(1))
 }
-nav.addEventListener('mouseover', handleHover.bind(0.5))
-nav.addEventListener('mouseout', handleHover.bind(1))
+soFadeAways()
 
-//Sticky Navigation: Intersection Observer API
+////////////////Sticky Navigation: Intersection Observer API
 const getNavHeightDireto = nav.getBoundingClientRect().height
 const headr = document.querySelector('.header')
 
-//Menu fixo
-const stickyNav = function (entries) {
- const [entry] = entries
- if (!entry.isIntersecting) nav.classList.add('sticky')
- else nav.classList.remove('sticky')
-}
-const headerObserver = new IntersectionObserver(stickyNav, {
- root: null,
- threshold: 0,
- rootMargin: `-${getNavHeightDireto}px`
-})
-headerObserver.observe(headr)
-
-//Reveal Sections
-const getAllSections = document.querySelectorAll('.section')
-const avoidMiddleError = function () {
- const revealSection = function (entries, observer) {
+//////////////Menu fixo
+const fixado = function () {
+ const stickyNav = function (entries) {
   const [entry] = entries
-
-  if (entry.isIntersecting) {
-   entry.target.classList.remove('section--hidden')
-   observer.unobserve(entry.target)
-  }
+  if (!entry.isIntersecting) nav.classList.add('sticky')
+  else nav.classList.remove('sticky')
  }
- return new IntersectionObserver(revealSection, {
+ const headerObserver = new IntersectionObserver(stickyNav, {
   root: null,
-  threshold: 0.15
+  threshold: 0,
+  rootMargin: `-${getNavHeightDireto}px`
  })
+ headerObserver.observe(headr)
 }
-getAllSections.forEach(section => {
- section.classList.add('section--hidden')
- avoidMiddleError().observe(section)
-})
+fixado()
 
-//Lazy load images - Maneira atualizada
-const loadImg = function (entries, observer) {
- entries.forEach(entry => {
-  if (!entry.isIntersecting) return
-  entry.target.src = entry.target.dataset.src
-  entry.target.addEventListener('load', function () {
-   entry.target.classList.remove('lazy-img')
+////////////Reveal Sections
+const revealss = function () {
+ const getAllSections = document.querySelectorAll('.section')
+ const avoidMiddleError = function () {
+  const revealSection = function (entries, observer) {
+   const [entry] = entries
+
+   if (entry.isIntersecting) {
+    entry.target.classList.remove('section--hidden')
+    observer.unobserve(entry.target)
+   }
+  }
+  return new IntersectionObserver(revealSection, {
+   root: null,
+   threshold: 0.15
   })
-  observer.unobserve(entry.target)
+ }
+ getAllSections.forEach(section => {
+  section.classList.add('section--hidden')
+  avoidMiddleError().observe(section)
  })
 }
-const imgObserver = new IntersectionObserver(loadImg, {
- root: null,
- threshold: 0,
- rootMargin: '-200px'
-})
-const imgTargets = document.querySelectorAll('img[data-src]')
-imgTargets.forEach(img => imgObserver.observe(img))
+revealss()
+
+////////////////Lazy load images - Maneira atualizada
+const lazyss = function () {
+ const loadImg = function (entries, observer) {
+  entries.forEach(entry => {
+   if (!entry.isIntersecting) return
+   entry.target.src = entry.target.dataset.src
+   entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img')
+   })
+   observer.unobserve(entry.target)
+  })
+ }
+ const imgObserver = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '-200px'
+ })
+ const imgTargets = document.querySelectorAll('img[data-src]')
+ imgTargets.forEach(img => imgObserver.observe(img))
+}
+lazyss()
+
+////////////////Slider Depoimentos
+const sliderr = function () {
+ const slidesIMAGES = document.querySelectorAll('.slide')
+ const btnLeft = document.querySelector('.slider__btn--left')
+ const btnRight = document.querySelector('.slider__btn--right')
+ const dotContainer = document.querySelector('.dots')
+ let curSlide = 0
+ const maxSlidesLength = slidesIMAGES.length - 1
+
+ //Funções
+ const createDots = function () {
+  slidesIMAGES.forEach(function (_, i) {
+   dotContainer.insertAdjacentHTML(
+    'beforeend',
+    `<button class="dots__dot" data-slide="${i}"></button>`
+   )
+  })
+ }
+
+ const activateDots = function (slide) {
+  document.querySelectorAll('.dots__dot').forEach(dot => dot.classList.remove('dots__dot--active'))
+  document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add('dots__dot--active')
+ }
+
+ const movimentSlideToSides = function (slide) {
+  slidesIMAGES.forEach((s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`))
+ }
+
+ const nextSlideRIGHT = function () {
+  if (curSlide === maxSlidesLength) curSlide = 0
+  else curSlide++
+  movimentSlideToSides(curSlide)
+  activateDots(curSlide)
+ }
+
+ const prevSlideLeft = function () {
+  if (curSlide === 0) curSlide = maxSlidesLength
+  else curSlide--
+  movimentSlideToSides(curSlide)
+  activateDots(curSlide)
+ }
+ const init = function () {
+  movimentSlideToSides(0)
+  createDots()
+  activateDots(0)
+ }
+ init()
+
+ btnRight.addEventListener('click', nextSlideRIGHT)
+ btnLeft.addEventListener('click', prevSlideLeft)
+
+ document.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowLeft') prevSlideLeft()
+  e.key === 'ArrowRight' && nextSlideRIGHT()
+ })
+
+ dotContainer.addEventListener('click', function (e) {
+  if (e.target.classList.contains('dots__dot')) {
+   //const { slide } = e.target.dataset
+   curSlide = +e.target.dataset.slide
+   movimentSlideToSides(curSlide)
+   activateDots(curSlide)
+  }
+ })
+}
+sliderr()
 
 /* ///////////////  Aprendizados da aula 189 scroll dia 16/08  /////////////////////
 const btnScrollto = document.querySelector('.btn--scroll-to')
@@ -476,82 +555,110 @@ const loadImg = function (entries, observer) {
  //imgTargets.forEach instrui o imgObserver a começar a observar cada uma das imagens que têm o atributo data-src. Sem essa linha, o IntersectionObserver não teria elementos para observar, e portanto, loadImg nunca seria chamada.
  imgTargets.forEach(img => imgObserver.observe(img)) //Mostra quando o elemento em específico (imgTargets) faz a interseccção na tela com base no valor definido em threshold de imgObserver. Nos dados dele mostra se está na intersecção [isIntersecting:true ou false] e também p target que está sendo analisado [target:img.features__img.lazy-img]*/
 
-//Div and image slider
-const slidesIMAGES = document.querySelectorAll('.slide')
-const btnLeft = document.querySelector('.slider__btn--left')
-const btnRight = document.querySelector('.slider__btn--right')
+/* /////////////////// Aula 202 Div and image slider  30/08/24 /////////////////// 
+const sliderr = function () {
+ const slidesIMAGES = document.querySelectorAll('.slide')
+ const btnLeft = document.querySelector('.slider__btn--left')
+ const btnRight = document.querySelector('.slider__btn--right')
 
-//Esses 3 itens abaixo é só pra deixar os slides menores e entender melhor a movimentação deles
-//const sliderDIV = document.querySelector('.slider')
-//sliderDIV.style.transform = 'scale(0.4) translateX(-600px)'
-//sliderDIV.style.overflow = 'visible'
+ //Esses 3 itens abaixo é só pra deixar os slides menores e entender melhor a movimentação deles
+ //const sliderDIV = document.querySelector('.slider')
+ //sliderDIV.style.transform = 'scale(0.4) translateX(-600px)'
+ //sliderDIV.style.overflow = 'visible'
 
-const movimentSlideToSides = function (slide) {
- //forEach abaixo percorre cada imagem no array slidesIMAGES e posiciona cada uma delas horizontalmente, lado a lado, dentro do slider.s é a imagem atual no loop. i é o índice da imagem.
- slidesIMAGES.forEach((s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`))
- //O código aplica uma transformação translateX para mover cada imagem para a direita em uma quantidade proporcional ao seu índice (100% por índice). Isso coloca a primeira imagem no lugar (0%), a segunda imagem deslocada 100% para a direita, a terceira 200%, e assim por diante, criando o efeito de um carrossel onde as imagens estão alinhadas horizontalmente.
- //s é slide e i é index
-}
-//Já deixa as imagens nas laterais por padrão. Se remover, ficam uma acima do outra inicialmente
-movimentSlideToSides(0)
+ const movimentSlideToSides = function (slide) {
+  //forEach abaixo percorre cada imagem no array slidesIMAGES e posiciona cada uma delas horizontalmente, lado a lado, dentro do slider.s é a imagem atual no loop. i é o índice da imagem.
+  slidesIMAGES.forEach((s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`))
+  //O código aplica uma transformação translateX para mover cada imagem para a direita em uma quantidade proporcional ao seu índice (100% por índice). Isso coloca a primeira imagem no lugar (0%), a segunda imagem deslocada 100% para a direita, a terceira 200%, e assim por diante, criando o efeito de um carrossel onde as imagens estão alinhadas horizontalmente.
+  //s é slide e i é index
+ }
 
-//Next slide
-let curSlide = 0
-const maxSlidesLength = slidesIMAGES.length - 1 //-1 pois começa com 0
+ //Next slide
+ let curSlide = 0
+ const maxSlidesLength = slidesIMAGES.length - 1 //-1 pois começa com 0
 
-//Função pra quando tiver clique nos botões
-const nextSlideRIGHT = function () {
- if (curSlide === maxSlidesLength) curSlide = 0
- else curSlide++
- movimentSlideToSides(curSlide)
- activateDots(curSlide) //ativar o botão
-}
-//Agora para o esquerdo precisa ter um complemento
-const prevSlideLeft = function () {
- //A condição if abaixo verifica se o slide atual é o primeiro (curSlide === 0). Se for, ele ajusta curSlide para o penúltimo índice (maxSlidesLength). Isso impede que o slide vá além do limite esquerdo ao clicar no botão de voltar, criando um loop contínuo.
- if (curSlide === 0) curSlide = maxSlidesLength
- else curSlide--
- movimentSlideToSides(curSlide)
- activateDots(curSlide) //ativar o botão
-}
-
-btnRight.addEventListener('click', nextSlideRIGHT)
-btnLeft.addEventListener('click', prevSlideLeft)
-
-document.addEventListener('keydown', function (e) {
- if (e.key === 'ArrowLeft') prevSlideLeft()
- e.key === 'ArrowRight' && nextSlideRIGHT()
- //Dá para usar as duas formas, vc escolhe. Com o uso do IF é verificado se a tecla pressionada é a seta para a esquerda (ArrowLeft). Se for, chama a função prevSlideLeft().
- //A outra usa a lógica && como uma forma abreviada de condicional. Se a tecla pressionada for a seta para a direita (ArrowRight), a expressão à esquerda é verdadeira, então a função nextSlideRIGHT() é executada. Caso contrário, nada acontece.
- //Ambas as formas fazem a mesma coisa, mas a segunda é mais concisa.
-})
-
-//CRIANDO OS DOTS ABAIXO DA IMAGEM
-const dotContainer = document.querySelector('.dots')
-
-//A função createDots percorre o array slidesIMAGES e, para cada imagem no array, insere um botão dentro da única div .dots.
-const createDots = function () {
- slidesIMAGES.forEach(function (_, i) {
-  dotContainer.insertAdjacentHTML(
-   'beforeend',
-   `<button class="dots__dot" data-slide="${i}"></button>`
-  )
- })
-}
-createDots()
-
-dotContainer.addEventListener('click', function (e) {
- if (e.target.classList.contains('dots__dot')) {
-  //console.log('DOT')  só pra ver se pega o clique mesmo
-  const { slide } = e.target.dataset
-  movimentSlideToSides(slide)
+ //Função pra quando tiver clique nos botões
+ const nextSlideRIGHT = function () {
+  if (curSlide === maxSlidesLength) curSlide = 0
+  else curSlide++
+  movimentSlideToSides(curSlide)
   activateDots(curSlide) //ativar o botão
  }
+ //Agora para o esquerdo precisa ter um complemento
+ const prevSlideLeft = function () {
+  //A condição if abaixo verifica se o slide atual é o primeiro (curSlide === 0). Se for, ele ajusta curSlide para o penúltimo índice (maxSlidesLength). Isso impede que o slide vá além do limite esquerdo ao clicar no botão de voltar, criando um loop contínuo.
+  if (curSlide === 0) curSlide = maxSlidesLength
+  else curSlide--
+  movimentSlideToSides(curSlide)
+  activateDots(curSlide) //ativar o botão
+ }
+
+ btnRight.addEventListener('click', nextSlideRIGHT)
+ btnLeft.addEventListener('click', prevSlideLeft)
+
+ document.addEventListener('keydown', function (e) {
+  if (e.key === 'ArrowLeft') prevSlideLeft()
+  e.key === 'ArrowRight' && nextSlideRIGHT()
+  //Dá para usar as duas formas, vc escolhe. Com o uso do IF é verificado se a tecla pressionada é a seta para a esquerda (ArrowLeft). Se for, chama a função prevSlideLeft().
+  //A outra usa a lógica && como uma forma abreviada de condicional. Se a tecla pressionada for a seta para a direita (ArrowRight), a expressão à esquerda é verdadeira, então a função nextSlideRIGHT() é executada. Caso contrário, nada acontece.
+  //Ambas as formas fazem a mesma coisa, mas a segunda é mais concisa.
+ })
+
+ //CRIANDO OS DOTS ABAIXO DA IMAGEM
+ const dotContainer = document.querySelector('.dots')
+
+ //A função createDots percorre o array slidesIMAGES e, para cada imagem no array, insere um botão dentro da única div .dots.
+ const createDots = function () {
+  slidesIMAGES.forEach(function (_, i) {
+   dotContainer.insertAdjacentHTML(
+    'beforeend',
+    `<button class="dots__dot" data-slide="${i}"></button>`
+   )
+  })
+ }
+
+ dotContainer.addEventListener('click', function (e) {
+  if (e.target.classList.contains('dots__dot')) {
+   //console.log('DOT')  só pra ver se pega o clique mesmo
+   const { slide } = e.target.dataset
+   movimentSlideToSides(slide)
+   activateDots(slide) //ativar o botão
+  }
+ })
+
+ //Lembrando que precisa chamar a função nas outras funções que fazem o movimento de troca de slide, colocando activateDots()
+ const activateDots = function (slide) {
+  document.querySelectorAll('.dots__dot').forEach(dot => dot.classList.remove('dots__dot--active'))
+  document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add('dots__dot--active')
+ }
+
+ const init = function () {
+  movimentSlideToSides(0) //Já deixa as imagens nas laterais por padrão. Se remover, ficam uma acima do outra inicialmente
+  createDots()
+  activateDots(0)
+ }
+ init()
+}
+sliderr()
+*/
+
+/* //////////////////// Aula 204 ///////////////////
+//Dom content load
+document.addEventListener('DOMContentLoaded', function (e) {
+ console.log('HTML parsed and DOM tree built!', e) // Ver em network no console
+ //PC wifi: DOMContentLoaded: 223 ms
+ //FAST 3g mobile: DOMContentLoaded: 1.86 s
 })
 
-//Lembrando que precisa chamar a função nas outras funções que fazem o movimento de troca de slide, colocando activateDots()
-const activateDots = function (slide) {
- document.querySelectorAll('.dots__dot').forEach(dot => dot.classList.remove('dots__dot--active'))
+window.addEventListener('load', function (e) {
+ console.log('Page Fully loaded', e)
+ //Load: 209 ms - ao lado de DOMcontent em Ver em network no console
+})
+//Mensagem que aparece tipo popup antes de fechar tela NÃO FUNFA MAIS
+window.addEventListener('beforeunload', function (e) {
+ e.preventDefault()
+ console.log(e)
+ e.returnValue = '' //Deprecated, foi amplamente descontinuado por razões de segurança e experiência do usuário.
+})*/
 
- document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add('dots__dot--active')
-}
+//ss
