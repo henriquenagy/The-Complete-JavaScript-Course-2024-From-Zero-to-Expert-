@@ -1,5 +1,5 @@
 'use strict'
-//Constructor Function Dissecado
+/* //Constructor Function Dissecado
 const construFuncs = function () {
  const Person = function (firstName, birthYear) {
   this.firstName = firstName
@@ -38,7 +38,8 @@ const construFuncs = function () {
  console.log(arr.__proto__ === Array.prototype) //true
  console.log(arr.__proto__.__proto__) //{__defineGetter__: ƒ, __defineSetter__: ƒ, hasOwnProperty: ƒ, __lookupGetter__: ƒ, __lookupSetter__: ƒ, …}
 }
-construFuncs()
+construFuncs()*/
+
 /* /////////////////////// Dia 03/09 aula 209 e 210 ///////////////////////////
 const Person = function (firstName, birthYear) {
  //console.log(this) // sem nada de dados, retorna só Person
@@ -96,4 +97,36 @@ console.log(nagys.species, dirclei.species) // Já pega direto - Homo Sapiens Ho
 console.log(nagys.hasOwnProperty('firstName')) // true
 console.log(nagys.hasOwnProperty('species')) // false*/
 
-//
+/// Coding Challenge #1
+/* 
+1. Use a constructor function to implement a Car. A car has a make and a speed property. The speed property is the current speed of the car in km/h;
+2. Implement an 'accelerate' method that will increase the car's speed by 10, and log the new speed to the console;
+3. Implement a 'brake' method that will decrease the car's speed by 5, and log the new speed to the console;
+4. Create 2 car objects and experiment with calling 'accelerate' and 'brake' multiple times on each of them.
+DATA CAR 1: 'BMW' going at 120 km/h
+DATA CAR 2: 'Mercedes' going at 95 km/h
+*/
+
+const Car = function (make, speed) {
+ this.make = make
+ this.speed = speed
+}
+
+Car.prototype.accelerate = function () {
+ console.log(`${this.make} is going at ${(this.speed += 10)}km/h`)
+}
+
+Car.prototype.brake = function () {
+ console.log(`${this.make} reduce speed and now is ${(this.speed -= 5)}km/h`)
+}
+
+const BMW = new Car('BMW', 120)
+const Mercedez = new Car('Mercedez', 95)
+console.log(BMW, Mercedez)
+
+BMW.accelerate()
+BMW.brake()
+BMW.accelerate()
+BMW.accelerate()
+Mercedez.accelerate()
+Mercedez.brake()
