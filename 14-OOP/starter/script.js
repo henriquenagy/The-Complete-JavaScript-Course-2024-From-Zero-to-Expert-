@@ -107,17 +107,18 @@ DATA CAR 1: 'BMW' going at 120 km/h
 DATA CAR 2: 'Mercedes' going at 95 km/h
 */
 
-const Car = function (make, speed) {
- this.make = make
- this.speed = speed
-}
-
-Car.prototype.accelerate = function () {
- console.log(`${this.make} is going at ${(this.speed += 10)}km/h`)
-}
-
-Car.prototype.brake = function () {
- console.log(`${this.make} reduce speed and now is ${(this.speed -= 5)}km/h`)
+class Car {
+ constructor(make, speed) {
+  this.make = make
+  this.speed = speed
+ }
+ //Methods will be added to .prototype property
+ accelerate() {
+  console.log(`${this.make} is going at ${(this.speed += 10)}km/h`)
+ }
+ brake() {
+  console.log(`${this.make} reduce speed and now is ${(this.speed -= 5)}km/h`)
+ }
 }
 
 const BMW = new Car('BMW', 120)
@@ -130,3 +131,7 @@ BMW.accelerate()
 BMW.accelerate()
 Mercedez.accelerate()
 Mercedez.brake()
+
+// 1. Classes are NOT hoisted
+// 2. Classes are first-class citizens
+// 3. Classes are executed in strict mode
