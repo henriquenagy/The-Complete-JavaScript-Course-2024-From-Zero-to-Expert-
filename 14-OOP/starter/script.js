@@ -97,15 +97,15 @@ console.log(nagys.species, dirclei.species) // Já pega direto - Homo Sapiens Ho
 console.log(nagys.hasOwnProperty('firstName')) // true
 console.log(nagys.hasOwnProperty('species')) // false*/
 
-/// Coding Challenge #1
-/* 
+/*  ///////////////////////  Coding Challenge #1  Dia 07/09 /////////////////////// 
+
 1. Use a constructor function to implement a Car. A car has a make and a speed property. The speed property is the current speed of the car in km/h;
 2. Implement an 'accelerate' method that will increase the car's speed by 10, and log the new speed to the console;
 3. Implement a 'brake' method that will decrease the car's speed by 5, and log the new speed to the console;
 4. Create 2 car objects and experiment with calling 'accelerate' and 'brake' multiple times on each of them.
 DATA CAR 1: 'BMW' going at 120 km/h
 DATA CAR 2: 'Mercedes' going at 95 km/h
-*/
+
 
 class Car {
  constructor(make, speed) {
@@ -135,3 +135,50 @@ Mercedez.brake()
 // 1. Classes are NOT hoisted
 // 2. Classes are first-class citizens
 // 3. Classes are executed in strict mode
+*/
+
+// Aula 215 Dia 08/09
+
+//testando get e set 1
+const account = {
+ Owner: 'Nagys',
+ movements: [200, 530, 120, 300],
+ get latest() {
+  return this.movements.slice(-1).pop()
+ },
+ set latest(mov) {
+  this.movements.push(mov)
+ }
+}
+
+console.log(account.latest) // 300
+
+account.latest = 50
+console.log(account.movements) // (5) [200, 530, 120, 300, 50]
+
+//Testando get e set 2
+class Personas {
+ constructor(fullname, birthYear) {
+  this.fullname = fullname
+  this.birthYear = birthYear
+ }
+ get age() {
+  return 2037 - this.birthYear
+ }
+
+ set fullname(name) {
+  console.log(name)
+
+  if (name.includes(' ')) this._fullname = name
+  //_ não é biblioteca ou do JS, é só convenção de uso apra ñ usar o mesmo nome e dar erro
+  else alert(`${name} is not a full name`)
+ }
+ get fullname() {
+  return this._fullname
+ }
+}
+
+const nagys = new Personas('Nagys Martinez', 1994) // Personas {_fullname: 'Nagys Martinez', birthYear: 1994}
+const dani = new Personas('dani', 1994) // set fullname retorna undefined
+console.log(nagys.age) //43
+console.log(nagys) //Ñ retorna de imediato, tem q abrir o array ai mostra o age clicando nos (...)
