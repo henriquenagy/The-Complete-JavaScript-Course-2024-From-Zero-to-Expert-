@@ -137,7 +137,7 @@ Mercedez.brake()
 // 3. Classes are executed in strict mode
 */
 
-// Aula 215 Dia 08/09
+/*///////////////////////// Aula 215 Dia 08/09 ///////////////////////
 
 //testando get e set 1
 const account = {
@@ -182,3 +182,313 @@ const nagys = new Personas('Nagys Martinez', 1994) // Personas {_fullname: 'Nag
 const dani = new Personas('dani', 1994) // set fullname retorna undefined
 console.log(nagys.age) //43
 console.log(nagys) //Ñ retorna de imediato, tem q abrir o array ai mostra o age clicando nos (...)
+*/
+
+/* ///////////////////////// 09-09-24 Aula 2016/////////////////////////
+class PersonCl {
+ constructor(fullName, birthYear) {
+  this.fullName = fullName
+  this.birthYear = birthYear
+ }
+
+ // Instance methods calcAge() e greet ()
+ calcAge() {
+  console.log(2037 - this.birthYear)
+ }
+ greet() {
+  console.log(`Hey ${this.fullName}`)
+ }
+
+ // Static method
+ static hey() {
+  console.log('Hey there 👋')
+ }
+}
+const walter = new PersonCl('Walter White', 1965)
+//Se chamar pelo nome da pessoa que vc criou não funciona
+PersonCl.hey() // Hey there 👋
+walter.hey() // walter.hey is not a function ERROR*/
+
+/* /////////////////////////  Aula 217 Object Create ///////////////////////// 
+const personProto = {
+ suaIdade() {
+  console.log(2024 - this.nascimento)
+ },
+ seusDados(completus, nascimento) {
+  this.completus = completus
+  this.nascimento = nascimento
+ }
+}
+
+const najera = Object.create(personProto)
+console.log(najera) // VAZIO {}
+//Adiciona os dados manualmente
+najera.completus = 'H najao'
+najera.nascimento = 1994
+najera.suaIdade() //30
+console.log(najera.__proto__ === personProto) // true
+
+const danis = Object.create(personProto)
+//Adicionando os dados via função dentro de personProto
+danis.seusDados('Danis sirvas', 1994)
+danis.suaIdade() // 30*/
+
+/* /////////////// ------------------- ANOTAÇÕES ALUNO JONAS -----/////////////////////
+console.log(`--- Function Expression ---`)
+// Function Expression
+const Person1 = function (firstName, birthYear) {
+ // properties
+ this.firstName = firstName
+ this.birthYear = birthYear
+}
+
+// Methods created on prototype
+Person1.prototype.calcAge = function () {
+ return (this.age = new Date().getFullYear() - this.birthYear)
+}
+
+// Class chaining
+const Student = function (firstName, birthYear, course) {
+ Person1.call(this, firstName, birthYear)
+ this.course = course
+}
+
+// Creating prototype link - overwrites student prototype
+Student.prototype = Object.create(Person1.prototype)
+Student.prototype.constructor = Student
+
+// Student methods after link
+Student.prototype.introduce = function () {
+ console.log(
+  `My name is ${this.firstName}, I am ${this.calcAge()} years old and I am studying ${this.course}`
+ )
+}
+
+// Instaniate
+const John = new Person1(`John`, 1990)
+const mike = new Student(`Mike`, 2020, `Computer Science`)
+console.log(John, mike)
+mike.introduce()
+console.log(``)
+
+// ---------------- ES6 Classes ---------------- //
+// Class expression
+const Person2 = class {
+ // Properties
+ constructor(firstName, birthYear) {
+  this.firstName = firstName
+  this.birthYear = birthYear
+ }
+
+ // Methods
+ calcAge() {
+  return (this._age = new Date().getFullYear() - this.birthYear)
+ }
+
+ // Getters & Setters
+ get age() {
+  return this._age ? this._age : this.calcAge()
+ }
+
+ set age(birthYear) {
+  this.birthYear = birthYear
+  this.calcAge()
+ }
+
+ // Static method
+ static wave() {
+  console.log(`👋👋👋`)
+  console.dir(this)
+ }
+}
+
+// Class Chaining
+const Student2 = class extends Person2 {
+ constructor(firstName, birthYear, course) {
+  // Super always first
+  super(firstName, birthYear)
+  this.course = course
+ }
+
+ introduce() {
+  console.log(
+   `My name is ${this.firstName}, I am ${this.calcAge()} years old and I am studying ${this.course}`
+  )
+ }
+
+ // Overwriting parent method
+ calcAge() {
+  this._age = new Date().getFullYear() - this.birthYear
+
+  console.log(`I am ${this._age} years old but as a student, I feel more like ${this._age + 10}`)
+  return this._age
+ }
+}
+
+// if child has no new parameters
+const Student2_1 = class extends Person2 {
+ // Can still accept new methods
+ introduce() {
+  console.log(
+   `My name is ${this.firstName}, I am ${this.calcAge()} years old and I am studying ${this.course}`
+  )
+ }
+}
+
+// Instaniate
+const bridget = new Person2(`Bridget`, 1991)
+const billy = new Student2(`Billy`, 1995, `Computer Science`)
+const billy2 = new Student2_1(`Billy`, 1995)
+console.log(bridget, billy, billy2)
+billy.calcAge()
+console.log(``)
+
+//////////////////////////////////////////////////
+
+// Class declaration
+class Person3 {
+ // Properties
+ constructor(firstName, birthYear) {
+  this.firstName = firstName
+  this.birthYear = birthYear
+ }
+
+ // Methods
+ calcAge() {
+  return (this._age = new Date().getFullYear() - this.birthYear)
+ }
+
+ // Getters & Setters
+ get age() {
+  return this._age ? this._age : this.calcAge()
+ }
+
+ set age(birthYear) {
+  this.birthYear = birthYear
+  this.calcAge()
+ }
+
+ // Static method
+ static wave() {
+  console.log(`👋👋👋`)
+  console.dir(this)
+ }
+}
+
+// Class Chaining
+class Student3 extends Person3 {
+ constructor(firstName, birthYear, course) {
+  // Super always first
+  super(firstName, birthYear)
+  this.course = course
+ }
+
+ introduce() {
+  console.log(
+   `My name is ${this.firstName}, I am ${this.calcAge()} years old and I am studying ${this.course}`
+  )
+ }
+
+ // Overwriting parent method
+ calcAge() {
+  this._age = new Date().getFullYear() - this.birthYear
+
+  console.log(`I am ${this._age} years old but as a student, I feel more like ${this._age + 10}`)
+  return this._age
+ }
+}
+
+// if child has no new parameters
+class Student3_1 extends Person3 {
+ // Can still accept new methods
+ introduce() {
+  console.log(
+   `My name is ${this.firstName}, I am ${this.calcAge()} years old and I am studying ${this.course}`
+  )
+ }
+}
+
+// Instaniate
+const mark = new Person3(`Mark`, 1992)
+const martha2 = new Student3_1(`Martha2`, 2012)
+const martha = new Student3(`Martha`, 2012, `Computer Science`)
+console.log(mark, martha, martha2)
+martha.calcAge()
+console.log(``)
+
+//////////////////////////////////////////////////
+
+// Object.create
+const protoPerson = {
+ // Method
+ calcAge() {
+  return (this.age = new Date().getFullYear() - this.birthYear)
+ },
+
+ // Properties
+ init(firstName, birthYear) {
+  this.firstName = firstName
+  this.birthYear = birthYear
+ }
+}
+
+// Class Chaining
+const protoSudent = Object.create(protoPerson)
+
+// Method declarations
+protoSudent.init = function (firstName, birthYear, course) {
+ protoPerson.init.call(this, firstName, birthYear)
+ this.course = course
+}
+
+protoSudent.introduce = function () {
+ console.log(
+  `My name is ${this.firstName}, I am ${this.calcAge()} years old and I am studying ${this.course}`
+ )
+}
+
+// Instaniate
+const emma = Object.create(protoPerson)
+const jay = Object.create(protoSudent)
+
+emma.init(`Emma`, 1993)
+jay.init(`Jay`, 1880, `Computer Science`)
+console.log(emma, jay)
+jay.introduce()
+console.log(``) */
+
+// Coding Challenge #2
+
+/* 
+1. Re-create challenge 1, but this time using an ES6 class;
+2. Add a getter called 'speedUS' which returns the current speed in mi/h (divide by 1.6);
+3. Add a setter called 'speedUS' which sets the current speed in mi/h (but converts it to km/h before storing the value, by multiplying the input by 1.6);
+4. Create a new car and experiment with the accelerate and brake methods, and with the getter and setter.
+
+DATA CAR 1: 'Ford' going at 120 km/h*/
+
+class CarES6 {
+ constructor(make, speed) {
+  this.make = make
+  this.speed = speed
+ }
+ accelerate() {
+  console.log(`${this.make} is going at ${(this.speed += 10)}km/h`)
+ }
+ brake() {
+  console.log(`${this.make} reduce speed and now is ${(this.speed -= 5)}km/h`)
+ }
+ get speedUS() {
+  return this.speed / 1.6
+ }
+ set speedUS(velo) {
+  this.speed = velo * 1.6
+ }
+}
+
+const Ford = new CarES6('Ford', 120)
+console.log(Ford.speedUS) // 75 > OK GET FUNCIONOU
+Ford.accelerate()
+Ford.brake()
+Ford.speedUS = 50
+console.log(Ford) // CarES6 {make: 'Ford', speed: 80} SET funcionou, ai cliando aparece o get com a divisão por 1.6 speedUS: (...) ai clica nos .. que aparece 50
