@@ -457,16 +457,7 @@ console.log(emma, jay)
 jay.introduce()
 console.log(``) */
 
-// Coding Challenge #2
-
-/* 
-1. Re-create challenge 1, but this time using an ES6 class;
-2. Add a getter called 'speedUS' which returns the current speed in mi/h (divide by 1.6);
-3. Add a setter called 'speedUS' which sets the current speed in mi/h (but converts it to km/h before storing the value, by multiplying the input by 1.6);
-4. Create a new car and experiment with the accelerate and brake methods, and with the getter and setter.
-
-DATA CAR 1: 'Ford' going at 120 km/h*/
-
+/* /////////////// Coding Challenge #2 09/09/24 ///////////////
 class CarES6 {
  constructor(make, speed) {
   this.make = make
@@ -491,4 +482,46 @@ console.log(Ford.speedUS) // 75 > OK GET FUNCIONOU
 Ford.accelerate()
 Ford.brake()
 Ford.speedUS = 50
-console.log(Ford) // CarES6 {make: 'Ford', speed: 80} SET funcionou, ai cliando aparece o get com a divisão por 1.6 speedUS: (...) ai clica nos .. que aparece 50
+console.log(Ford) // CarES6 {make: 'Ford', speed: 80} SET funcionou, ai cliando aparece o get com a divisão por 1.6 speedUS: (...) ai clica nos .. que aparece 50 */
+
+// Aula 219 dia 10/09/24
+
+//Person e calcage são um só. Person é um constructor function
+const Person = function (firstName, birthYear) {
+ this.firstName = firstName
+ this.birthYear = birthYear
+}
+
+Person.prototype.calcAge = function () {
+ console.log(2024 - this.birthYear)
+}
+
+//Agora Student vai herdar os dados de Person usando o call. Student também é um "constructor function", mas adiciona uma nova propriedade, course.
+const Student = function (firstName, birthYear, course) {
+ Person.call(this, firstName, birthYear)
+ this.course = course
+}
+
+//Student.prototype = Object.create(Person.prototype) faz com que o Student.prototype herde os métodos definidos no Person.prototype (como calcAge). Isso significa que qualquer instância de Student pode usar os métodos de Person.
+Student.prototype = Object.create(Person.prototype)
+//Student.prototype = Person.prototype > Ver o print esse é errado
+
+Student.prototype.introduce = function () {
+ console.log(`My name is ${this.firstName} and i study ${this.course}`)
+}
+
+const mike = new Student('Mike', 1998, 'Computer science')
+mike.introduce() // My name is Mike and i study Computer science
+mike.calcAge() // 26
+
+console.log(mike.__proto__) // Person {introduce: ƒ} > introduce: ƒ () > mostra que mike herda de Student.prototype, que por sua vez herda de Person.prototype.
+console.log(mike.__proto__.__proto__) // {calcAge: ƒ} > constructor: ƒ (firstName, birthYear)
+
+//agora mike, que é student, aponta para os 3 via inheritance prototype, igual o print. Mostram que mike é uma instância de Student, Person, e Object, confirmando a cadeia de herança.
+console.log(mike instanceof Student) //true
+console.log(mike instanceof Person) //true
+console.log(mike instanceof Object) //true
+
+//Correção do construtor: corrige o construtor do Student.prototype, garantindo que ele aponte corretamente para Student.
+Student.prototype.constructor = Student
+console.dir(Student.prototype.constructor) // ƒ Student(firstName, birthYear, course)
