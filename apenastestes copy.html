@@ -119,7 +119,7 @@
      plugins: [ChartDataLabels],
      type: 'pie',
      data: {
-      labels: ['NO DISCOUNT', '20% OFF', '42% OFF', '12% OFF', '5% OFF', '33% OFF'],
+      labels: ['NO DISCOUNT', '20% OFF', '42% OFF', '12% OFF', '5% OFF', '42% OFF'],
       datasets: [
        {
         backgroundColor: pieColors,
@@ -130,7 +130,7 @@
      options: {
       responsive: true,
       animation: { duration: 0 },
-      rotation: -90, // Ajuste para alinhar a rotação inicial
+      rotation: -90, // Rotação inicial para alinhar a rotação da roda
       plugins: {
        tooltip: false,
        legend: { display: false },
@@ -138,22 +138,28 @@
         color: '#ffffff',
         formatter: (value, context) => context.chart.data.labels[context.dataIndex],
         font: { size: 14 },
-        anchor: 'end',
-        align: 'start',
+        anchor: 'center', // Centraliza o texto no segmento
+        align: 'center', // Alinha o texto no centro do segmento
         rotation: context => {
-         // Gera rotação com base no índice do rótulo
-         let rotation = (context.dataIndex * 360) / context.chart.data.labels.length + 30
-         return rotation
+         // Calcula a rotação correta para alinhar o texto com o segmento, levando em conta a rotação atual da roda
+         let totalSegments = context.chart.data.labels.length
+         let degreesPerSegment = 360 / totalSegments
+         let baseRotation = context.chart.options.rotation // Rotação base da roda
+         let labelRotation =
+          degreesPerSegment * context.dataIndex + degreesPerSegment / 2 + baseRotation
+         return labelRotation - 90 // Ajusta a rotação para centralizar o texto no segmento
         }
        }
       }
      }
     })
 
-    // Função para sempre exibir "42% OFF"
-    const valueGenerator = () => {
-     finalValue.innerHTML = `<p>Result: 42% OFF</p>`
-     spinBtn.disabled = false
+    // Função para parar no "42% OFF"
+    const getRotationDegreeFor42PercentOff = () => {
+     const segmentAngle = 360 / myChart.data.labels.length
+     const index42PercentOff = myChart.data.labels.indexOf('42% OFF')
+     const degreesFor42PercentOff = segmentAngle * index42PercentOff
+     return degreesFor42PercentOff
     }
 
     let count = 0
@@ -163,7 +169,7 @@
     spinBtn.addEventListener('click', () => {
      spinBtn.disabled = true
      finalValue.innerHTML = `<p>Good Luck!</p>`
-     let randomDegree = Math.floor(Math.random() * (355 - 0 + 1) + 0)
+     const targetDegree = getRotationDegreeFor42PercentOff()
      let rotationInterval = window.setInterval(() => {
       myChart.options.rotation = myChart.options.rotation + resultValue
       myChart.update()
@@ -172,11 +178,14 @@
        count += 1
        resultValue -= 5
        myChart.options.rotation = 0
-      } else if (count > 15 && myChart.options.rotation == randomDegree) {
-       valueGenerator()
+      } else if (count > 15 && Math.abs(myChart.options.rotation - targetDegree) < resultValue) {
+       myChart.options.rotation = targetDegree
+       myChart.update()
+       finalValue.innerHTML = `<p>Result: 42% OFF</p>`
        clearInterval(rotationInterval)
        count = 0
        resultValue = 101
+       spinBtn.disabled = false
       }
      }, 10)
     })

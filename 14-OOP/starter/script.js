@@ -484,8 +484,7 @@ Ford.brake()
 Ford.speedUS = 50
 console.log(Ford) // CarES6 {make: 'Ford', speed: 80} SET funcionou, ai cliando aparece o get com a divisão por 1.6 speedUS: (...) ai clica nos .. que aparece 50 */
 
-// Aula 219 dia 10/09/24
-
+/* // Aula 219 dia 10/09/24
 //Person e calcage são um só. Person é um constructor function
 const Person = function (firstName, birthYear) {
  this.firstName = firstName
@@ -525,3 +524,53 @@ console.log(mike instanceof Object) //true
 //Correção do construtor: corrige o construtor do Student.prototype, garantindo que ele aponte corretamente para Student.
 Student.prototype.constructor = Student
 console.dir(Student.prototype.constructor) // ƒ Student(firstName, birthYear, course)
+*/
+
+/////////////// Coding challenge 3 11/09/24 ///////////////
+// Coding Challenge #3
+
+/* 
+1. Use a constructor function to implement an Electric Car (called EV) as a CHILD "class" of Car. Besides a make and current speed, the EV also has the current battery charge in % ('charge' property);
+2. Implement a 'chargeBattery' method which takes an argument 'chargeTo' and sets the battery charge to 'chargeTo';
+3. Implement an 'accelerate' method that will increase the car's speed by 20, and decrease the charge by 1%. Then log a message like this: 'Tesla going at 140 km/h, with a charge of 22%';
+4. Create an electric car object and experiment with calling 'accelerate', 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when you 'accelerate'! HINT: Review the definiton of polymorphism 😉
+
+DATA CAR 1: 'Tesla' going at 120 km/h, with a charge of 23%
+
+GOOD LUCK 😀
+*/
+// ------------------------ Car é o principal, o pai
+class Car {
+ constructor(make, speed) {
+  this.make = make
+  this.speed = speed
+ }
+ accelerate() {
+  console.log(`${this.make} is going at ${(this.speed += 10)} km/h`)
+ }
+ brake() {
+  console.log(`${this.make} reduced speed and now is at ${(this.speed -= 5)} km/h`)
+ }
+}
+
+//---------------------CHILD class EV extends Car
+class EV extends Car {
+ constructor(make, speed, charge) {
+  super(make, speed) // Chama o construtor da classe pai (Car)
+  this.charge = charge
+ }
+ chargeBattery(chargeTo) {
+  console.log(`Battery is ${(this.charge = chargeTo)}%`)
+ }
+ accelerate() {
+  this.speed += 20
+  this.charge--
+  console.log(`${this.make} is going at ${this.speed} km/h, with a charge of ${this.charge}%`)
+ }
+}
+// No need to manually link prototypes in ES6 classes
+const tesla = new EV('Tesla', 120, 23)
+tesla.chargeBattery(90)
+console.log(tesla) // EV {make: 'Tesla', speed: 120, charge: 90}
+tesla.brake()
+tesla.accelerate() // Tem 2 com o mesmo nome, mas vai usar o primeiro accelerate() de sua cadeia, ou seja, é o accerelate dentro de EV, pois o segundo da cadeia (veja no console) é o do Car
