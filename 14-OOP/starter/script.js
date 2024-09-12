@@ -526,20 +526,7 @@ Student.prototype.constructor = Student
 console.dir(Student.prototype.constructor) // ƒ Student(firstName, birthYear, course)
 */
 
-/////////////// Coding challenge 3 11/09/24 ///////////////
-// Coding Challenge #3
-
-/* 
-1. Use a constructor function to implement an Electric Car (called EV) as a CHILD "class" of Car. Besides a make and current speed, the EV also has the current battery charge in % ('charge' property);
-2. Implement a 'chargeBattery' method which takes an argument 'chargeTo' and sets the battery charge to 'chargeTo';
-3. Implement an 'accelerate' method that will increase the car's speed by 20, and decrease the charge by 1%. Then log a message like this: 'Tesla going at 140 km/h, with a charge of 22%';
-4. Create an electric car object and experiment with calling 'accelerate', 'brake' and 'chargeBattery' (charge to 90%). Notice what happens when you 'accelerate'! HINT: Review the definiton of polymorphism 😉
-
-DATA CAR 1: 'Tesla' going at 120 km/h, with a charge of 23%
-
-GOOD LUCK 😀
-*/
-// ------------------------ Car é o principal, o pai
+/* /////////////// Coding challenge 3 11/09/24 ///////////////
 class Car {
  constructor(make, speed) {
   this.make = make
@@ -574,3 +561,56 @@ tesla.chargeBattery(90)
 console.log(tesla) // EV {make: 'Tesla', speed: 120, charge: 90}
 tesla.brake()
 tesla.accelerate() // Tem 2 com o mesmo nome, mas vai usar o primeiro accelerate() de sua cadeia, ou seja, é o accerelate dentro de EV, pois o segundo da cadeia (veja no console) é o do Car
+*/
+
+/* /////////////// Aula 221 12/09/24 Para testar a herança dos filhinhos ///////////////
+class Paizao {
+ constructor(fullName, birthYear) {
+  this.fullName = fullName
+  this.birthYear = birthYear
+ }
+}
+//mesmo com a classe vazia funciona
+class filhoPrimeiro extends Paizao {}
+d
+//Agora testando o heritage, para o filho 2, com mais métodos na classe
+class filhoSegundo extends Paizao {
+ constructor(fullName, birthYear, course) {
+  //always needs to happen first!
+  super(fullName, birthYear)
+  this.course = course
+ }
+ introduce() {
+  console.log(`My name is ${this.fullName} and I am studying ${this.course}`)
+ }
+}
+
+const martha = new filhoSegundo('Martha jones', 2001, 'Medicina') //filhoSegundo {fullName: 'Martha jones', birthYear: 2001, course: 'Medicina'}
+martha.introduce() // My name is Martha jones and I am studying Medicina*/
+
+/////////////// AUla 222  Dia 11/09/24 ///////////////
+const papaizinho = {
+ suaIdade() {
+  console.log(2024 - this.birthYear)
+ },
+ coletando(firstName, birthYear) {
+  this.firstName = firstName
+  this.birthYear = birthYear
+ }
+}
+
+//------ Criando filhoOne que herda do pai e inserindo novos métodos
+const filhoOne = Object.create(papaizinho)
+filhoOne.coletando = function (firstName, birthYear, course) {
+ papaizinho.coletando.call(this, firstName, birthYear)
+ this.course = course
+}
+filhoOne.introduce = function () {
+ console.log(`Hi, my name is ${this.firstName} and i study ${this.course}`)
+}
+
+//------- Primo vai herdar os métodos do filho e do pai
+const primoDoOne = Object.create(filhoOne)
+primoDoOne.coletando('Carlinhos do Pneu', 1935, 'Agrônomo dos bão') // {firstName: 'Carlinhos do Pneu', birthYear: 1935, course: 'Agrônomo dos bão'}
+primoDoOne.introduce() // Hi, my name is Carlinhos do Pneu and i study Agrônomo dos bão > Pegou certo do filho
+primoDoOne.suaIdade() //89 > Pegou certinho do pai

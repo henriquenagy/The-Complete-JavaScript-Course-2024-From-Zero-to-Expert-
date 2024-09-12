@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
  <head>
   <meta charset="UTF-8" />
@@ -100,9 +100,9 @@
    </div>
   </div>
 
-  <!-- Chart JS -->
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-  <!-- Chart JS Plugin for displaying text over chart -->
+ 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.1.0/chartjs-plugin-datalabels.min.js"></script>
 
   <script>
@@ -193,3 +193,217 @@
   </script>
  </body>
 </html>
+-->
+
+<style>
+ .wrapper {
+  width: 100%;
+  height: auto;
+  align-items: center;
+  align-content: center;
+  justify-content: space-between;
+  display: flex;
+  flex-flow: row wrap;
+  overflow: visible !important;
+ }
+
+ .wrapper:hover {
+  overflow: hidden;
+ }
+
+ .esquerdo {
+  width: 100%;
+  max-width: 60%;
+  text-align: left;
+  padding: 0 !important;
+ }
+
+ .container {
+  width: 40%;
+  position: relative;
+  border: 10px solid #242424;
+  border-radius: 500px;
+  overflow: visible !important;
+ }
+
+ #wheel {
+  width: inherit;
+  top: 0;
+  padding: 0;
+ }
+
+ .smeio {
+  font-size: 2em;
+  font-weight: 700;
+  color: #242424;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 10px;
+  border-radius: 50%;
+  border: 4px solid #242424;
+  z-index: 10;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ }
+
+ img {
+  position: absolute;
+  width: 4em;
+  top: 45%;
+  right: -30px;
+  transform: rotate(90deg);
+  z-index: 9000 !important;
+  overflow: visible !important;
+ }
+
+ #final-value {
+  font-size: 1.5em;
+  color: #202020;
+  font-weight: 500;
+ }
+
+ @media screen and (max-width: 768px) {
+  .wrapper {
+   font-size: 12px;
+  }
+  img {
+   right: -5%;
+  }
+ }
+</style>
+
+<!-- HTML -->
+<div class="wrapper">
+ <div class="esquerdo">
+  <p id="final-value">Click On The Spin Button To Start</p>
+  <button id="spin-btn">Spin</button>
+ </div>
+ <div class="container">
+  <canvas id="wheel"></canvas>
+  <p class="smeio">S</p>
+  <img src="/wp-content/uploads/2024/09/wheel_arrow.png" alt="spinner arrow" />
+ </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.1.0/chartjs-plugin-datalabels.min.js"></script>
+<script>
+ jQuery(document).on('elementor/popup/show', () => {
+  const wheel = document.getElementById('wheel')
+  const spinBtn = document.getElementById('spin-btn')
+  const finalValue = document.getElementById('final-value')
+
+  // Definindo as cores dos segmentos da roleta
+  const pieColors = [
+   '#ffffff',
+   '#c09857',
+   '#ffffff',
+   '#c09857',
+   '#ffffff',
+   '#c09857',
+   '#ffffff',
+   '#c09857',
+   '#ffffff',
+   '#c09857'
+  ]
+
+  // Inicializando o gráfico da roleta com cores e rótulos alinhados
+  let myChart = new Chart(wheel, {
+   plugins: [ChartDataLabels],
+   type: 'pie',
+   data: {
+    labels: [
+     '5% OFF',
+     '20% OFF',
+     'NO DISCOUNT',
+     '12% OFF',
+     'NO DISCOUNT',
+     '27% OFF',
+     '33% OFF',
+     '42% OFF',
+     '5% OFF',
+     '12% OFF'
+    ],
+    datasets: [
+     {
+      backgroundColor: pieColors,
+      data: [10, 10, 10, 10, 10, 10, 10, 10, 10, 10] // Distribuição dos segmentos
+     }
+    ]
+   },
+   options: {
+    responsive: true,
+    animation: { duration: 0 },
+    rotation: -90, // Rotação inicial para alinhar a rotação da roda
+    plugins: {
+     tooltip: false,
+     legend: { display: false },
+     datalabels: {
+      color: context => {
+       // Define as cores de acordo com o fundo
+       return context.dataset.backgroundColor[context.dataIndex] === '#ffffff'
+        ? '#000000'
+        : '#ffffff'
+      },
+      formatter: (value, context) => context.chart.data.labels[context.dataIndex],
+      font: { size: 17, weight: 'bold' }, // Aqui você pode modificar o tamanho e peso do texto
+      anchor: 'center', // Centraliza o texto no segmento
+      align: 'center', // Alinha o texto no centro do segmento
+      rotation: context => {
+       // Calcula a rotação correta para alinhar o texto com o segmento, levando em conta a rotação atual da roda
+       let totalSegments = context.chart.data.labels.length
+       let degreesPerSegment = 360 / totalSegments
+       let baseRotation = context.chart.options.rotation // Rotação base da roda
+       let labelRotation =
+        degreesPerSegment * context.dataIndex + degreesPerSegment / 2 + baseRotation
+       return labelRotation - 90 // Ajusta a rotação para centralizar o texto no segmento
+      }
+     }
+    }
+   }
+  })
+
+  // Função para parar suavemente no "42% OFF"
+  const getRotationDegreeFor42PercentOff = () => {
+   const segmentAngle = 360 / myChart.data.labels.length
+   const index42PercentOff = myChart.data.labels.indexOf('42% OFF')
+   const degreesFor42PercentOff = segmentAngle * index42PercentOff
+   return degreesFor42PercentOff
+  }
+
+  let count = 0
+  let resultValue = 101
+
+  // Evento de clique para girar a roleta
+  spinBtn.addEventListener('click', () => {
+   spinBtn.disabled = true
+   finalValue.innerHTML = `<p>Good Luck!</p>`
+   const targetDegree = getRotationDegreeFor42PercentOff()
+   let rotationInterval = window.setInterval(() => {
+    myChart.options.rotation = myChart.options.rotation + resultValue
+    myChart.update()
+
+    if (myChart.options.rotation >= 360) {
+     count += 1
+     resultValue -= 5
+     myChart.options.rotation = 0
+    } else if (count > 15 && Math.abs(myChart.options.rotation - targetDegree) < resultValue) {
+     myChart.options.rotation = targetDegree
+     myChart.update()
+     finalValue.innerHTML = `<p>Result: 42% OFF</p>`
+     clearInterval(rotationInterval)
+     count = 0
+     resultValue = 101
+     spinBtn.disabled = false
+    }
+   }, 10)
+  })
+ })
+</script>
