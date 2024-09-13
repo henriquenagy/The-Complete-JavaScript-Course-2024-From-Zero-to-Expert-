@@ -589,7 +589,7 @@ const martha = new filhoSegundo('Martha jones', 2001, 'Medicina') //filhoSegundo
 martha.introduce() // My name is Martha jones and I am studying Medicina*/
 
 /////////////// AUla 222  Dia 11/09/24 ///////////////
-const papaizinho = {
+/* const papaizinho = {
  suaIdade() {
   console.log(2024 - this.birthYear)
  },
@@ -613,4 +613,61 @@ filhoOne.introduce = function () {
 const primoDoOne = Object.create(filhoOne)
 primoDoOne.coletando('Carlinhos do Pneu', 1935, 'Agrônomo dos bão') // {firstName: 'Carlinhos do Pneu', birthYear: 1935, course: 'Agrônomo dos bão'}
 primoDoOne.introduce() // Hi, my name is Carlinhos do Pneu and i study Agrônomo dos bão > Pegou certo do filho
-primoDoOne.suaIdade() //89 > Pegou certinho do pai
+primoDoOne.suaIdade() //89 > Pegou certinho do pai */
+
+/////////////// Aula 223 Dia13/09/24 ///////////////
+class account {
+ constructor(owner, currency, pin) {
+  this.owner = owner
+  this.currency = currency
+  this.locale = navigator.language //Para pegar o idioma do navegador
+
+  //Protected Properties
+  this.pin = pin
+  this._movements = [] //Sem valores quando abre a conta
+
+  console.log(`Thanks for opening an account, ${owner}`)
+ }
+ //Public Interface
+ getMovements() {
+  return this._movements
+ } // Essa é a maneira certa de mostrar os dados sensíveis/protected na tela
+
+ deposit(val) {
+  this._movements.push(val)
+ }
+ withdraw(val) {
+  this.deposit(-val)
+ }
+
+ //Feito por um aluno, o do jonas era mais simples só pra demonstrar, retornando true direto já aqui no approve
+ _approveLoan(loanAmount) {
+  const accountBalance = this._movements.reduce(function (acc, mov) {
+   return acc + mov
+  }, 0)
+
+  if (loanAmount <= accountBalance) {
+   return true
+  } else {
+   return false
+  }
+ }
+
+ requestLoan(value) {
+  if (this._approveLoan(value)) {
+   return console.log(`Loan approved`), this._movements.push(value)
+  } else {
+   return console.log(`Loan denied`)
+  }
+ }
+}
+
+const acc1 = new account('Nagy', 'BRL', 5813)
+//acc1._movements.push(250) ou acc1._movements.push(-140) não é o ideal, visto que o sinal negativo pode atrapalhar e não é muito organizado
+acc1.deposit(250)
+acc1.withdraw(140)
+acc1.requestLoan(1000) // Loan denied
+acc1.requestLoan(10) //Loan approved
+console.log(acc1.getMovements()) // Mostrar os valores na tela
+
+console.log(acc1) // account {owner: 'Nagy', currency: 'BRL', pin: 5813, _movements: Array(3), locale: 'pt-BR'}
