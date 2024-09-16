@@ -1,5 +1,5 @@
 'use strict'
-/* //Constructor Function Dissecado
+/* /////////////// Constructor Function Dissecado ///////////////
 const construFuncs = function () {
  const Person = function (firstName, birthYear) {
   this.firstName = firstName
@@ -99,7 +99,7 @@ console.log(nagys.hasOwnProperty('species')) // false*/
 
 /*  ///////////////////////  Coding Challenge #1  Dia 07/09 /////////////////////// 
 
-1. Use a constructor function to implement a Car. A car has a make and a speed property. The speed property is the current speed of the car in km/h;
+1. Use a constructor function to implement a CarCL. A car has a make and a speed property. The speed property is the current speed of the car in km/h;
 2. Implement an 'accelerate' method that will increase the car's speed by 10, and log the new speed to the console;
 3. Implement a 'brake' method that will decrease the car's speed by 5, and log the new speed to the console;
 4. Create 2 car objects and experiment with calling 'accelerate' and 'brake' multiple times on each of them.
@@ -484,7 +484,7 @@ Ford.brake()
 Ford.speedUS = 50
 console.log(Ford) // CarES6 {make: 'Ford', speed: 80} SET funcionou, ai cliando aparece o get com a divisão por 1.6 speedUS: (...) ai clica nos .. que aparece 50 */
 
-/* // Aula 219 dia 10/09/24
+/* ///////////////Aula 219 dia 10/09/24 ///////////////
 //Person e calcage são um só. Person é um constructor function
 const Person = function (firstName, birthYear) {
  this.firstName = firstName
@@ -588,8 +588,8 @@ class filhoSegundo extends Paizao {
 const martha = new filhoSegundo('Martha jones', 2001, 'Medicina') //filhoSegundo {fullName: 'Martha jones', birthYear: 2001, course: 'Medicina'}
 martha.introduce() // My name is Martha jones and I am studying Medicina*/
 
-/////////////// AUla 222  Dia 11/09/24 ///////////////
-/* const papaizinho = {
+/* /////////////// AUla 222  Dia 11/09/24 ///////////////
+const papaizinho = {
  suaIdade() {
   console.log(2024 - this.birthYear)
  },
@@ -615,7 +615,7 @@ primoDoOne.coletando('Carlinhos do Pneu', 1935, 'Agrônomo dos bão') // {firstN
 primoDoOne.introduce() // Hi, my name is Carlinhos do Pneu and i study Agrônomo dos bão > Pegou certo do filho
 primoDoOne.suaIdade() //89 > Pegou certinho do pai */
 
-/////////////// Aula 223 Dia13/09/24 ///////////////
+/* /////////////// Aula 223 e 224 Dia13/09/24 ///////////////
 class account {
  constructor(owner, currency, pin) {
   this.owner = owner
@@ -671,3 +671,175 @@ acc1.requestLoan(10) //Loan approved
 console.log(acc1.getMovements()) // Mostrar os valores na tela
 
 console.log(acc1) // account {owner: 'Nagy', currency: 'BRL', pin: 5813, _movements: Array(3), locale: 'pt-BR'}
+*/
+
+/* //////////////// Aula 225 Dia 14/09/24 ///////////////
+class account {
+ //---------  1) Public fields (instances) Not prototype
+ locale = navigator.language
+
+ //--------- 2) Private fields (instances) Not prototype
+ #movements = []
+ #pin
+
+ constructor(owner, currency, pin) {
+  this.owner = owner
+  this.currency = currency
+  this.#pin = pin
+
+  console.log(`Thanks for opening an account, ${owner}`)
+ }
+ //---------  3) Public methods (todos abaixo) ou os Public interface
+ getMovements() {
+  return this.#movements
+ }
+
+ deposit(val) {
+  this.#movements.push(val)
+ }
+ withdraw(val) {
+  this.deposit(-val)
+ }
+ _approveLoan(loanAmount) {
+  const accountBalance = this.#movements.reduce(function (acc, mov) {
+   return acc + mov
+  }, 0)
+
+  if (loanAmount <= accountBalance) {
+   return true
+  } else {
+   return false
+  }
+ }
+
+ requestLoan(value) {
+  // if (this.#approveLoan(val)) {
+  if (this._approveLoan(value)) {
+   return console.log(`Loan approved`), this.#movements.push(value)
+  } else {
+   return console.log(`Loan denied`)
+  }
+ }
+
+ //--------- 4) Private methods (daqui pra baixo)
+ // _approveLoan(val) _ ou #
+ #approveLoan(val) {
+  return true
+ }
+
+ //--------- 5) Static Version
+ static helper() {
+  console.log('Helper')
+ }
+}
+
+const acc1 = new account('Nagy', 'BRL', 5813)
+acc1.deposit(250)
+acc1.withdraw(140)
+acc1.requestLoan(10)
+console.log(acc1.getMovements())
+console.log(acc1)
+//console.log(acc1.#movements) // Deu certo, protegeu!! (SyntaxError: Private field '#movements' must be declared in an enclosing class)
+//console.log(acc1.#pin) // Ok protegeu tbem deu certo
+account.helper() */
+
+/* //////////////// Aula 226 Dia 14/09/24 ///////////////
+class Account {
+ locale = navigator.language
+ #movements = []
+ #pin
+
+ constructor(owner, currency, pin) {
+  this.owner = owner
+  this.currency = currency
+  this.#pin = pin
+
+  console.log(`Thanks for opening an account, ${owner}`)
+ }
+
+ getMovements() {
+  return this.#movements
+ }
+
+ deposit(val) {
+  this.#movements.push(val)
+  return this //Chaining aqui
+ }
+
+ withdraw(val) {
+  this.deposit(-val)
+  return this //Chaining aqui
+ }
+
+ requestLoan(val) {
+  if (this.#approveLoan(val)) {
+   this.deposit(val)
+   console.log(`Loan approved`)
+   return this //Chaining aqui
+  }
+ }
+
+ #approveLoan(val) {
+  return true
+ }
+
+ static helper() {
+  console.log('Helper')
+ }
+}
+
+const acc1 = new Account('Nagy', 'BRL', 5813)
+acc1.deposit(250)
+acc1.withdraw(140)
+acc1.requestLoan(10)
+console.log(acc1.getMovements())
+console.log(acc1)
+Account.helper()
+
+// Chaining
+acc1.deposit(300).deposit(500).withdraw(35).requestLoan(25000).withdraw(4000)
+console.log(acc1.getMovements()) // (8) [250, -140, 10, 300, 500, -35, 25000, -4000]*/
+
+//////////////// Coding Challenge #4  Dia 16/09  ////////////////
+/* 
+1. Re-create challenge #3, but this time using ES6 classes: create an 'EVCl' child class of the 'CarCl' class
+2. Make the 'charge' property private;
+3. Implement the ability to chain the 'accelerate' and 'chargeBattery' methods of this class, and also update the 'brake' method in the 'CarCl' class. They experiment with chining!
+
+DATA CAR 1: 'Rivian' going at 120 km/h, with a charge of 23%
+
+GOOD LUCK 😀
+*/
+class CarCL {
+ constructor(make, speed) {
+  this.make = make
+  this.speed = speed
+ }
+ brake() {
+  console.log(`${this.make} reduced speed and now is at ${(this.speed -= 5)} km/h`)
+  return this //Chaining aqui
+ }
+}
+
+class EVCL extends CarCL {
+ #charge
+ constructor(make, speed, charge) {
+  super(make, speed)
+  this.#charge = charge
+ }
+ chargeBattery(chargeTo) {
+  console.log(`Battery is ${(this.#charge = chargeTo)}%`)
+  return this //Chaining aqui
+ }
+ accelerate() {
+  this.speed += 20
+  this.#charge--
+  console.log(`${this.make} is going at ${this.speed} km/h, with a charge of ${this.#charge}%`)
+  return this //Chaining aqui
+ }
+}
+
+const tesla = new EVCL('Tesla', 120, 23)
+console.log(tesla)
+//console.log(tesla.#charge) // Private field '#charge CERTO!!
+tesla.accelerate().accelerate().accelerate().chargeBattery(50).accelerate().accelerate()
