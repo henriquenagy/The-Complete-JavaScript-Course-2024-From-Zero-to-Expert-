@@ -3,7 +3,7 @@
 class Workout {
  date = new Date()
  id = (Date.now() + '').slice(-10) // Ideal seria por library de criador de id
-
+ clicks = 0
  constructor(coords, distance, duration) {
   this.coords = coords // [lat,lng]
   this.distance = distance //km
@@ -17,6 +17,11 @@ class Workout {
 
   // prettier-ignore
   this.description = `${this.type[0].toUpperCase()}${this.type.slice(1)} on ${months[this.date.getMonth()]} ${this.date.getDate()}`
+ }
+
+ //Para usar lá no método de  _moveToPopup(e) quando clicar na div com as infos
+ click() {
+  this.clicks++
  }
 }
 
@@ -68,6 +73,7 @@ const inputElevation = document.querySelector('.form__input--elevation')
 
 class App {
  #map
+ #mapZoomlevel = 13
  #mapEvent
  #workouts = []
  constructor() {
@@ -76,6 +82,8 @@ class App {
   form.addEventListener('submit', this._newWorkout.bind(this))
   //----------------------- Quando trocar o type de running para cycling, ai já troca também o cadence para Elev gain
   inputType.addEventListener('change', this._toggleElevationField)
+  //Chama o método la embaixão que pega o click na div com o conteúdo de running ou cycling
+  containerWorkouts.addEventListener('click', this._moveToPopup.bind(this))
  }
 
  //--------------Método position
@@ -96,7 +104,7 @@ class App {
   //Condição if (this.#map) return;: Antes de inicializar o mapa com L.map(), verificamos se this.#map já foi definido. Se sim, a função retorna e não tenta inicializar o mapa novamente, evitando o erro de "Map container is already initialized".
 
   // Inicializa o mapa apenas uma vez
-  this.#map = L.map('map').setView(coords, 13) //Só funciona por conta do .bind(this) dentro do navigator após o if lá no inicio
+  this.#map = L.map('map').setView(coords, this.#mapZoomlevel) //Só funciona por conta do .bind(this) dentro do navigator após o if lá no inicio
 
   L.tileLayer('https://tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
    attribution:
@@ -106,9 +114,9 @@ class App {
   // Adiciona o evento de clique no mapa
   this.#map.on('click', this._showForm.bind(this)) // Precisa usar o bind para apontar ao método
 
-  console.log(position) // GeolocationPosition
-  console.log(latitude, longitude) // -24.2876416 -46.9598208
-  console.log(`https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`)
+  //console.log(position) // GeolocationPosition
+  //console.log(latitude, longitude) // -24.2876416 -46.9598208
+  //console.log(`https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`)
  }
 
  //--------------Método Showform
@@ -240,6 +248,25 @@ class App {
 
   //Pegou pelo html a seção form, pra inserir o html adjacent após o último item de form
   form.insertAdjacentHTML('afterend', html)
+ }
+
+ //Aqui pega o click da caixa lateral esq.com o conteúdo do running/cycling
+ _moveToPopup(e) {
+  const workoutEL = e.target.closest('.workout')
+  console.log(workoutEL)
+  if (!workoutEL) return
+
+  const workout = this.#workouts.find(work => work.id === workoutEL.dataset.id)
+  console.log(workout)
+
+  this.#map.setView(workout.coords, this.#mapZoomlevel, {
+   animate: true,
+   pan: {
+    duration: 1
+   }
+  })
+  //Using public interface
+  workout.click()
  }
 }
 
