@@ -77,7 +77,13 @@ class App {
  #mapEvent
  #workouts = []
  constructor() {
+  //get User's position
   this._getPosition()
+
+  //Get data from local storage
+  this._getLocalStorage()
+
+  //Abaixo são event handlers
   //-------------------------- Formulário
   form.addEventListener('submit', this._newWorkout.bind(this))
   //----------------------- Quando trocar o type de running para cycling, ai já troca também o cadence para Elev gain
@@ -113,6 +119,10 @@ class App {
 
   // Adiciona o evento de clique no mapa
   this.#map.on('click', this._showForm.bind(this)) // Precisa usar o bind para apontar ao método
+
+  //Esse método (igual o q tem lá embaixo) é oara evitar o erro de renderizar o set e get antes do mapa carregar
+  // prettier-ignore
+  this.#workouts.forEach(work => {this._renderWorkout(work)})
 
   //console.log(position) // GeolocationPosition
   //console.log(latitude, longitude) // -24.2876416 -46.9598208
@@ -176,7 +186,7 @@ class App {
 
   //Add new object to workout array
   this.#workouts.push(workout)
-  console.log(workout)
+  //console.log(workout)
 
   //Render workout on map as marker
   this.renderWorkoutMarker(workout)
@@ -186,6 +196,9 @@ class App {
 
   //Hide form + clear input fields
   this._hideForm()
+
+  //Set local storage to all workouts
+  this._setLocalStorage()
  }
 
  //Render workout on map as marker
@@ -253,11 +266,11 @@ class App {
  //Aqui pega o click da caixa lateral esq.com o conteúdo do running/cycling
  _moveToPopup(e) {
   const workoutEL = e.target.closest('.workout')
-  console.log(workoutEL)
+  //console.log(workoutEL)
   if (!workoutEL) return
 
   const workout = this.#workouts.find(work => work.id === workoutEL.dataset.id)
-  console.log(workout)
+  //console.log(workout)
 
   this.#map.setView(workout.coords, this.#mapZoomlevel, {
    animate: true,
@@ -266,7 +279,29 @@ class App {
    }
   })
   //Using public interface
-  workout.click()
+  //workout.click()
+ }
+
+ //SET AND GET... Foi chamado lá em cima e criado aqui, vai salvar os dados inseridos no form em uma app externa usando JSON.stringify
+ _setLocalStorage() {
+  localStorage.setItem('workouts', JSON.stringify(this.#workouts))
+ }
+
+ //GET will be executed right in the very beginning on page load
+ _getLocalStorage() {
+  const data = JSON.parse(localStorage.getItem('workouts'))
+  //console.log(data) // mostra uma string enorme com dados. Mas se usar o JSON.parse()ai ele separa os dados certinho no formato de ARRAY e as entradas já salvas no JSON anterior com GET
+
+  if (!data) return //if there is no data, return
+
+  this.#workouts = data
+  this.#workouts.forEach(work => {
+   this._renderWorkout(work)
+  })
+ }
+ reset() {
+  localStorage.removeItem('workouts')
+  location.reload() //recarregar o browser
  }
 }
 
