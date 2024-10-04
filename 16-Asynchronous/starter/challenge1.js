@@ -1,7 +1,4 @@
 'use strict'
-///////////////////////////////////////
-// Coding Challenge #1
-
 /* 
 In this challenge you will build a function 'whereAmI' which renders a country ONLY based on GPS coordinates. For that, you will use a second API to geocode coordinates.
 
@@ -28,7 +25,18 @@ GOOD LUCK 😀
 
 const whereAmI = function (lat, lng) {
  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error(error))
+  .then(res => {
+   //console.log(res)
+   if (!res.ok) throw new Error(`Deu erro no 1º Then (${res.status})`)
+   return res.json()
+  })
+  .then(data => {
+   //console.log(data)
+   console.log(`You are in ${data.city}, ${data.country}`)
+  })
+  //.catch(error => console.error('Erro pego pelo catch o último salvador:', error)) // Método 1
+  .catch(error => console.error(`Erro pego pelo catch o último salvador ${error.message}`)) // Método 2
 }
+//whereAmI(52.508, 13.381) //You are in Berlin, Germany
+//whereAmI(19.037, 72.873) //You are in Mumbai, India
+whereAmI(-33.933, 18.474) // You are in Cape Town, South Africa
