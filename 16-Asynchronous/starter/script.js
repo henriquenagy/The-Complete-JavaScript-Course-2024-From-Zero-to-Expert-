@@ -1,7 +1,6 @@
 //https://github.com/public-apis/public-apis
 //https://restcountries.com
 'use strict'
-
 /* //---------------------------PRIMEIRO MÉTODO
 const countriesContainer = document.querySelector('.countries')
 
@@ -64,11 +63,9 @@ const getCountryAndNeighbour = function (country) {
 }
 // Sample countries whose details we want to display.
 getCountryAndNeighbour('brazil') */
-
-//--------------------------- SEGUNDO MÉTODO AULA 252 PRA FRENTE
+/* //--------------------------- SEGUNDO MÉTODO AULA 252 PRA FRENTE
 const countriesContainer = document.querySelector('.countries')
 const btn = document.querySelector('.btn-country')
-
 const renderCountry = function (data, classname = '') {
  const languages = Object.values(data.languages || {})
  const currencies = Object.values(data.currencies || {})
@@ -87,7 +84,7 @@ const renderCountry = function (data, classname = '') {
 
  countriesContainer.insertAdjacentHTML('beforeend', html)
  //countriesContainer.style.opacity = 1 SÓ PRA TESTAR O FINALLY
-}
+}*/
 /*//-------------------MANEIRA COM O PROMISE 1
 const getCountryData = function (country) {
  fetch(`https://restcountries.com/v3.1/name/${country}`)
@@ -236,7 +233,7 @@ btn.addEventListener('click', function () {
  getCountryData('brazil')
 })*/
 
-//-------------------MANEIRA COM O PROMISE 7 - Jonas com metodos encurtados para contry e neighbour com getjson
+/* //-------------------MANEIRA COM O PROMISE 7 - Jonas com metodos encurtados para contry e neighbour com getjson
 const renderError = function (msg) {
  countriesContainer.insertAdjacentText('beforeend', msg)
  //countriesContainer.style.opacity = 1 SÓ PRA TESTAR O FINALLY
@@ -273,3 +270,63 @@ btn.addEventListener('click', function () {
  getCountryData('brazil')
 })
 //getCountryData('australia') // forçar outro erro
+*/
+
+//------------------- Aula 260 dia 07/10/24
+/* //Teste 1 de promise
+const lotteryPromise = new Promise(function (resolve, reject) {
+ if (Math.random() >= 0.5) {
+  resolve('You win 🏆')
+ } else {
+  reject('You lost your money 💸')
+ }
+})
+lotteryPromise.then(result => console.log(result)).catch(deuErro => console.error(deuErro))
+*/
+
+/* //Teste 2 de promise
+const lotteryPromise = new Promise(function (resolve, reject) {
+ console.log('Lottery draw is happening 🔮')
+ setTimeout(function () {
+  if (Math.random() >= 0.5) {
+   resolve('You win 🏆')
+  } else {
+   reject(new Error('You lost your money 💸'))
+  }
+ }, 2000)
+})
+lotteryPromise.then(result => console.log(result)).catch(deuErro => console.error(deuErro)) */
+
+//Teste 3 de promise com tempo
+const lotteryPromise = new Promise(function (resolve, reject) {
+ console.log('Lottery draw is happening 🔮')
+ setTimeout(function () {
+  if (Math.random() >= 0.5) {
+   resolve('You win 🏆')
+  } else {
+   reject(new Error('You lost your money 💸'))
+  }
+ }, 2000)
+})
+lotteryPromise.then(result => console.log(result)).catch(deuErro => console.error(deuErro))
+
+//Promisifying setTimeout
+const wait = function (seconds) {
+ return new Promise(function (resolve) {
+  setTimeout(resolve, seconds * 1000)
+ })
+}
+wait(2)
+ .then(() => {
+  console.log('1 second passed')
+  return wait(1)
+ })
+ .then(() => {
+  console.log('2 seconds passed')
+  return wait(1)
+ })
+ .then(() => {
+  console.log('3 seconds passed')
+  return wait(1)
+ })
+ .then(() => console.log('Last seconds passed'))
