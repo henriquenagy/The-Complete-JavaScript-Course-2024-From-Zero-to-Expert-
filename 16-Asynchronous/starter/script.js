@@ -272,8 +272,8 @@ btn.addEventListener('click', function () {
 //getCountryData('australia') // forçar outro erro
 */
 
-//------------------- Aula 260 dia 07/10/24
-/* //Teste 1 de promise
+/*//------------------- Aula 260 dia 07/10/24
+ //Teste 1 de promise
 const lotteryPromise = new Promise(function (resolve, reject) {
  if (Math.random() >= 0.5) {
   resolve('You win 🏆')
@@ -282,9 +282,9 @@ const lotteryPromise = new Promise(function (resolve, reject) {
  }
 })
 lotteryPromise.then(result => console.log(result)).catch(deuErro => console.error(deuErro))
-*/
 
-/* //Teste 2 de promise
+
+ //Teste 2 de promise
 const lotteryPromise = new Promise(function (resolve, reject) {
  console.log('Lottery draw is happening 🔮')
  setTimeout(function () {
@@ -295,7 +295,7 @@ const lotteryPromise = new Promise(function (resolve, reject) {
   }
  }, 2000)
 })
-lotteryPromise.then(result => console.log(result)).catch(deuErro => console.error(deuErro)) */
+lotteryPromise.then(result => console.log(result)).catch(deuErro => console.error(deuErro)) 
 
 //Teste 3 de promise com tempo
 const lotteryPromise = new Promise(function (resolve, reject) {
@@ -330,3 +330,46 @@ wait(2)
   return wait(1)
  })
  .then(() => console.log('Last seconds passed'))
+*/
+
+//------------------- Aula 261 dia 08/10/24
+//navigator.geolocation.getCurrentPosition(position => console.log(position),err => console.error(err)) //GeolocationPosition {coords: GeolocationCoordinates, timestamp: 1728398722874}
+
+//Completo usando uma const como função pra chamar depois
+//const getPosition = function () {return new Promise(function (resolve, reject) {navigator.geolocation.getCurrentPosition( position => resolve(position), err => reject(err))})}
+
+/*//Enxuto, é o mesmo de cima o completo
+const getPosition = function () {
+ return new Promise(function (resolve, reject) {
+  navigator.geolocation.getCurrentPosition(resolve, reject)
+ })
+}
+getPosition().then(pos => console.log(pos)) //GeolocationPosition {coords: GeolocationCoordinates, timestamp: 1728399305155}*/
+
+//Usando junto com o challenge 1
+const btn = document.querySelector('.btn-country')
+const getPosition = function () {
+ return new Promise(function (resolve, reject) {
+  navigator.geolocation.getCurrentPosition(resolve, reject)
+ })
+}
+//getPosition().then(pos => console.log(pos))
+
+const whereAmI = function () {
+ getPosition()
+  .then(pos => {
+   //console.log(pos.coords) //used to check if it is an array or object and to catch the needed data to use below
+   const { latitude: lat, longitude: lng } = pos.coords
+
+   return fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+  })
+  .then(res => {
+   if (!res.ok) throw new Error(`Deu erro no 1º Then (${res.status})`)
+   return res.json()
+  })
+  .then(data => {
+   console.log(`You are in ${data.city}, ${data.country}`)
+  })
+  .catch(error => console.error(`Erro pego pelo catch o último salvador ${error.message}`))
+}
+btn.addEventListener('click', whereAmI)
