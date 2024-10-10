@@ -392,3 +392,53 @@ PART 2
 
 TEST DATA: Images in the img folder. Test the error handler by passing a wrong image path. Set the network speed to 'Fast 3G' in the dev tools Network tab, otherwise images load too fast.
 */
+
+const wait = function (seconds) {
+ return new Promise(function (resolve) {
+  setTimeout(resolve, seconds * 1000)
+ })
+}
+
+const imgContainer = document.querySelector('.images') //Peguei direto do HTML
+
+//--------------------Criando nossa própria promise que vai ser chamada depois inserindo a url da imagem em imgPath
+const createImage = function (imgPath) {
+ return new Promise(function (resolve, reject) {
+  const img = document.createElement('img') //cria um elemento <img>, mas ainda não o coloca na página.
+  img.src = imgPath // Definindo o caminho da imagem
+
+  // Ouvindo o evento 'load' (imagem carregada com sucesso)
+  img.addEventListener('load', function () {
+   imgContainer.append(img)
+   resolve(img)
+  })
+
+  // Ouvindo o evento 'error' (erro no carregamento da imagem)
+  img.addEventListener('error', function () {
+   reject(new Error('Image not found')) // Rejeita a Promise em caso de erro
+  })
+ })
+}
+
+let currentImg // Essa variável é usada para armazenar a imagem que foi carregada por último.
+//--------------------Chamando nossa própria promise criada
+createImage('img/img-1.jpg') //Ela retorna uma Promise que resolve quando a imagem carrega com sucesso ou rejeita se houver um erro.
+ .then(img => {
+  currentImg = img
+  console.log('image 1 loaded')
+  return wait(2) //Usar return aqui é importante porque estamos esperando que o wait(2) seja resolvido antes de continuar com o próximo .then().
+ })
+ .then(() => {
+  currentImg.style.display = 'none' //após os 2 segundos esconde
+  return createImage('img/img-2.jpg') // O return permite que o próximo .then() espere até que a nova imagem seja carregada.
+ })
+ .then(img => {
+  currentImg = img
+  console.log('image 2 loaded')
+  return wait(2)
+ })
+ .then(() => {
+  currentImg.style.display = 'none' //após os 2 segundos esconde
+ })
+ .catch(err => console.error(err))
+///////////////////////////////////////////////
