@@ -374,25 +374,7 @@ const whereAmI = function () {
 }
 btn.addEventListener('click', whereAmI)*/
 
-//------------------- Challenge 2 Dia 09/10
-// Coding Challenge #2
-
-/* 
-PART 1
-1. Create a function 'createImage' which receives imgPath as an input. This function returns a promise which creates a new image (use document.createElement('img')) and sets the .src attribute to the provided image path. When the image is done loading, append it to the DOM element with the 'images' class, and resolve the promise. The fulfilled value should be the image element itself. In case there is an error loading the image ('error' event), reject the promise.
-
-If this part is too tricky for you, just watch the first part of the solution.
-
-PART 2
-2. Comsume the promise using .then and also add an error handler;
-3. After the image has loaded, pause execution for 2 seconds using the wait function we created earlier;
-4. After the 2 seconds have passed, hide the current image (set display to 'none'), and load a second image (HINT: Use the image element returned by the createImage promise to hide the current image. You will need a global variable for that 😉);
-5. After the second image has loaded, pause execution for 2 seconds again;
-6. After the 2 seconds have passed, hide the current image.
-
-TEST DATA: Images in the img folder. Test the error handler by passing a wrong image path. Set the network speed to 'Fast 3G' in the dev tools Network tab, otherwise images load too fast.
-*/
-
+/* //------------------- Challenge 2 Dia 09/10
 const wait = function (seconds) {
  return new Promise(function (resolve) {
   setTimeout(resolve, seconds * 1000)
@@ -440,5 +422,155 @@ createImage('img/img-1.jpg') //Ela retorna uma Promise que resolve quando a imag
  .then(() => {
   currentImg.style.display = 'none' //após os 2 segundos esconde
  })
- .catch(err => console.error(err))
-///////////////////////////////////////////////
+ .catch(err => console.error(err))*/
+
+/* //------------------- Dia 11-10-24 Aula 263
+
+//-------------------MÉTODO 1
+const whereAmI1 = async function (country) {
+ //FORMATO COM FETCH  fetch(`https://restcountries.com/v3.1/name/${country}`).then(res => res.json(); console.log(res))
+
+ const resultOrResponse = await fetch(`https://restcountries.com/v3.1/name/${country}`) //Pode chamar de result ou response a const. Jonas pôs res de response
+ console.log(resultOrResponse) //Response {type: 'cors', url: 'https://restcountries.com/v3.1/name/portugal', redirected: false, status: 200, ok: true, …}
+}
+whereAmI1('portugal')
+console.log('FIRST CONSOLE SHOW THIS, THEN SHOW RES')
+
+//-------------------MÉTODO 2
+const countriesContainer = document.querySelector('.countries')
+const renderCountry = function (data, classname = '') {
+ const languages = Object.values(data.languages)
+ const currencies = Object.values(data.currencies)
+ const html = `
+ <article class="country ${classname}">
+ <img class="country__img" src= "${data.flags.svg}">
+ <div class="country__data">
+  <h3 class="country__name"> ${data.name.official}</h3>
+  <h4 class="country__region">${data.region}</h4>
+  <p class="country__row"><span>👫</span>${(data.population / 1000000).toFixed(
+   1
+  )} million</p>         
+  <p class="country__row"><span>🗣️</span>${languages[0]}</p>
+  <p class="country__row"><span>💰</span>${currencies[0].name}</p>
+  </div>
+ </article>`
+
+ countriesContainer.insertAdjacentHTML('beforeend', html)
+ countriesContainer.style.opacity = 1
+}
+const whereAmI2 = async function (country) {
+ const res = await fetch(`https://restcountries.com/v3.1/name/${country}`)
+ const data = await res.json()
+ renderCountry(data[0])
+}
+whereAmI2('portugal')
+console.log('FIRST CONSOLE SHOW THIS, THEN SHOW RES')
+
+
+
+//-------------------MÉTODO 3
+const countriesContainer = document.querySelector('.countries')
+const renderCountry = function (data, classname = '') {
+ const languages = Object.values(data.languages)
+ const currencies = Object.values(data.currencies)
+ const html = `
+ <article class="country ${classname}">
+ <img class="country__img" src= "${data.flags.svg}">
+ <div class="country__data">
+  <h3 class="country__name"> ${data.name.official}</h3>
+  <h4 class="country__region">${data.region}</h4>
+  <p class="country__row"><span>👫</span>${(data.population / 1000000).toFixed(
+   1
+  )} million</p>         
+  <p class="country__row"><span>🗣️</span>${languages[0]}</p>
+  <p class="country__row"><span>💰</span>${currencies[0].name}</p>
+  </div>
+ </article>`
+
+ countriesContainer.insertAdjacentHTML('beforeend', html)
+ countriesContainer.style.opacity = 1
+}
+
+const getPosition = function () {
+ return new Promise(function (resolve, reject) {
+  navigator.geolocation.getCurrentPosition(resolve, reject)
+ })
+}
+const whereAmI3 = async function () {
+ //Geolocation
+ const pos = await getPosition()
+ const { latitude: lat, longitude: lng } = pos.coords
+
+ //Reverse Geocoding
+ const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+ const dataGeo = await resGeo.json()
+ console.log(dataGeo)
+
+ //CountryData
+ const res = await fetch(`https://restcountries.com/v3.1/name/${dataGeo.country}`)
+ const data = await res.json()
+ renderCountry(data[0])
+}
+whereAmI3()
+console.log('FIRST CONSOLE SHOW THIS, THEN SHOW RES')*/
+
+// Aula 264
+/* try {
+ let y = 1
+ const x = 2
+ x = 3
+} catch (err) {
+ alert(err.message) // Assignment to constant variable. - Pega o erro que apareceria no console e guarda pra ele, mas aqui mostra com alert
+}*/
+
+const countriesContainer = document.querySelector('.countries')
+const renderCountry = function (data, classname = '') {
+ const languages = Object.values(data.languages)
+ const currencies = Object.values(data.currencies)
+ const html = `
+ <article class="country ${classname}">
+ <img class="country__img" src= "${data.flags.svg}">
+ <div class="country__data">
+  <h3 class="country__name"> ${data.name.official}</h3>
+  <h4 class="country__region">${data.region}</h4>
+  <p class="country__row"><span>👫</span>${(data.population / 1000000).toFixed(
+   1
+  )} million</p>         
+  <p class="country__row"><span>🗣️</span>${languages[0]}</p>
+  <p class="country__row"><span>💰</span>${currencies[0].name}</p>
+  </div>
+ </article>`
+
+ countriesContainer.insertAdjacentHTML('beforeend', html)
+ countriesContainer.style.opacity = 1
+}
+
+const getPosition = function () {
+ return new Promise(function (resolve, reject) {
+  navigator.geolocation.getCurrentPosition(resolve, reject)
+ })
+}
+const whereAmI3 = async function () {
+ try {
+  //Geolocation
+  const pos = await getPosition()
+  const { latitude: lat, longitude: lng } = pos.coords
+
+  //Reverse Geocoding
+  const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`)
+  const dataGeo = await resGeo.json()
+  console.log(dataGeo)
+
+  //CountryData
+  const res = await fetch(`https://restcountries.com/v3.1/name/${dataGeo.country}`)
+  const data = await res.json()
+  renderCountry(data[0])
+ } catch (err) {
+  console.log(`🔥 ${err} AQUIIIII`)
+  renderError(`Something went wrong 🔥 ${err.message}`)
+ }
+}
+whereAmI3()
+whereAmI3()
+whereAmI3()
+console.log('FIRST CONSOLE SHOW THIS, THEN SHOW RES')
