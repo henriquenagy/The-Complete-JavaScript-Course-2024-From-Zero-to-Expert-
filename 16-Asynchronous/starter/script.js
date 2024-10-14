@@ -514,14 +514,14 @@ const whereAmI3 = async function () {
 whereAmI3()
 console.log('FIRST CONSOLE SHOW THIS, THEN SHOW RES')*/
 
-// Aula 264
-/* try {
+/* // Aula 264
+ try {
  let y = 1
  const x = 2
  x = 3
 } catch (err) {
  alert(err.message) // Assignment to constant variable. - Pega o erro que apareceria no console e guarda pra ele, mas aqui mostra com alert
-}*/
+
 
 const countriesContainer = document.querySelector('.countries')
 const renderCountry = function (data, classname = '') {
@@ -550,7 +550,7 @@ const getPosition = function () {
   navigator.geolocation.getCurrentPosition(resolve, reject)
  })
 }
-const whereAmI3 = async function () {
+const whereAmI3 = (async function () {
  try {
   //Geolocation
   const pos = await getPosition()
@@ -565,12 +565,67 @@ const whereAmI3 = async function () {
   const res = await fetch(`https://restcountries.com/v3.1/name/${dataGeo.country}`)
   const data = await res.json()
   renderCountry(data[0])
+
+  return `You are in ${dataGeo.city}, ${dataGeo.country}`
  } catch (err) {
   console.log(`🔥 ${err} AQUIIIII`)
   renderError(`Something went wrong 🔥 ${err.message}`)
+
+  //Reject promise returned from async function
+  throw err
+ }
+})(
+ //assim o passo 3 aparece antes do passo 2
+console.log('1: Will get location')
+//const city = whereAmI3() >  console.log(city) This return a promise > Promise {<pending>} > get from countrydata return
+whereAmI3()
+ .then(city => console.log(`2: ${city}`))
+ .catch(error => console.error(`2: ${error.message}`))
+console.log('3: Finished getting location')
+
+ //assim o passo 2 aparece antes do passo 3 sequencia certa
+console.log('1: Will get location')
+whereAmI3()
+ .then(city => console.log(`2: ${city}`))
+ .catch(error => console.error(`2: ${error.message}`))
+ .finally(() => console.log('3: Finished getting location'))
+
+
+//Agora o mesmo de cima porém com try e catch
+ (async function () {
+  try {
+   const city = await whereAmI3()
+   console.log(`2: ${city}`)
+  } catch (err) {
+   console.error(`2: ${err.message} 💥`)
+  }
+  console.log('3: Finished getting location')
+ })()
+)*/
+
+//------------------- Aula 266 Dia 14/10/24
+/*const get3Countries = async function (c1, c2, c3) {
+ try {
+  const [data1] = await getJSON(`https://restcountries.com/v3.1/name/${c1}`)
+  const [data2] = await getJSON(`https://restcountries.com/v3.1/name/${c2}`)
+  const [data3] = await getJSON(`https://restcountries.com/v3.1/name/${c3}`)
+  console.log([data1.capital, data2.capital, data3.capital])
+ } catch (err) {
+  console.error(err)
  }
 }
-whereAmI3()
-whereAmI3()
-whereAmI3()
-console.log('FIRST CONSOLE SHOW THIS, THEN SHOW RES')
+get3Countries('brazil', 'peru', 'argentina')*/
+
+const get3Countries = async function (c1, c2, c3) {
+ try {
+  const [data1] = await getJSON(`https://restcountries.eu/rest/v2/name/${c1}`)
+  const [data2] = await getJSON(`https://restcountries.eu/rest/v2/name/${c2}`)
+  const [data3] = await getJSON(`https://restcountries.eu/rest/v2/name/${c3}`)
+  console.log([data1.capital, data2.capital, data3.capital])
+ } catch (err) {
+  console.error(err)
+ }
+}
+get3Countries('brazil', 'peru', 'argentina')
+
+//resolver erro da tela
