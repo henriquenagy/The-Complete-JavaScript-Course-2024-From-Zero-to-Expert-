@@ -616,16 +616,51 @@ whereAmI3()
 }
 get3Countries('brazil', 'peru', 'argentina')*/
 
+const getJson = function (url, errorMsg = 'Something went wrong') {
+ return fetch(url).then(res => {
+  if (!res.ok) throw new Error(`${errorMsg} (${res.status})`)
+  return res.json()
+ })
+}
+/* //Modelo mais lento, carrega um dado por vez
 const get3Countries = async function (c1, c2, c3) {
  try {
-  const [data1] = await getJSON(`https://restcountries.eu/rest/v2/name/${c1}`)
-  const [data2] = await getJSON(`https://restcountries.eu/rest/v2/name/${c2}`)
-  const [data3] = await getJSON(`https://restcountries.eu/rest/v2/name/${c3}`)
-  console.log([data1.capital, data2.capital, data3.capital])
+  const [data1] = await getJson(`https://restcountries.com/v3.1/name/${c1}`)
+  const [data2] = await getJson(`https://restcountries.com/v3.1/name/${c2}`)
+  const [data3] = await getJson(`https://restcountries.com/v3.1/name/${c3}`)
+  console.log([data1.capital[0], data2.capital[0], data3.capital[0]])
  } catch (err) {
   console.error(err)
  }
+}*/
+/*//Esse é mais rápido, carrega todos de uma vez só
+const get3Countries = async function (c1, c2, c3) {
+ try {
+  const data = await Promise.all([
+   getJson(`https://restcountries.com/v3.1/name/${c1}`),
+   getJson(`https://restcountries.com/v3.1/name/${c2}`),
+   getJson(`https://restcountries.com/v3.1/name/${c3}`)
+  ])
+  console.log(data) // (3) [Array(1), Array(1), Array(1)]
+ } catch (err) {
+  console.error(err) // Captura e exibe erros
+ }
 }
-get3Countries('brazil', 'peru', 'argentina')
+// Chamando a função
+get3Countries('brazil', 'peru', 'argentina')*/
 
-//resolver erro da tela
+//Agora esse mostra as cidades direto, o anterior não.
+const get3Countries = async function (c1, c2, c3) {
+ try {
+  const data = await Promise.all([
+   getJson(`https://restcountries.com/v3.1/name/${c1}`),
+   getJson(`https://restcountries.com/v3.1/name/${c2}`),
+   getJson(`https://restcountries.com/v3.1/name/${c3}`)
+  ])
+  console.log(data.map(d => d[0].capital)) //aqui tá a diferença para o anterior
+ } catch (err) {
+  console.error(err) // Captura e exibe erros
+ }
+}
+// Chamando a função
+get3Countries('brazil', 'peru', 'argentina')
