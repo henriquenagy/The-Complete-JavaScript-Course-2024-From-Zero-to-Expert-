@@ -603,8 +603,8 @@ whereAmI3()
  })()
 )*/
 
-//------------------- Aula 266 Dia 14/10/24
-/*const get3Countries = async function (c1, c2, c3) {
+/*//------------------- Aula 266 Dia 14/10/24
+const get3Countries = async function (c1, c2, c3) {
  try {
   const [data1] = await getJSON(`https://restcountries.com/v3.1/name/${c1}`)
   const [data2] = await getJSON(`https://restcountries.com/v3.1/name/${c2}`)
@@ -616,13 +616,13 @@ whereAmI3()
 }
 get3Countries('brazil', 'peru', 'argentina')*/
 
-const getJson = function (url, errorMsg = 'Something went wrong') {
+/* const getJson = function (url, errorMsg = 'Something went wrong') {
  return fetch(url).then(res => {
   if (!res.ok) throw new Error(`${errorMsg} (${res.status})`)
   return res.json()
  })
 }
-/* //Modelo mais lento, carrega um dado por vez
+//Modelo mais lento, carrega um dado por vez
 const get3Countries = async function (c1, c2, c3) {
  try {
   const [data1] = await getJson(`https://restcountries.com/v3.1/name/${c1}`)
@@ -632,8 +632,8 @@ const get3Countries = async function (c1, c2, c3) {
  } catch (err) {
   console.error(err)
  }
-}*/
-/*//Esse é mais rápido, carrega todos de uma vez só
+}
+//Esse é mais rápido, carrega todos de uma vez só
 const get3Countries = async function (c1, c2, c3) {
  try {
   const data = await Promise.all([
@@ -647,7 +647,7 @@ const get3Countries = async function (c1, c2, c3) {
  }
 }
 // Chamando a função
-get3Countries('brazil', 'peru', 'argentina')*/
+get3Countries('brazil', 'peru', 'argentina')
 
 //Agora esse mostra as cidades direto, o anterior não.
 const get3Countries = async function (c1, c2, c3) {
@@ -663,4 +663,62 @@ const get3Countries = async function (c1, c2, c3) {
  }
 }
 // Chamando a função
-get3Countries('brazil', 'peru', 'argentina')
+get3Countries('brazil', 'peru', 'argentina')*/
+
+//------------------- Aula 267 dia 17/10/24
+// Função para buscar JSON da API
+const getJson = function (url, errorMsg = 'Something went wrong') {
+ return fetch(url).then(res => {
+  if (!res.ok) throw new Error(`${errorMsg} (${res.status})`)
+  return res.json()
+ })
+}
+
+/* //--------------> Promise.race
+;(async function () {
+ const res = await Promise.race([
+  getJson(`https://restcountries.com/v3.1/name/brazil`),
+  getJson(`https://restcountries.com/v3.1/name/mexico`),
+  getJson(`https://restcountries.com/v3.1/name/argentina`)
+ ])
+ console.log(res[0]) // Exibe o primeiro país que retorna
+})()
+ */
+
+//--------------> Promise race que tem um item em promise e outro já com tempo
+const timeout = function (sec) {
+ return new Promise(function (_, reject) {
+  setTimeout(function () {
+   reject(new Error('Request took too long'))
+  }, sec * 1000)
+ })
+}
+
+Promise.race([getJson(`https://restcountries.com/v3.1/name/brazil`), timeout(0.15)])
+ .then(res => console.log(res[0]))
+ .catch(err => console.error(err))
+
+//--------------> Promise.allsettled
+Promise.allSettled([
+ Promise.resolve('Success'),
+ Promise.reject('ERROR'),
+ Promise.resolve('Another success')
+]).then(res => console.log(res[0])) //{status: 'fulfilled', value: 'Success'}
+
+//--------------> Promise.all
+Promise.all([
+ Promise.resolve('Success'),
+ Promise.reject('ERROR'),
+ Promise.resolve('Another success')
+])
+ .then(res => console.log(res))
+ .catch(err => console.error(err)) //Nesse caso só aparece o ERROR na tela, visto que dos 3, 2 sempre vão falhar pois só é para mostrar um item na tela.
+
+//--------------> Promise.any [ES2021]
+Promise.any([
+ Promise.resolve('Success'),
+ Promise.reject('ERROR'),
+ Promise.resolve('Another success')
+])
+ .then(res => console.log(res))
+ .catch(err => console.error(err)) //Nesse caso só aparece o ERROR na tela, visto que dos 3, 2 sempre vão falhar pois só é para mostrar um item na tela.
