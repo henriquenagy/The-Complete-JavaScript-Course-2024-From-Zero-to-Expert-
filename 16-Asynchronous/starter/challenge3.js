@@ -14,9 +14,6 @@ TEST DATA: ['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']. To test, turn of
 
 GOOD LUCK 😀
 */
-
-//------------------- Challenge 2 Dia 09/10
-
 //--->>> Criação da Promise local 1
 const wait = function (seconds) {
  return new Promise(function (resolve) {
@@ -29,24 +26,21 @@ const imgContainer = document.querySelector('.images') //Peguei direto do HTML
 //--->>> Criação da Promise local 2. Criando nossa própria promise que vai ser chamada depois inserindo a url da imagem em imgPath
 const createImage = function (imgPath) {
  return new Promise(function (resolve, reject) {
-  const img = document.createElement('img') //cria um elemento <img>, mas ainda não o coloca na página.
-  img.src = imgPath // Definindo o caminho da imagem
-  // Ouvindo o evento 'load' (imagem carregada com sucesso)
+  const img = document.createElement('img')
+  img.src = imgPath
   img.addEventListener('load', function () {
    imgContainer.append(img)
    resolve(img)
   })
-  // Ouvindo o evento 'error' (erro no carregamento da imagem)
   img.addEventListener('error', function () {
-   reject(new Error('Image not found')) // Rejeita a Promise em caso de erro
+   reject(new Error('Image not found'))
   })
  })
 }
 
-let currentImg // Essa variável é usada para armazenar a imagem que foi carregada por último.
+let currentImg
 
 //--->>> Consumindo as promises anteriores
-
 const loadNPause = async function () {
  try {
   //Load image 1
@@ -67,3 +61,14 @@ const loadNPause = async function () {
 loadNPause()
 
 //PART 2
+const loadAll = async function (imgArr) {
+ try {
+  const imgs = imgArr.map(async img => await createImage(img))
+  const imgsEl = await Promise.all(imgs)
+  console.log(imgsEl)
+  imgsEl.forEach(img => img.classList.add('parallel'))
+ } catch (error) {
+  console.error('Erro:', error)
+ }
+}
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg'])
