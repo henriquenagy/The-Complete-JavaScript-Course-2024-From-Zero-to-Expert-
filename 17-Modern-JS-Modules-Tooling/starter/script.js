@@ -59,7 +59,7 @@ const getLastPost3 = async function () {
 const lastPost2 = await getLastPost3()
 console.log(lastPost2)*/
 
-//----------------------> Aula 275 dia 21/10/24
+/* //----------------------> Aula 275 dia 21/10/24
 const ShoppingCart2 = (function () {
  const cart = []
  const shippingCost = 10
@@ -82,3 +82,26 @@ const ShoppingCart2 = (function () {
 ShoppingCart2.addToCart('apple', 2)
 ShoppingCart2.addToCart('pizza', 4)
 console.log(ShoppingCart2)
+*/
+
+//----------------------> Aula 278 dia 22/10/24
+//INstalamos o leaflet e lodash
+//NPM da lodash com cloneDeep foi usado para importar a biblioteca Lodash, que facilita a cópia profunda de objetos complexos.
+import cloneDeep from './node_modules/lodash-es/cloneDeep.js'
+import './shoppingCart.js'
+
+const state = {
+ cart: [
+  { product: 'bread', quantity: 5 },
+  { product: 'pizza', quantity: 5 }
+ ],
+ user: { loggedIn: true }
+}
+
+const stateClone = Object.assign({}, state) // Faz uma cópia rasa, então as referências para objetos aninhados ainda apontam para os originais.
+const stateDeepClone = cloneDeep(state) // Faz uma cópia profunda, garantindo que todos os níveis do objeto sejam clonados independentemente.
+state.user.loggedIn = false
+
+//Ao modificar o estado original, a cópia rasa [object.assign]também é alterada, mas a cópia profunda [clonedeep] não.
+console.log(stateClone) //user: {loggedIn: false}
+console.log(stateDeepClone) //user: {loggedIn: true}
