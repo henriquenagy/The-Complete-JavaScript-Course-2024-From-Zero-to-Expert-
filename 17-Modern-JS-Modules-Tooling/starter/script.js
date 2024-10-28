@@ -26,7 +26,7 @@ add('pizza', 2)
 add('pizza', 5)
 add('apples', 3)
 
-console.log(cart)*/
+console.log(cart)
 
 /* //----------------------> Aula 274 dia 21/10/24
 //---- Forma básica com top level await
